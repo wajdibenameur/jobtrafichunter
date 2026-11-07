@@ -4,12 +4,20 @@ import argparse
 import asyncio
 import logging
 import signal
+import traceback
+from pathlib import Path
 from types import FrameType
 
 from app.core.db import Runtime, make_runtime
 from app.core.logging import configure_logging
 from app.core.settings import Settings
+from app.modules.auth import AuthService
 from app.modules.search import SearchQueue
+from app.modules.sources import SourceService
+
+# This composition root must register all tables referenced by worker-owned writes,
+# even when the API is running in a different process.
+assert AuthService is not None and SourceService is not None
 
 logger = logging.getLogger("jobhunter.worker")
 
@@ -52,8 +60,13 @@ def main() -> None:
     args = parser.parse_args()
     try:
         asyncio.run(start(once=args.once))
-    except Exception:
-        logger.error("worker_startup_failed")
+    except Exception as exc:
+        # Locations and exception type only: never SQL parameters or imported text.
+        locations = ",".join(
+            f"{Path(frame.filename).name}:{frame.lineno}"
+            for frame in traceback.extract_tb(exc.__traceback__)[-4:]
+        )
+        logger.error("worker_failed_%s_at_%s", type(exc).__name__, locations)
         raise SystemExit(1) from None
 
 

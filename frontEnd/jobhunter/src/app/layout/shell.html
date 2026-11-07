@@ -29,6 +29,30 @@
       (click)="closeMenu(false)"
       ><jh-icon name="grid" />{{ i18n.t('dashboard') }}</a
     >
+    <a
+      class="nav-item"
+      routerLink="/search"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="search" />{{ i18n.t('search') }}</a
+    >
+    <a
+      class="nav-item"
+      routerLink="/search-profiles"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="layers" />{{ i18n.t('profiles') }}</a
+    >
+    <a
+      class="nav-item"
+      routerLink="/results"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="briefcase" />{{ i18n.t('results') }}</a
+    >
     @for (item of futureNav; track item.key) {
       <span
         class="nav-item unavailable"

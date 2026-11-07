@@ -1,8 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, signal } from '@angular/core';
 import { sourcesFr, sourcesEn } from './sources-translations';
+import { searchFr, searchEn } from './search-translations';
 
 const fr = {
+  ...searchFr,
   ...sourcesFr,
   app: 'JobHunter AI',
   tagline: 'Votre prochain chapitre commence ici.',
@@ -86,6 +88,7 @@ const fr = {
 } as const;
 export type TranslationKey = keyof typeof fr;
 const en: Record<TranslationKey, string> = {
+  ...searchEn,
   ...sourcesEn,
   app: 'JobHunter AI',
   tagline: 'Your next chapter starts here.',

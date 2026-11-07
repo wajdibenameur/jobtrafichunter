@@ -1,0 +1,123 @@
+<div [formGroup]="form">
+  <fieldset [disabled]="busy">
+    <legend>{{ i18n.t('profileSources') }}</legend>
+    <p class="muted">{{ i18n.t('profileSourcesHelp') }}</p>
+    <div class="source-choices">
+      @for (source of sources; track source.id) {
+        <label class="check-choice"
+          ><input
+            type="checkbox"
+            [checked]="form.controls.source_ids.value.includes(source.id)"
+            (change)="toggleSource(source.id)"
+          />{{ source.name }}</label
+        >
+      }
+    </div>
+  </fieldset>
+  <fieldset [disabled]="busy">
+    <legend>{{ i18n.t('stepSearch') }}</legend>
+    <p class="muted">{{ i18n.t('commaHelp') }}</p>
+    <div class="search-form-grid">
+      <label
+        >{{ i18n.t('domainsLabel')
+        }}<select formControlName="domains" multiple size="5">
+          @for (domain of domains; track domain) {
+            <option [value]="domain">{{ i18n.t(domainKey(domain)) }}</option>
+          }
+        </select></label
+      >
+      <label
+        >{{ i18n.t('titlesLabel')
+        }}<select formControlName="titles" multiple size="5">
+          @for (title of titles; track title) {
+            <option [value]="title">{{ title }}</option>
+          }
+        </select></label
+      >
+      <label
+        >{{ i18n.t('customDomains')
+        }}<input formControlName="customDomains" maxlength="10000" /></label
+      ><label
+        >{{ i18n.t('customTitles') }}<input formControlName="customTitles" maxlength="10000"
+      /></label>
+      <label
+        >{{ i18n.t('includeKeywords') }}<input formControlName="include" maxlength="10000" /></label
+      ><label
+        >{{ i18n.t('excludeKeywords') }}<input formControlName="exclude" maxlength="10000"
+      /></label>
+      <label
+        >{{ i18n.t('countriesLabel')
+        }}<select multiple formControlName="countries" size="5">
+          @for (country of countryOptions(); track country) {
+            <option [value]="country">{{ countryLabel(country) }}</option>
+          }
+        </select></label
+      >
+      <label>{{ i18n.t('citiesLabel') }}<input formControlName="cities" maxlength="10000" /></label>
+      <label
+        >{{ i18n.t('workModes')
+        }}<select multiple formControlName="work_modes" size="3">
+          <option value="remote">{{ i18n.t('remoteMode') }}</option>
+          <option value="hybrid">{{ i18n.t('hybridMode') }}</option>
+          <option value="onsite">{{ i18n.t('onsiteMode') }}</option>
+        </select></label
+      >
+      <label
+        >{{ i18n.t('unknownPolicy')
+        }}<select formControlName="unknown_policy">
+          <option value="include">{{ i18n.t('keepUnknown') }}</option>
+          <option value="exclude">{{ i18n.t('excludeUnknown') }}</option></select
+        ><small>{{ i18n.t('unknownHelp') }}</small></label
+      >
+    </div>
+  </fieldset>
+  <details>
+    <summary>{{ i18n.t('advancedCriteria') }}</summary>
+    <fieldset [disabled]="busy">
+      <div class="search-form-grid">
+        <label
+          >{{ i18n.t('experienceLevels')
+          }}<select formControlName="experience_levels" multiple size="5">
+            @for (level of levels; track level) {
+              <option [value]="level">{{ i18n.t(levelKey(level)) }}</option>
+            }
+          </select></label
+        >
+        <label
+          >{{ i18n.t('yearsMaximum')
+          }}<input type="number" formControlName="max_years" min="0" max="60" step="1"
+        /></label>
+        <label
+          >{{ i18n.t('visaStatuses')
+          }}<select formControlName="visa_statuses" multiple size="5">
+            @for (visa of visas; track visa) {
+              <option [value]="visa">{{ i18n.t(visaKey(visa)) }}</option>
+            }
+          </select></label
+        >
+        <label
+          >{{ i18n.t('publicationWindow')
+          }}<select formControlName="publication_days">
+            <option [ngValue]="0">{{ i18n.t('allDates') }}</option>
+            <option [ngValue]="1">{{ i18n.t('days1') }}</option>
+            <option [ngValue]="3">{{ i18n.t('days3') }}</option>
+            <option [ngValue]="7">{{ i18n.t('days7') }}</option>
+            <option [ngValue]="30">{{ i18n.t('days30') }}</option>
+          </select></label
+        >
+        <label
+          >{{ i18n.t('noveltyWindow')
+          }}<select formControlName="novelty">
+            <option value="all">{{ i18n.t('allDates') }}</option>
+            <option value="today">{{ i18n.t('todayParis') }}</option>
+            <option value="24h">{{ i18n.t('days1') }}</option>
+            <option value="3d">{{ i18n.t('days3') }}</option>
+            <option value="7d">{{ i18n.t('days7') }}</option>
+            <option value="30d">{{ i18n.t('days30') }}</option>
+          </select></label
+        >
+      </div>
+    </fieldset>
+  </details>
+  <p class="muted">{{ i18n.t('futureFeatures') }}</p>
+</div>

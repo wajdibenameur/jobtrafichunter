@@ -3,11 +3,12 @@
 Plateforme de recherche d'emploi configurable pour un propriétaire unique.
 Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
-État : phase 2 manuelle livrée, en attente de validation. Python **3.11** selon
+État : phase 3 locale livrée, en attente de validation. Python **3.11** selon
 instruction du propriétaire. Le projet reste entièrement local, sans Docker.
-Connexion, compte et page Sources Angular sont connectés à FastAPI. LinkedIn,
+Connexion, compte, Sources, Profils, Recherche et Résultats sont reliés à FastAPI. LinkedIn,
 Indeed, Keejob et Tanitjobs proposent des liens de recherche et l’import manuel
-d’offres, avec aperçu CSV et confirmation. Voir [le rapport](docs/reports/phase-2.md).
+d’offres, avec aperçu CSV et confirmation. Les recherches filtrent ces imports,
+avec queue PostgreSQL et déduplication conservatrice. Voir [le rapport](docs/reports/phase-3.md).
 Voir [le suivi](docs/PROGRESS.md), [les décisions](docs/DECISIONS.md) et
 [le cahier des charges](docs/SPEC.md).
 
@@ -49,6 +50,8 @@ Les cookies restent `Secure` ; l'API locale utilise donc HTTPS.
 - Compte protégé : `/api/account`.
 - Registre protégé : `/api/sources` ; liens via `/{id}/search-link`.
 - Import : `/api/jobs/import/preview`, `/api/jobs/import` ; liste `/api/jobs`.
+- Profils et recherche locale : `/api/search/profiles`, `/api/search/executions`,
+  progression `/api/search/executions/{id}/events` et résultats `/{id}/results`.
 
 Toutes les requêtes mutantes exigent `Origin: https://localhost:8443`, y compris
 les clients CLI utilisant directement l'API ; pour le frontend, ajouter aussi
@@ -70,6 +73,19 @@ ou utilise une version Node compatible installée. L'interface propose connexion
 compte, navigation responsive et FR/EN. Les fonctionnalités métier non disponibles
 sont indiquées « Bientôt ». Aucun compte de démonstration n'est installé dans la
 base réelle. Voir [le README frontend](frontEnd/jobhunter/README.md).
+
+Pour la recherche locale, lancer aussi le worker dans un terminal distinct depuis
+`backend` (avec le même `.env` que l’API) :
+
+```cmd
+.venv\Scripts\python.exe -m app.worker
+```
+
+Dans **Profils de recherche**, enregistrer les critères et au moins une source,
+puis **Recherche → Lancer la recherche locale**. Le worker traite les imports
+existants ; les résultats et leur progression persistent après rechargement.
+Les champs inconnus restent signalés. Le mode CV, les scores IA et notifications
+ne sont pas encore disponibles. `--once` vérifie la DB et traite un cycle borné.
 
 Dans **Sources**, le filtre « Sites tunisiens » affiche Keejob et Tanitjobs.
 La sélection et les mots-clés/lieux sont persistants ; ils n’activent pas de
@@ -137,9 +153,11 @@ dans `__init__.py`. Les tests AST contrôlent frontières et dépendances autori
 Les migrations sont transactionnelles et protégées contre les courses par un
 verrou PostgreSQL ; une migration appliquée ne doit plus être modifiée.
 
-Aucun connecteur, parsing CV, matching, Telegram ni recherche métier n'est encore
-implémenté. Le dashboard initial explique cet état sans résultats de démonstration.
-`python -m app.worker --once` fournit une sonde DB et le processus
-worker possède un arrêt propre ; la queue et ses handlers arrivent en phase 3.
+Aucun connecteur automatisé fournisseur, parsing CV, matching ou Telegram livré.
+Le dashboard affiche les vrais imports et la dernière exécution locale. La queue
+traite les imports avec heartbeat, reprise, annulation et snapshots de résultats.
+Les regroupements ne suppriment aucun import original ; les ambiguïtés restent
+signalées. Les recherches sont bornées à 500 imports récents et 100 candidats par
+identité ; une limite atteinte produit un état PARTIAL explicite.
 Aucune permission de collecte n'est présumée. Le template Velson reste dans son
 dépôt local indépendant, exclu du dépôt racine tant que sa licence n'est pas étudiée.

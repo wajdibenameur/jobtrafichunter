@@ -1,10 +1,11 @@
 ﻿# JobHunter frontend
 
 Angular 22 standalone, TypeScript strict, RxJS, tests Karma/Jasmine et Playwright.
-Connexion propriétaire, compte et page Sources connectés à FastAPI ; interface FR/EN.
+Connexion propriétaire, compte, Sources, Profils, Recherche et Résultats reliés à FastAPI ; FR/EN.
 Sources : LinkedIn, Indeed, Keejob et Tanitjobs, filtre tunisien, préférences,
 sites personnalisés, liens de recherche et import URL/CSV avec confirmation.
-Aucune collecte automatique ; recherche, matching et CV arrivent aux phases suivantes.
+Aucune collecte automatique. La recherche filtre les imports avec un worker local ;
+matching et CV restent pour les prochaines phases.
 
 ## Lancement CMD depuis frontEnd\jobhunter
 
@@ -20,6 +21,16 @@ Ouvrir **https://localhost:4200**. Si le certificat manque, depuis backend :
 accepté pour le développement local. L’API doit fonctionner sur https://localhost:8443,
 avec https://localhost:4200 dans ALLOWED_ORIGINS de backend/.env.
 Voir le README racine pour le compte et les commandes backend.
+
+Lancer aussi, depuis backend dans un autre terminal :
+
+```cmd
+.venv\Scripts\python.exe -m app.worker
+```
+
+Créer un profil avec ses sources, puis lancer la recherche locale. Les résultats,
+leurs provenances et l’historique sont enregistrés. Les offres incomplètes restent
+signalées ; l’interface ne simule ni collecte, ni score, ni analyse CV.
 
 ## PowerShell depuis la racine du dépôt
 
@@ -65,11 +76,13 @@ cd backend
 .venv\Scripts\python.exe scripts/frontend_e2e.py
 ```
 
-Les sept parcours incluent session/connexion/mobile et sources/import. Le helper
+Les neuf parcours incluent session/connexion/mobile, sources/import et recherche.
+Le helper lance également un worker jetable avec la même configuration que l’API.
+Le helper
 crée un schéma, un compte et une API HTTPS jetables, exécute Chrome puis nettoie
 ses données. Captures/logs dans .cache/frontend-e2e hors Git ; le PostgreSQL système
 est conservé. TEST_DATABASE_URL peut fournir la connexion en CI, sans artefact DB
-transmis au navigateur. Résultats réels dans docs/reports/phase-2.md à la racine.
+transmis au navigateur. Résultats réels dans docs/reports/phase-3.md à la racine.
 
 Pour examiner le build : .\scripts\frontend.ps1 preview depuis la racine avec
 TLS/API configurés ; arrêter par Ctrl+C. Ce preview reste local.

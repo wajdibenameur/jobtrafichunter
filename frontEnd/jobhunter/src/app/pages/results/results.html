@@ -1,0 +1,185 @@
+<div class="search-ui">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">{{ i18n.t('localScope') }}</p>
+      <h1>{{ i18n.t('results') }}</h1>
+      <p>{{ i18n.t('resultsHelp') }}</p>
+    </div>
+    <a class="btn btn-primary" routerLink="/search">{{ i18n.t('localSearch') }}</a>
+  </div>
+  <p class="scope-note">{{ i18n.t('localSearchHelp') }}</p>
+  @if (currentExecution()?.status === 'PARTIAL') {
+    <p class="warning-note">{{ i18n.t('localLimit') }}</p>
+  }
+  <section class="card">
+    <label
+      >{{ i18n.t('selectExecution')
+      }}<select [formControl]="selection" (change)="choose()">
+        @for (execution of executions(); track execution.id) {
+          <option [value]="execution.id">
+            {{ execution.profile_name }} · {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }} ·
+            {{ i18n.t(statusKey(execution.status)) }}
+          </option>
+        }
+      </select></label
+    >
+    <form (submit)="$event.preventDefault(); load(0)">
+      <div class="search-form-grid">
+        <label>{{ i18n.t('resultsFilter') }}<input [formControl]="q" maxlength="200" /></label
+        ><label
+          >{{ i18n.t('sortResults')
+          }}<select [formControl]="sort" (change)="load(0)">
+            <option value="discovery">{{ i18n.t('firstSeen') }}</option>
+            <option value="publication">{{ i18n.t('publishedAt') }}</option>
+            <option value="country">{{ i18n.t('countriesLabel') }}</option>
+            <option value="domain">{{ i18n.t('domainsLabel') }}</option>
+            <option value="visa">{{ i18n.t('visaStatus') }}</option>
+          </select></label
+        >
+      </div>
+      <button class="btn" type="submit" [disabled]="loading() || !currentId()">
+        {{ i18n.t('applyFilter') }}
+      </button>
+    </form>
+  </section>
+  @if (error()) {
+    <p class="alert alert-danger" role="alert">
+      {{ i18n.t('searchLoadError')
+      }}<button class="btn" (click)="load(offset())">{{ i18n.t('retry') }}</button>
+    </p>
+  }
+  @if (loading()) {
+    <p role="status">{{ i18n.t('loading') }}</p>
+  }
+  <section class="card">
+    <div class="result-heading">
+      <h2>
+        {{ i18n.t('retainedJobs') }} <span class="badge">{{ total() }}</span>
+      </h2>
+      <button class="btn" (click)="load(offset())" [disabled]="loading() || !currentId()">
+        {{ i18n.t('refreshData') }}
+      </button>
+    </div>
+    @for (item of items(); track item.group.id) {
+      <article class="result-row">
+        @if (!item.group.novelty_verified) {
+          <p class="warning-note">{{ i18n.t('unverifiedNovelty') }}</p>
+        }
+        <div class="result-heading">
+          <h2>{{ item.listing.title || i18n.t('unknownValue') }}</h2>
+          <button class="btn" (click)="show(item)">{{ i18n.t('detailsJob') }}</button>
+        </div>
+        <p>
+          {{ item.listing.company || i18n.t('unknownValue') }} ·
+          {{ item.listing.city || i18n.t('unknownValue') }} ·
+          {{ item.listing.country || i18n.t('unknownValue') }}
+        </p>
+        <p>
+          {{ i18n.t('firstSeen') }} : {{ item.group.first_seen_at | date: 'yyyy-MM-dd HH:mm' }} ·
+          {{ i18n.t('publishedAt') }} :
+          {{
+            item.listing.published_at
+              ? (item.listing.published_at | date: 'yyyy-MM-dd')
+              : i18n.t('unknownValue')
+          }}
+        </p>
+        @if (item.unknown_fields.length) {
+          <p class="warning-note">
+            {{ i18n.t('unknownCriteria') }} :
+            @for (field of item.unknown_fields; track field) {
+              <span>{{ i18n.t(fieldKey(field)) }} · </span>
+            }
+          </p>
+        }
+        @if (item.group.repost_of_id) {
+          <span class="badge">{{ i18n.t('repostLabel') }}</span>
+        }
+        @if (item.group.candidate_ids.length) {
+          <p class="muted">
+            {{ i18n.t('possibleDuplicates') }} : {{ item.group.candidate_ids.length }}
+          </p>
+        }
+        <a [href]="item.listing.original_url" target="_blank" rel="noopener noreferrer"
+          >{{ item.listing.source_name }} ↗</a
+        >
+      </article>
+    }
+    @if (!loading() && !error() && !items().length) {
+      <p>{{ i18n.t(currentId() ? 'noResults' : 'noExecutions') }}</p>
+    }
+    @if (total() > 20) {
+      <div class="search-actions">
+        <button class="btn" [disabled]="loading() || offset() === 0" (click)="load(offset() - 20)">
+          {{ i18n.t('previousPage') }}</button
+        ><button
+          class="btn"
+          [disabled]="loading() || offset() + 20 >= total()"
+          (click)="load(offset() + 20)"
+        >
+          {{ i18n.t('nextPage') }}
+        </button>
+      </div>
+    }
+  </section>
+  <dialog #details class="job-dialog" (close)="selected.set(null)">
+    @if (selected(); as item) {
+      <div class="result-heading">
+        <h2>{{ item.listing.title || i18n.t('unknownValue') }}</h2>
+        <button class="btn" (click)="close()" [attr.aria-label]="i18n.t('closeDetails')">
+          {{ i18n.t('closeDetails') }}
+        </button>
+      </div>
+      <p class="muted">{{ i18n.t('snapshotNotice') }}</p>
+      <p>
+        {{ item.listing.company || i18n.t('unknownValue') }} ·
+        {{ item.listing.city || i18n.t('unknownValue') }} ·
+        {{ item.listing.country || i18n.t('unknownValue') }}
+      </p>
+      <p>
+        {{ i18n.t('firstSeen') }} : {{ item.group.first_seen_at | date: 'yyyy-MM-dd HH:mm' }} ·
+        {{ i18n.t('publishedAt') }} :
+        {{
+          item.listing.published_at
+            ? (item.listing.published_at | date: 'yyyy-MM-dd')
+            : i18n.t('unknownValue')
+        }}
+      </p>
+      <p>
+        {{ i18n.t('visaStatus') }} :
+        {{ i18n.t(visaKey(item.listing.visa_status || 'NOT_SPECIFIED')) }}
+      </p>
+      <p>
+        {{ i18n.t('domainsLabel') }} : {{ item.listing.domain || i18n.t('unknownValue') }} ·
+        {{ i18n.t('experienceLevels') }} :
+        {{ item.listing.experience_level || i18n.t('unknownValue') }}
+      </p>
+      <p>
+        {{ i18n.t('minYears') }} : {{ item.listing.min_years ?? i18n.t('unknownValue') }} ·
+        {{ i18n.t('maxYears') }} : {{ item.listing.max_years ?? i18n.t('unknownValue') }}
+      </p>
+      <p>
+        {{ i18n.t('mandatorySkills') }} :
+        {{ item.listing.mandatory_skills?.join(', ') || i18n.t('unknownValue') }}
+      </p>
+      <p>
+        {{ i18n.t('optionalSkills') }} :
+        {{ item.listing.optional_skills?.join(', ') || i18n.t('unknownValue') }}
+      </p>
+      @if (item.listing.visa_evidence) {
+        <p>{{ item.listing.visa_evidence }}</p>
+      }
+      <p class="description">{{ item.listing.description || i18n.t('unknownValue') }}</p>
+      <h3>{{ i18n.t('sourceLinks') }}</h3>
+      <ul>
+        @for (link of item.group.provenance; track link.listing_id) {
+          <li>
+            <a [href]="link.original_url" target="_blank" rel="noopener noreferrer"
+              >{{ link.source_name }} ↗</a
+            >
+          </li>
+        }
+      </ul>
+      <p class="muted">{{ i18n.t('futureFeatures') }}</p>
+    }
+  </dialog>
+</div>

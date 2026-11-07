@@ -3,15 +3,13 @@
 ## Prochaine action
 
 - Phase 2 validée (D-017), continuation vers la phase 3 confirmée (D-018).
-- Plan de phase 3 approuvé « vasi » (D-019). Profils backend livrés (3.1) ;
-  poursuivre déduplication/provenance, queue et interface selon ce plan.
+- Phase 3 locale livrée selon le plan approuvé D-019 ; consulter
+  `reports/phase-3.md` et attendre la validation avant de planifier la phase 4.
 - D-015 : LinkedIn, Indeed, Keejob et Tanitjobs en liens/import manuel ; aucune
   collecte automatisée attendue dans cette livraison. Ajout de sites personnalisés disponible.
 
 ## Fonctionnalités à venir
 
-- Critères de recherche, profils, orchestrateur, queue PostgreSQL, reprise worker,
-  déduplication floue, republications et page Résultats : phase 3 à planifier.
 - CV privés, parsing isolé, DOC historique, validation des champs : phase 4.
 - Matching explicable et extraction IA : constituer dix CV anonymisés avec
   résultats attendus, puis cinquante offres anonymisées labellisées par le
@@ -19,8 +17,8 @@
 - Fixer les seuils d’extraction/calibration avec le propriétaire.
 - Vérifier linkedin_email séparément avant toute activation ; consentement et
   accès boîte mail non présumés. Telegram, planification et historique à venir.
-- Remplacer les états « Bientôt » et les compteurs indisponibles du dashboard
-  lorsque les API de recherche/matching existent réellement.
+- Compléter le dashboard pour le matching/notifications quand ces API existent ;
+  les imports et la dernière exécution locale sont déjà réels en phase 3.
 
 ## Vérifications et exploitation
 

@@ -1,0 +1,77 @@
+<div class="search-ui">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">{{ i18n.t('profiles') }}</p>
+      <h1>{{ i18n.t('profiles') }}</h1>
+      <p>{{ i18n.t('searchProfilesHelp') }}</p>
+    </div>
+    <a class="btn btn-primary" routerLink="/search">{{ i18n.t('localSearch') }}</a>
+  </div>
+  <p class="scope-note">{{ i18n.t('localSearchHelp') }}</p>
+  @if (error(); as error) {
+    <div class="alert alert-danger" role="alert">
+      {{ i18n.t(error)
+      }}<button class="btn" (click)="load()" [disabled]="busy() || loading()">
+        {{ i18n.t('retry') }}
+      </button>
+    </div>
+  }
+  @if (loading()) {
+    <p role="status">{{ i18n.t('loading') }}</p>
+  }
+  @if (saved()) {
+    <p role="status" class="success-note">{{ i18n.t('profileSaved') }}</p>
+  }
+  <div class="search-layout">
+    <section class="card">
+      <h2>{{ i18n.t('profiles') }}</h2>
+      <div class="search-actions">
+        <button class="btn btn-primary" (click)="fresh()" [disabled]="busy()">
+          {{ i18n.t('newProfile') }}</button
+        ><button class="btn" (click)="examples()" [disabled]="busy() || loading()">
+          {{ i18n.t('createExamples') }}
+        </button>
+      </div>
+      <ul class="profile-list">
+        @for (profile of rows(); track profile.id) {
+          <li>
+            <h3>{{ profile.name }}</h3>
+            <p class="muted">{{ profile.description }}</p>
+            <div class="search-actions">
+              <button class="btn" (click)="edit(profile)" [disabled]="busy()">
+                {{ i18n.t('editProfile') }}</button
+              ><button class="btn" (click)="duplicate(profile)" [disabled]="busy()">
+                {{ i18n.t('duplicateProfile') }}</button
+              ><button class="btn" (click)="remove(profile)" [disabled]="busy()">
+                {{ i18n.t('removeProfile') }}
+              </button>
+            </div>
+          </li>
+        } @empty {
+          <li>{{ i18n.t('noProfiles') }}</li>
+        }
+      </ul>
+    </section>
+    <section class="card">
+      <h2>{{ i18n.t(editing() ? 'editProfile' : 'newProfile') }}</h2>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <fieldset [disabled]="busy()">
+          <label
+            >{{ i18n.t('profileName')
+            }}<input formControlName="name" required maxlength="100" /></label
+          ><label
+            >{{ i18n.t('profileDescription')
+            }}<textarea formControlName="description" maxlength="500" rows="2"></textarea>
+          </label>
+        </fieldset>
+        <jh-criteria-editor [criteria]="criteria()" [sources]="sources()" [busy]="busy()" /><button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="busy() || loading()"
+        >
+          {{ i18n.t('saveProfile') }}
+        </button>
+      </form>
+    </section>
+  </div>
+</div>

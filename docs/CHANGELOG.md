@@ -1,5 +1,11 @@
 # Changelog
 
+- 2026-11-07 — Phase 3.4 : pages Angular Profils/Recherche/Résultats et dashboard
+  réel, FR/EN/mobile, progression persistante et détails/provenance ; worker E2E
+  séparé et correction de son enregistrement de tables. 105 tests backend,
+  21 Angular et 9 E2E réussis, audits runtime sans vulnérabilité connue ; rapport
+  de phase livré, validation attendue avant phase 4.
+
 - 2026-11-07 — Phase 3.3 : file PostgreSQL avec leases/heartbeat, reprise bornée,
   annulation, snapshots des résultats, SSE et filtres structurés hiver/été Paris.
   104 tests backend réussis, dédup 100 % et filtres 91 % couverts ; migrations

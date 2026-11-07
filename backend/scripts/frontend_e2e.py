@@ -122,6 +122,8 @@ def run() -> int:
     env["PATH"] = str(node_folder) + os.pathsep + env["PATH"]
     created = False
     api_process = None
+    worker_process = None
+    worker_log = None
     config_path = ARTIFACTS / "session.json"
     try:
         asyncio.run(create_schema(settings))
@@ -198,6 +200,15 @@ def run() -> int:
                     if api_process.poll() is not None or time.monotonic() > deadline:
                         raise RuntimeError("E2E API did not become healthy") from None
                     time.sleep(0.3)
+            worker_log = (ARTIFACTS / "worker.log").open("w", encoding="utf-8")
+            worker_process = subprocess.Popen(
+                [sys.executable, "-m", "app.worker"],
+                cwd=BACKEND,
+                env=env,
+                stdout=worker_log,
+                stderr=worker_log,
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
+            )
             result = subprocess.run(
                 [str(node), str(npm_cli), "run", "e2e"],
                 cwd=ROOT / "frontEnd" / "jobhunter",
@@ -216,6 +227,15 @@ def run() -> int:
             return result.returncode
     finally:
         config_path.unlink(missing_ok=True)
+        if worker_process is not None:
+            worker_process.terminate()
+            try:
+                worker_process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                worker_process.kill()
+                worker_process.wait(timeout=5)
+        if worker_log is not None:
+            worker_log.close()
         if api_process is not None:
             api_process.terminate()
             try:

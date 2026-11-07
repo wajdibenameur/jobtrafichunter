@@ -43,10 +43,7 @@ export class Shell {
   private readonly navigation = viewChild<ElementRef<HTMLElement>>('navigation');
   private readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
   protected readonly futureNav: { key: TranslationKey; icon: IconName }[] = [
-    { key: 'search', icon: 'search' },
-    { key: 'profiles', icon: 'layers' },
     { key: 'cvs', icon: 'file' },
-    { key: 'results', icon: 'briefcase' },
     { key: 'applications', icon: 'check' },
     { key: 'history', icon: 'clock' },
   ];

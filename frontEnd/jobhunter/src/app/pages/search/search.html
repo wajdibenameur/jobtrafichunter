@@ -1,0 +1,131 @@
+<div class="search-ui">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">{{ i18n.t('search') }}</p>
+      <h1>{{ i18n.t('localSearch') }}</h1>
+      <p>{{ i18n.t('localScope') }}</p>
+    </div>
+    <a routerLink="/search-profiles" class="btn btn-primary">{{ i18n.t('manageProfiles') }}</a>
+  </div>
+  <p class="scope-note">{{ i18n.t('localSearchHelp') }}</p>
+  @if (error(); as error) {
+    <p class="alert alert-danger" role="alert">{{ i18n.t(error) }}</p>
+  }
+  @if (loading()) {
+    <p role="status">{{ i18n.t('loading') }}</p>
+  }
+  <section class="card">
+    <label
+      >{{ i18n.t('chooseProfile')
+      }}<select [formControl]="selection">
+        @for (profile of profiles(); track profile.id) {
+          <option [value]="profile.id">{{ profile.name }}</option>
+        }
+      </select></label
+    >
+    @if (chosen(); as profile) {
+      <p class="muted">
+        {{ i18n.t('profileSources') }} : {{ profile.criteria.source_ids.length }} ·
+        {{ i18n.t('includeKeywords') }} :
+        {{ profile.criteria.include_keywords.join(', ') || '—' }} · {{ i18n.t('countriesLabel') }} :
+        {{ profile.criteria.countries.join(', ') || '—' }}
+      </p>
+    } @else {
+      <p>{{ i18n.t('noProfiles') }}</p>
+    }
+    <button
+      class="btn btn-primary"
+      (click)="start()"
+      [disabled]="busy() || loading() || !selection.value"
+    >
+      {{ i18n.t('startLocalSearch') }}
+    </button>
+    <p class="muted">{{ i18n.t('futureFeatures') }}</p>
+  </section>
+  @if (current(); as execution) {
+    <section class="card execution-panel" aria-live="polite">
+      <div class="result-heading">
+        <h2>{{ execution.profile_name }}</h2>
+        <span class="badge">{{ i18n.t(statusKey(execution.status)) }}</span>
+      </div>
+      <p class="muted">
+        {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }} · {{ i18n.t('localScope') }} ·
+        {{ i18n.t('attemptLabel') }} {{ execution.attempt }}
+      </p>
+      <div class="search-metrics">
+        <div>
+          <strong>{{ execution.counts['scanned'] || 0 }}</strong
+          ><span>{{ i18n.t('scannedJobs') }}</span>
+        </div>
+        <div>
+          <strong>{{ execution.counts['duplicates'] || 0 }}</strong
+          ><span>{{ i18n.t('duplicateJobs') }}</span>
+        </div>
+        <div>
+          <strong>{{ execution.counts['processed'] || 0 }}</strong
+          ><span>{{ i18n.t('processedJobs') }}</span>
+        </div>
+        <div>
+          <strong>{{ execution.counts['results'] || 0 }}</strong
+          ><span>{{ i18n.t('retainedJobs') }}</span>
+        </div>
+      </div>
+      @if (execution.status === 'PENDING') {
+        <p class="warning-note">{{ i18n.t('workerHelp') }}</p>
+      }
+      @if (execution.status === 'PARTIAL') {
+        <p class="warning-note">{{ i18n.t('localLimit') }}</p>
+      }
+      @if (execution.status === 'FAILED' || execution.status === 'TIMED_OUT') {
+        <p role="alert">
+          {{ i18n.t('searchError') }} {{ i18n.t('executionReason') }} : {{ execution.reason }}
+        </p>
+      }
+      @if (reconnecting() && isActive(execution)) {
+        <p class="warning-note">{{ i18n.t('reconnectingSearch') }}</p>
+      }
+      <ul>
+        @for (source of execution.sources; track source.source_id) {
+          <li>{{ source.source_name }} — {{ i18n.t('manualCollectionSkipped') }}</li>
+        }
+      </ul>
+      <div class="search-actions">
+        @if (isActive(execution)) {
+          <button class="btn" (click)="cancel()" [disabled]="busy() || execution.cancel_requested">
+            {{ i18n.t(execution.cancel_requested ? 'cancellingSearch' : 'cancelSearch') }}
+          </button>
+        }
+        <a
+          class="btn btn-primary"
+          routerLink="/results"
+          [queryParams]="{ execution: execution.id }"
+          >{{ i18n.t('viewResults') }}</a
+        >
+      </div>
+    </section>
+  }
+  <section class="card">
+    <div class="result-heading">
+      <h2>{{ i18n.t('searchHistory') }}</h2>
+      <button class="btn" (click)="load()" [disabled]="loading()">
+        {{ i18n.t('refreshData') }}
+      </button>
+    </div>
+    @for (execution of history(); track execution.id) {
+      <div class="execution-row">
+        <div>
+          <strong>{{ execution.profile_name }}</strong>
+          <p class="muted">
+            {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }} ·
+            {{ i18n.t(statusKey(execution.status)) }}
+          </p>
+        </div>
+        <a class="btn" routerLink="/search" [queryParams]="{ execution: execution.id }">{{
+          i18n.t('detailsJob')
+        }}</a>
+      </div>
+    } @empty {
+      <p>{{ i18n.t('noExecutions') }}</p>
+    }
+  </section>
+</div>

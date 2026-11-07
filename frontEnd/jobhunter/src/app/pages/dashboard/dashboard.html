@@ -30,6 +30,37 @@
     ><span class="floating-search"><jh-icon name="search" /></span>
   </div>
 </section>
+<div class="search-ui">
+  <section class="card">
+    <h2>{{ i18n.t('localScope') }}</h2>
+    @if (error()) {
+      <p role="alert">{{ i18n.t('searchLoadError') }}</p>
+      <button class="btn" (click)="load()">{{ i18n.t('retry') }}</button>
+    }
+    @if (data(); as data) {
+      <div class="search-metrics">
+        <div>
+          <strong>{{ data.imported_count }}</strong
+          ><span>{{ i18n.t('importedCount') }}</span>
+        </div>
+        @if (data.last_execution; as execution) {
+          <div>
+            <strong>{{ execution.counts['results'] || 0 }}</strong
+            ><span>{{ i18n.t('retainedJobs') }}</span>
+          </div>
+        }
+      </div>
+      @if (data.last_execution; as execution) {
+        <p>
+          {{ i18n.t('lastLocalSearch') }} : {{ execution.profile_name }} ·
+          {{ i18n.t(statusKey(execution.status)) }} ·
+          {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }}
+        </p>
+      }
+    }
+    <a class="btn btn-primary" routerLink="/search">{{ i18n.t('localSearch') }}</a>
+  </section>
+</div>
 <div class="dashboard-grid">
   <section class="card opportunities-card" aria-labelledby="opportunities-title">
     <div class="card-heading">

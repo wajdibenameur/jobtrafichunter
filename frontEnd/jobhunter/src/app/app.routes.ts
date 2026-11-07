@@ -13,6 +13,19 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/shell').then((m) => m.Shell),
     children: [
       {
+        path: 'search',
+        loadComponent: () => import('./pages/search/search').then((m) => m.Search),
+      },
+      {
+        path: 'search-profiles',
+        loadComponent: () =>
+          import('./pages/search-profiles/search-profiles').then((m) => m.SearchProfiles),
+      },
+      {
+        path: 'results',
+        loadComponent: () => import('./pages/results/results').then((m) => m.Results),
+      },
+      {
         path: 'sources',
         loadComponent: () => import('./pages/sources/sources').then((m) => m.Sources),
       },

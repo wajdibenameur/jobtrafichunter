@@ -1,6 +1,7 @@
 # Plan proposé — Phase 3 : recherche locale, profils et résultats
 
-Date : 2026-11-07. Statut : **APPROVED / IN_PROGRESS — « vasi », D-019**.
+Date : 2026-11-07. Statut : **DELIVERED / WAITING_FOR_VALIDATION — D-019**.
+Livraison, vérifications et limites : `reports/phase-3.md`.
 La phase 2 est validée (D-017). Le propriétaire confirme poursuivre avec la phase 3
 (D-018). Ce document décrit le périmètre précis proposé pour son approbation.
 

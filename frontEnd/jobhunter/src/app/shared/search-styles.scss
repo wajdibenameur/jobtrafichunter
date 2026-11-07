@@ -1,0 +1,240 @@
+.search-ui {
+  .badge {
+    font-size: 12px;
+    padding: 6px 10px;
+    background: #e8edf8;
+    color: #405189;
+  }
+  .card {
+    padding: 24px;
+    margin-bottom: 22px;
+    min-width: 0;
+  }
+  .search-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.8fr) minmax(0, 2fr);
+    gap: 22px;
+    align-items: start;
+  }
+  .search-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 18px;
+  }
+  label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 16px;
+    min-width: 0;
+  }
+  input:not([type='checkbox']),
+  select,
+  textarea {
+    display: block;
+    font: inherit;
+    color: inherit;
+    border: 1px solid #cbd0d7;
+    border-radius: 5px;
+    background: white;
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 7px;
+    min-width: 0;
+  }
+  textarea {
+    resize: vertical;
+  }
+  select[multiple] {
+    padding: 6px;
+  }
+  option {
+    padding: 4px;
+  }
+  fieldset {
+    margin: 18px 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+  legend {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .source-choices,
+  .search-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .check-choice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #f3f3f9;
+    border-radius: 5px;
+    margin: 0;
+  }
+  input[type='checkbox'] {
+    accent-color: var(--vz-primary);
+    width: 16px;
+    height: 16px;
+  }
+  .muted,
+  small {
+    color: var(--vz-muted);
+    line-height: 1.8;
+  }
+  small {
+    display: block;
+    margin-top: 8px;
+    font-weight: 400;
+  }
+  .scope-note {
+    background: #e8edf8;
+    color: #405189;
+    padding: 18px 22px;
+    border-radius: 7px;
+    line-height: 1.8;
+    margin-bottom: 22px;
+  }
+  .btn:not(.btn-primary) {
+    background: #edf0f7;
+    color: #405189;
+    border-color: #d8dfef;
+  }
+  .profile-list {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+  }
+  .profile-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--vz-border-color);
+    overflow-wrap: anywhere;
+  }
+  .profile-list h3 {
+    margin: 0 0 7px;
+  }
+  .profile-list .btn {
+    min-height: 34px;
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+  .search-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 24px 0;
+  }
+  .search-metrics div {
+    background: #f3f3f9;
+    padding: 18px;
+    border-radius: 6px;
+  }
+  .search-metrics strong {
+    display: block;
+    font-size: 24px;
+    color: #405189;
+  }
+  .search-metrics span {
+    font-size: 12px;
+  }
+  .execution-row,
+  .result-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--vz-border-color);
+  }
+  .result-row {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--vz-border-color);
+  }
+  .result-row h2 {
+    margin: 0;
+  }
+  .result-row p {
+    color: var(--vz-muted);
+    margin: 12px 0;
+  }
+  .result-heading {
+    border: 0;
+    padding: 0;
+  }
+  .warning-note {
+    padding: 12px 15px;
+    background: #fff4dc;
+    color: #71510c;
+    border-radius: 5px;
+  }
+  .success-note {
+    background: #e8f5f1;
+    color: #087766;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 18px;
+  }
+  details {
+    margin: 18px 0;
+  }
+  summary {
+    font-weight: 600;
+    cursor: pointer;
+  }
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible {
+    outline: 3px solid var(--vz-secondary);
+    outline-offset: 3px;
+  }
+  .job-dialog {
+    width: min(800px, 94vw);
+    max-height: 90vh;
+    border: 0;
+    border-radius: 8px;
+    padding: 26px;
+    color: var(--vz-body-color);
+  }
+  .job-dialog::backdrop {
+    background: #18213c88;
+  }
+  .job-dialog p {
+    overflow-wrap: anywhere;
+  }
+  .job-dialog .description {
+    white-space: pre-wrap;
+  }
+  .job-dialog ul {
+    padding-left: 20px;
+  }
+  .job-dialog li {
+    margin-bottom: 10px;
+  }
+  @media (max-width: 1050px) {
+    .search-layout {
+      grid-template-columns: 1fr;
+    }
+    .search-metrics {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .search-form-grid {
+      grid-template-columns: 1fr;
+    }
+    .card {
+      padding: 18px;
+    }
+    .search-metrics {
+      gap: 10px;
+    }
+    .search-metrics div {
+      padding: 12px;
+    }
+  }
+}

@@ -209,3 +209,16 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   2026.6. Contrôler hiver/été dans les tests, sans coder un décalage UTC fixe.
 - Les états de collecte restent SKIPPED/MANUAL_ONLY. Les tâches effectuent
   uniquement scan local, déduplication, filtrage et snapshots de résultats.
+
+## D-021 — 2026-11-07 — Livraison de la phase 3 locale
+
+- Lots 3.1–3.4 du plan D-019 livrés, migrations additives 0004–0006 appliquées.
+  Les imports originaux sont conservés et les résultats utilisent des snapshots.
+- Bornes effectives : 500 imports récents, 100 candidats par identité. Dépassement
+  explicitement PARTIAL ; nouveauté de groupe non vérifiée si le rapprochement
+  est incomplet. Aucun faux résultat exhaustif ou compteur de collecte.
+- L’E2E avec worker distinct a exposé un défaut masqué par le chargement de l’API
+  dans les tests : références ORM non enregistrées dans ce processus. Imports
+  publics au point de composition, test dédié de worker neuf et E2E verts.
+- Livraison vérifiée : 105 tests backend, 21 Angular et 9 E2E ; rapport phase-3.md.
+  Attendre la validation avant de proposer le plan CV de phase 4.
