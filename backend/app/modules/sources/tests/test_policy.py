@@ -77,3 +77,16 @@ def test_url_normalization_keeps_job_identity_and_strips_tracking() -> None:
     )
     assert urlsplit(result).hostname == "www.indeed.com"
     assert parse_qs(urlsplit(result).query) == {"jk": ["123"]}
+
+
+def test_registry_has_no_implicit_automated_fallback() -> None:
+    from app.modules.sources.connectors import connector_for
+
+    assert not connector_for("LINK_ONLY").capabilities().automated
+    with pytest.raises(ConnectorFailure) as error:
+        connector_for("API")
+    assert error.value.code == "UNAVAILABLE"
+    with pytest.raises(ConnectorFailure) as parse_error:
+        connector_for("MANUAL_IMPORT").normalize({"original_url": "javascript:secret"})
+    assert parse_error.value.code == "PARSE_ERROR"
+    assert "secret" not in str(parse_error.value)

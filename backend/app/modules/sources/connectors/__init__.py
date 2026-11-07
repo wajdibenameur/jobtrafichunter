@@ -6,6 +6,7 @@ from app.modules.sources.connectors.contracts import (
     NormalizedListing,
 )
 from app.modules.sources.connectors.manual_import import ManualConnector
+from app.modules.sources.connectors.registry import connector_for
 
 __all__ = [
     "Capabilities",
@@ -14,4 +15,5 @@ __all__ = [
     "JobSourceConnector",
     "ManualConnector",
     "NormalizedListing",
+    "connector_for",
 ]

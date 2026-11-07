@@ -6,6 +6,7 @@ import pytest
 from sqlalchemy import inspect
 
 from app.core.db import Runtime
+from app.core.errors import AppError
 from app.main import create_app
 from app.modules.auth import AuthService
 from app.modules.listings.schemas import ImportJob, ImportRequest, ImportResult
@@ -121,6 +122,8 @@ async def test_import_endpoints_auth_preview_and_confirmation(database: Runtime)
                 },
             )
             assert preview.status_code == 200 and preview.json()["valid_count"] == 1
+            assert "visa_status" not in preview.json()["rows"][0]["job"]
+            assert "mandatory_skills" not in preview.json()["rows"][0]["job"]
             assert (await client.get("/api/jobs")).json()["total"] == 0
             payload: dict[str, object] = {
                 "source_id": str(SOURCE_ID),
@@ -131,6 +134,24 @@ async def test_import_endpoints_auth_preview_and_confirmation(database: Runtime)
             imported = await client.post("/api/jobs/import", json=payload)
             assert imported.status_code == 201 and imported.json()["created_count"] == 1
             assert (await client.get("/api/jobs")).json()["total"] == 1
+            assert (
+                await client.post(
+                    "/api/jobs/import",
+                    json={
+                        "source_id": str(SOURCE_ID),
+                        "confirm": True,
+                        "jobs": [
+                            {
+                                "original_url": "https://example.test/1",
+                                "visa_status": "CONFIRMED",
+                                "visa_evidence": "Synthetic fixture evidence",
+                            }
+                        ],
+                    },
+                )
+            ).status_code == 201
+            assert (await client.post("/api/jobs/import", json=payload)).status_code == 201
+            assert (await client.get("/api/jobs")).json()["items"][0]["visa_status"] == "CONFIRMED"
             payload["source_id"] = str(uuid4())
             assert (await client.post("/api/jobs/import", json=payload)).status_code == 404
             too_large = await client.post(
@@ -139,3 +160,39 @@ async def test_import_endpoints_auth_preview_and_confirmation(database: Runtime)
             assert too_large.status_code == 413
     finally:
         await app.state.runtime.engine.dispose()
+
+
+async def test_conflicting_identifiers_roll_back_entire_batch(database: Runtime) -> None:
+    user, source = await setup(database)
+    async with database.sessions() as session:
+        await ListingService(session).import_jobs(
+            user,
+            source,
+            ImportRequest(
+                source_id=source.id,
+                confirm=True,
+                jobs=[
+                    ImportJob(original_url="https://example.test/a", source_job_id="a"),
+                    ImportJob(original_url="https://example.test/b", source_job_id="b"),
+                ],
+            ),
+        )
+    async with database.sessions() as session:
+        with pytest.raises(AppError) as error:
+            await ListingService(session).import_jobs(
+                user,
+                source,
+                ImportRequest(
+                    source_id=source.id,
+                    confirm=True,
+                    jobs=[
+                        ImportJob(original_url="https://example.test/new"),
+                        ImportJob(original_url="https://example.test/a", source_job_id="b"),
+                    ],
+                ),
+            )
+        assert error.value.code == "IMPORT_CONFLICT"
+    async with database.sessions() as session:
+        page = await ListingService(session).page(user, 20, 0)
+        assert page.total == 2
+        assert all(item.original_url != "https://example.test/new" for item in page.items)

@@ -23,7 +23,7 @@ Owner = Annotated[Principal, Depends(require_identity)]
 Session = Annotated[AsyncSession, Depends(get_business_session)]
 
 
-@router.post("/import/preview", response_model=CsvPreview)
+@router.post("/import/preview", response_model=CsvPreview, response_model_exclude_unset=True)
 async def preview(body: CsvPreviewRequest, request: Request, owner: Owner) -> CsvPreview:
     source = await cast(SourceLookup, request.app.state.source_lookup)(
         owner.user_id, body.source_id

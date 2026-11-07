@@ -155,3 +155,18 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   Le contrat générique conserve une erreur explicite si fetch automatique est demandé.
 - La recherche approfondie JobTech/Jobicy/Himalayas reste documentaire uniquement.
 - L'import persistant et le registre/page Sources du plan approuvé restent à réaliser.
+
+## D-016 — 2026-11-07 — Livraison manuelle de phase 2
+
+- D-014/D-015 sont implémentées : quatre sites, sources personnalisées, liens,
+  import explicite et CSV, sans transport fournisseur ni collecte automatique.
+- Le toggle mémorise une sélection personnelle ; aucune autorisation de collecte
+  n’en découle. Dernière synchronisation et compteurs restent inconnus.
+- Le point de composition raccorde les interfaces publiques sources/listings via
+  SourceReference ; leurs repositories et tables ne sont pas importés entre modules.
+- Les aperçus CSV omettent les champs absents (`exclude_unset`) : un réimport
+  incomplet n’efface pas des compétences ou preuves de visa déjà renseignées.
+- URL originale et première découverte restent immuables ; la déduplication
+  exacte normalisée est atomique. Fusion floue et reposts restent pour la phase 3.
+- Validation exécutée : 81 tests backend, 18 Angular et 7 E2E, plus build/types,
+  lint/mypy, migration et audits. Le rapport clôt la phase avant validation owner.

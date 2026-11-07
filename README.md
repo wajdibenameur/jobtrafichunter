@@ -3,10 +3,11 @@
 Plateforme de recherche d'emploi configurable pour un propriétaire unique.
 Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
-État : socle local de phase 1 prêt pour validation. Python **3.11** selon
+État : phase 2 manuelle livrée, en attente de validation. Python **3.11** selon
 instruction du propriétaire. Le projet reste entièrement local, sans Docker.
-Connexion, compte et layout
-Angular sont connectés à FastAPI ; les fonctions métier arrivent aux phases suivantes.
+Connexion, compte et page Sources Angular sont connectés à FastAPI. LinkedIn,
+Indeed, Keejob et Tanitjobs proposent des liens de recherche et l’import manuel
+d’offres, avec aperçu CSV et confirmation. Voir [le rapport](docs/reports/phase-2.md).
 Voir [le suivi](docs/PROGRESS.md), [les décisions](docs/DECISIONS.md) et
 [le cahier des charges](docs/SPEC.md).
 
@@ -46,6 +47,8 @@ Les cookies restent `Secure` ; l'API locale utilise donc HTTPS.
 - Schéma OpenAPI : `https://localhost:8443/openapi.json`.
 - Auth : `/api/auth/login`, `/api/auth/refresh`, `/api/auth/logout`, `/api/auth/me`.
 - Compte protégé : `/api/account`.
+- Registre protégé : `/api/sources` ; liens via `/{id}/search-link`.
+- Import : `/api/jobs/import/preview`, `/api/jobs/import` ; liste `/api/jobs`.
 
 Toutes les requêtes mutantes exigent `Origin: https://localhost:8443`, y compris
 les clients CLI utilisant directement l'API ; pour le frontend, ajouter aussi
@@ -67,6 +70,12 @@ ou utilise une version Node compatible installée. L'interface propose connexion
 compte, navigation responsive et FR/EN. Les fonctionnalités métier non disponibles
 sont indiquées « Bientôt ». Aucun compte de démonstration n'est installé dans la
 base réelle. Voir [le README frontend](frontEnd/jobhunter/README.md).
+
+Dans **Sources**, le filtre « Sites tunisiens » affiche Keejob et Tanitjobs.
+La sélection et les mots-clés/lieux sont persistants ; ils n’activent pas de
+collecte automatique. Ouvrir le lien préparé, puis coller les données de l’offre
+ou vérifier un CSV avant confirmation. Les inconnus restent inconnus et un lien
+réimporté conserve sa première découverte. Le serveur ne visite pas l’offre.
 
 Build et vérifications depuis la racine :
 

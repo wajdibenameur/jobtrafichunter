@@ -12,6 +12,10 @@ export const routes: Routes = [
     canActivate: [ownerGuard],
     loadComponent: () => import('./layout/shell').then((m) => m.Shell),
     children: [
+      {
+        path: 'sources',
+        loadComponent: () => import('./pages/sources/sources').then((m) => m.Sources),
+      },
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       {
         path: 'dashboard',

@@ -1,5 +1,7 @@
 from typing import Literal
 
+from pydantic import ValidationError
+
 from app.modules.sources.connectors.contracts import (
     Capabilities,
     ConnectorFailure,
@@ -21,4 +23,7 @@ class ManualConnector:
         raise ConnectorFailure("MANUAL_ONLY", "Open the source and import the offer manually")
 
     def normalize(self, raw: dict[str, object]) -> NormalizedListing:
-        return NormalizedListing.model_validate(raw)
+        try:
+            return NormalizedListing.model_validate(raw)
+        except ValidationError as exc:
+            raise ConnectorFailure("PARSE_ERROR", "Manual offer fields are invalid") from exc

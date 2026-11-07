@@ -1,0 +1,324 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">{{ i18n.t('preferences') }}</p>
+    <h1>{{ i18n.t('sources') }}</h1>
+    <p>{{ i18n.t('sourcesSubtitle') }}</p>
+  </div>
+</div>
+<p class="manual-note">{{ i18n.t('manualNotice') }}</p>
+@if (error(); as error) {
+  <div class="alert alert-danger" role="alert">
+    {{ i18n.t(error) }}
+    @if (error === 'sourceLoadError') {
+      <button class="btn" (click)="load()">{{ i18n.t('retry') }}</button>
+    }
+  </div>
+}
+<div class="source-toolbar">
+  <div class="filters" role="group" [attr.aria-label]="i18n.t('sources')">
+    <button
+      class="btn"
+      [class.chosen]="filter() === 'all'"
+      [attr.aria-pressed]="filter() === 'all'"
+      (click)="filter.set('all')"
+    >
+      {{ i18n.t('allSources') }}
+    </button>
+    <button
+      class="btn"
+      [class.chosen]="filter() === 'tn'"
+      [attr.aria-pressed]="filter() === 'tn'"
+      (click)="filter.set('tn')"
+    >
+      {{ i18n.t('tunisianSources') }}
+    </button>
+    <button
+      class="btn"
+      [class.chosen]="filter() === 'selected'"
+      [attr.aria-pressed]="filter() === 'selected'"
+      (click)="filter.set('selected')"
+    >
+      {{ i18n.t('selectedOnly') }}
+    </button>
+  </div>
+  <div class="filters">
+    <button class="btn" [disabled]="busy() || loading()" (click)="selectAll(true)">
+      {{ i18n.t('selectAll') }}</button
+    ><button class="btn" [disabled]="busy() || loading()" (click)="selectAll(false)">
+      {{ i18n.t('deselectAll') }}
+    </button>
+  </div>
+</div>
+@if (loading()) {
+  <p role="status">{{ i18n.t('loading') }}</p>
+}
+<div class="sources-grid" [attr.aria-busy]="busy()">
+  @for (source of visible(); track source.id) {
+    <section class="card source-card" [attr.data-source]="source.slug">
+      <div class="source-top">
+        <div class="source-mark">{{ source.name.slice(0, 2) }}</div>
+        <div>
+          <h2>{{ source.name }}</h2>
+          <span class="muted">{{
+            i18n.t(source.region === 'TN' ? 'tnRegion' : 'globalRegion')
+          }}</span>
+        </div>
+        <label class="source-check"
+          ><input
+            type="checkbox"
+            [checked]="source.enabled"
+            [disabled]="busy()"
+            (change)="toggle(source, $event)"
+            [attr.aria-label]="i18n.t('selectedSource') + ' ' + source.name"
+          />{{ i18n.t('selectedSource') }}</label
+        >
+      </div>
+      <span class="badge">{{ i18n.t('manualOnly') }}</span>
+      <p class="source-state">
+        {{
+          i18n.t(
+            !source.enabled
+              ? 'sourceDisabled'
+              : source.health_status === 'UNVERIFIED'
+                ? 'unverifiedSource'
+                : 'manualOnly'
+          )
+        }}
+      </p>
+      <form
+        [formGroup]="draft(source)"
+        (ngSubmit)="save(source)"
+        (input)="criteriaChanged(source.id)"
+      >
+        <div class="form-pair">
+          <label>{{ i18n.t('keywords') }}<input formControlName="keywords" maxlength="200" /></label
+          ><label
+            >{{ i18n.t('location') }}<input formControlName="location" maxlength="200"
+          /></label>
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="busy() || draft(source).invalid">
+          {{ i18n.t('saveCriteria') }}
+        </button>
+      </form>
+      @if (links()[source.id]; as link) {
+        <div class="prepared-link">
+          <a class="btn open-link" [href]="link.url" target="_blank" rel="noopener noreferrer"
+            >{{ i18n.t('openSearch') }} ↗</a
+          >
+          @if (!link.criteria_applied) {
+            <p>{{ i18n.t('customLinkNote') }}</p>
+          }
+        </div>
+      }
+      @if (source.custom) {
+        <button type="button" class="remove-link" [disabled]="busy()" (click)="remove(source)">
+          {{ i18n.t('removeSource') }}
+        </button>
+      }
+    </section>
+  } @empty {
+    @if (!loading()) {
+      <p>{{ i18n.t('noSources') }}</p>
+    }
+  }
+</div>
+<section class="card source-create">
+  <h2>{{ i18n.t('addSource') }}</h2>
+  <form [formGroup]="custom" (ngSubmit)="create()" class="custom-form">
+    <label
+      >{{ i18n.t('sourceName') }}<input formControlName="name" maxlength="100" required
+    /></label>
+    <label
+      >{{ i18n.t('sourceUrl')
+      }}<input
+        formControlName="homepage"
+        type="url"
+        maxlength="4096"
+        placeholder="https://"
+        required
+    /></label>
+    <label
+      >{{ i18n.t('sourceRegion')
+      }}<select formControlName="region">
+        <option value="TN">{{ i18n.t('tnRegion') }}</option>
+        <option value="GLOBAL">{{ i18n.t('globalRegion') }}</option>
+      </select></label
+    >
+    <button class="btn btn-primary" type="submit" [disabled]="busy() || custom.invalid">
+      {{ i18n.t('addSource') }}
+    </button>
+  </form>
+</section>
+<section class="card import-card">
+  <h2>{{ i18n.t('manualImport') }}</h2>
+  <p>{{ i18n.t('importHelp') }}</p>
+  <form [formGroup]="job" (ngSubmit)="review()">
+    <fieldset [disabled]="busy()">
+      <label
+        >{{ i18n.t('importSource')
+        }}<select formControlName="source" required [attr.aria-disabled]="busy()">
+          <option value="" disabled>—</option>
+          @for (source of sources(); track source.id) {
+            <option [value]="source.id">{{ source.name }}</option>
+          }
+        </select></label
+      >
+      <div class="form-pair">
+        <label class="full-width"
+          >{{ i18n.t('jobUrl')
+          }}<input
+            formControlName="original_url"
+            type="url"
+            maxlength="4096"
+            required
+            placeholder="https://"
+        /></label>
+        <label>{{ i18n.t('jobTitle') }}<input formControlName="title" maxlength="300" /></label>
+        <label>{{ i18n.t('jobCompany') }}<input formControlName="company" maxlength="200" /></label>
+        <label>{{ i18n.t('jobCountry') }}<input formControlName="country" maxlength="100" /></label>
+        <label>{{ i18n.t('jobCity') }}<input formControlName="city" maxlength="100" /></label>
+        <label class="full-width"
+          >{{ i18n.t('jobDescription')
+          }}<textarea formControlName="description" maxlength="50000" rows="5"></textarea>
+        </label>
+      </div>
+      <p class="muted">{{ i18n.t('optionalFields') }}</p>
+      <button class="btn btn-primary" type="submit" [disabled]="busy() || job.invalid">
+        {{ i18n.t('previewImport') }}
+      </button>
+    </fieldset>
+  </form>
+  <div class="csv-section">
+    <h3>{{ i18n.t('csvImport') }}</h3>
+    <p id="csv-help">{{ i18n.t('csvHelp') }}</p>
+    <label
+      >{{ i18n.t('csvFile')
+      }}<input
+        type="file"
+        accept=".csv,text/csv"
+        (change)="fileChanged($event)"
+        [disabled]="busy()"
+        aria-describedby="csv-help" /></label
+    ><button
+      class="btn"
+      type="button"
+      [disabled]="busy() || !csvReady() || !job.controls.source.value"
+      (click)="reviewCsv()"
+    >
+      {{ i18n.t('csvPreview') }}
+    </button>
+  </div>
+</section>
+@if (preview(); as preview) {
+  <section class="card preview-card" aria-live="polite">
+    <h2>{{ i18n.t('importPreview') }}</h2>
+    <p>{{ i18n.t('confirmationHelp') }}</p>
+    <p>
+      {{ i18n.t('validRows') }} : {{ preview.valid_count }} · {{ i18n.t('invalidRows') }} :
+      {{ preview.invalid_count }}
+    </p>
+    <div class="preview-rows">
+      @for (row of preview.rows; track row.row_number) {
+        <article class="preview-row">
+          <strong>{{ i18n.t('rowLabel') }} {{ row.row_number }}</strong>
+          @if (row.job; as data) {
+            <h3>{{ data.title || i18n.t('unknownValue') }}</h3>
+            <p>
+              {{ data.company || i18n.t('unknownValue') }} ·
+              {{ data.city || i18n.t('unknownValue') }} ·
+              {{ data.country || i18n.t('unknownValue') }}
+            </p>
+            <p class="break-url">{{ data.original_url }}</p>
+            <p class="description">{{ data.description || i18n.t('unknownValue') }}</p>
+            @for (field of extraFields(data); track field.label) {
+              <p>
+                <strong>{{ i18n.t(field.label) }} :</strong> {{ field.value }}
+              </p>
+            }
+          } @else {
+            <p class="row-error">{{ row.errors.join(', ') }}</p>
+          }
+        </article>
+      }
+    </div>
+    <div class="filters">
+      <button
+        class="btn btn-primary"
+        [disabled]="busy() || preview.invalid_count > 0 || preview.valid_count === 0"
+        (click)="confirm()"
+      >
+        {{ i18n.t('confirmImport') }}</button
+      ><button class="btn" [disabled]="busy()" (click)="this.preview.set(null)">
+        {{ i18n.t('cancelImport') }}
+      </button>
+    </div>
+  </section>
+}
+@if (result(); as result) {
+  <div class="import-success" role="status">
+    <strong>{{ i18n.t('importDone') }}</strong> · {{ i18n.t('createdJobs') }} :
+    {{ result.created_count }} · {{ i18n.t('existingJobs') }} : {{ result.existing_count }}
+  </div>
+}
+<section class="card imported-card">
+  <div class="imported-heading">
+    <h2>
+      {{ i18n.t('importedJobs') }} <span class="badge">{{ total() }}</span>
+    </h2>
+    <button class="btn" [disabled]="jobsLoading()" (click)="loadJobs()">
+      {{ i18n.t('retry') }}
+    </button>
+  </div>
+  @if (jobsError()) {
+    <p role="alert">{{ i18n.t('jobsLoadError') }}</p>
+  }
+  @if (jobsLoading()) {
+    <p role="status">{{ i18n.t('loading') }}</p>
+  }
+  @for (item of jobs(); track item.id) {
+    <article class="imported-job">
+      <div>
+        <h3>
+          <a [href]="item.original_url" target="_blank" rel="noopener noreferrer"
+            >{{ item.title || i18n.t('unknownValue') }} ↗</a
+          >
+        </h3>
+        <p>{{ item.company || i18n.t('unknownValue') }} · {{ item.source_name }}</p>
+      </div>
+      <dl>
+        <div>
+          <dt>{{ i18n.t('firstSeen') }}</dt>
+          <dd>{{ item.first_seen_at | date: 'yyyy-MM-dd HH:mm' }}</dd>
+        </div>
+        <div>
+          <dt>{{ i18n.t('publishedAt') }}</dt>
+          <dd>
+            {{
+              item.published_at ? (item.published_at | date: 'yyyy-MM-dd') : i18n.t('unknownValue')
+            }}
+          </dd>
+        </div>
+      </dl>
+    </article>
+  }
+  @if (!jobsLoading() && !jobsError() && !jobs().length) {
+    <p>{{ i18n.t('noImportedJobs') }}</p>
+  }
+  @if (total() > 20) {
+    <div class="filters">
+      <button
+        class="btn"
+        [disabled]="jobsLoading() || offset() === 0"
+        (click)="loadJobs(offset() - 20)"
+      >
+        {{ i18n.t('previousPage') }}</button
+      ><button
+        class="btn"
+        [disabled]="jobsLoading() || offset() + 20 >= total()"
+        (click)="loadJobs(offset() + 20)"
+      >
+        {{ i18n.t('nextPage') }}
+      </button>
+    </div>
+  }
+</section>

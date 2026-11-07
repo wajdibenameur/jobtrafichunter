@@ -1,52 +1,43 @@
-# TODO
+﻿# TODO
 
 ## Prochaine action
 
-- Phase 1 locale validée par continuation du propriétaire.
-- Faire approuver `PLAN-PHASE-2.md` avant implémentation, selon AGENTS/SPEC §24.1.
-- Compléter les vérifications de `sources/preverification-phase-2.md` ; conserver
-  les candidats non confirmés en lien/import. Ne pas promettre deux sources déjà permises.
+- Phase 2 manuelle livrée : attendre la validation du propriétaire sur
+  `reports/phase-2.md` avant de proposer et implémenter le plan de phase 3.
+- D-015 : LinkedIn, Indeed, Keejob et Tanitjobs en liens/import manuel ; aucune
+  collecte automatisée attendue dans cette livraison. Ajout de sites personnalisés disponible.
 
-## Points à traiter avant ou pendant la phase 1
+## Fonctionnalités à venir
 
-- Dépôt racine initialisé ; maquette imbriquée exclue et préservée.
-- Dossier normalisé en `backend`, environnement Python 3.11.9 opérationnel.
-- Dépendances verrouillées, lint/typage/tests locaux passés ; voir rapport backend.
-- Docker, Compose, scans d'images et hébergement retirés du périmètre par D-012.
-- Exécuter la CI préparée sur GitHub et vérifier PostgreSQL 16 ; seuls les tests
-  locaux PostgreSQL 17.10 ont été exécutés.
-- Configuration locale `.env` réalisée avec schéma applicatif `jobhunter_app`,
-  secrets privés et migration initiale appliquée. Le propriétaire confirme une
-  connexion réussie depuis le frontend ; cette configuration fonctionne en local.
-- Conserver la séparation des schémas applicatif et tests ; envisager une base
-  applicative distincte en cas d'évolution des usages, sans bloquer le mode local.
-- Résoudre les points techniques du rapport avant le code concerné : isolation
-  du parseur, DOC historique et gestion des secrets Telegram. HTTPS local est livré.
+- Critères de recherche, profils, orchestrateur, queue PostgreSQL, reprise worker,
+  déduplication floue, republications et page Résultats : phase 3 à planifier.
+- CV privés, parsing isolé, DOC historique, validation des champs : phase 4.
+- Matching explicable et extraction IA : constituer dix CV anonymisés avec
+  résultats attendus, puis cinquante offres anonymisées labellisées par le
+  propriétaire. Aucun label de calibration ou résultat réel ne doit être inventé.
+- Fixer les seuils d’extraction/calibration avec le propriétaire.
+- Vérifier linkedin_email séparément avant toute activation ; consentement et
+  accès boîte mail non présumés. Telegram, planification et historique à venir.
+- Remplacer les états « Bientôt » et les compteurs indisponibles du dashboard
+  lorsque les API de recherche/matching existent réellement.
 
-## Frontend livré et suites
+## Vérifications et exploitation
 
-- Layout, connexion, compte et FR/EN livrés sous Angular 22 standalone.
-- 14 tests Karma et 5 parcours Playwright réussis ; captures desktop/mobile
-  inspectées après correction CSP/styles et focus du menu mobile.
-- GitHub CI complète préparée (frontend + backend + E2E) mais non exécutée.
-- Conserver l'illustration commerciale et la référence hors du dépôt public ;
-  clarifier les droits avant toute redistribution du template. Police Poppins OFL.
-- Développer les vrais compteurs/offres du dashboard avec les API métier futures.
+- GitHub CI préparée, non exécutée ; PostgreSQL 16 non testé. Vérifications locales
+  réalisées avec PostgreSQL, Python 3.11 et le Node portable du projet.
+- Configuration locale .env dans le schéma applicatif jobhunter_app, secrets privés.
+  Conserver la séparation avec la base .env.test et les schémas jetables des tests.
+- Tester sauvegarde/restauration et notifications idempotentes dans leurs phases.
+- SPEC reste immuable. Docker, Compose, images et hébergement hors périmètre D-012.
+- Les droits du template commercial doivent être clarifiés avant redistribution ;
+  la référence/illustration restent locales, Poppins est sous OFL.
+- Changement utilisateur analytics:false dans angular.json conservé hors commits.
 
-## Phases ultérieures et dépendances externes
+## Sources automatisées éventuelles
 
-- Vérifier chaque API/feed et ses conditions avant écriture de son connecteur.
-- Obtenir les accès nécessaires ; aucune clé ni autorisation n'est présumée.
-- Préparer dix CV anonymisés avec résultats attendus ; aucune donnée réelle reçue.
-- Constituer cinquante offres réelles anonymisées et faire labelliser les matches
-  par le propriétaire. Ne pas inventer ces labels pour faire passer la CI.
-- Définir les seuils d'extraction et de calibration non encore convenus.
-- Vérifier `linkedin_email` séparément ; le garder désactivé jusque-là.
-- Tester sauvegarde/restauration, reprise worker, déduplication et notifications
-  idempotentes dans leurs phases respectives.
-
-## Limites actuelles
-
-- Authentification, connexion navigateur et compte sont reliés et testés.
-- Worker sans file ni handlers de recherche ; modules métier des phases suivantes absents.
-- Aucun connecteur activé et aucune vérification juridique encore réalisée.
+- Aucun fournisseur automatisé livré ou activé. Les candidats documentaires
+  Remotive, Arbeitnow, JobTech, Jobicy/Himalayas n’accordent aucun accès implicite.
+- Si le propriétaire redemande une collecte automatique : vérifier documents,
+  conditions, robots, accès, stockage/attribution et quotas avant son code.
+  Prévoir alors transport, cache, timeouts, pagination, retries et tests réseau.
+- La génération de liens ne garantit pas la pertinence des résultats externes.

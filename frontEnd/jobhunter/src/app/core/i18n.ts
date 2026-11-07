@@ -1,7 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, signal } from '@angular/core';
+import { sourcesFr, sourcesEn } from './sources-translations';
 
 const fr = {
+  ...sourcesFr,
   app: 'JobHunter AI',
   tagline: 'Votre prochain chapitre commence ici.',
   signIn: 'Se connecter',
@@ -84,6 +86,7 @@ const fr = {
 } as const;
 export type TranslationKey = keyof typeof fr;
 const en: Record<TranslationKey, string> = {
+  ...sourcesEn,
   app: 'JobHunter AI',
   tagline: 'Your next chapter starts here.',
   signIn: 'Sign in',

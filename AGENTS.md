@@ -48,5 +48,6 @@ From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.te
 
 ## Current kickoff deliverables
 See `docs/reports/phase-1.md` for delivered local scope, checks and known limits.
-Phase 1 local scope is validated. Phase 2 plan in docs/PLAN-PHASE-2.md awaits approval.
+Phase 1 is validated. Phase 2 manual scope is delivered; see docs/reports/phase-2.md.
+Wait for owner validation before phase 3. D-015 replaces automated sources for phase 2.
 Docker is not required; GitHub CI is not run. Keep unverified connectors inactive.

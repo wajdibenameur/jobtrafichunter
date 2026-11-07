@@ -40,9 +40,13 @@
       >
     }
     <p class="nav-caption preferences-caption">{{ i18n.t('preferences') }}</p>
-    <span class="nav-item unavailable" role="link" aria-disabled="true"
-      ><jh-icon name="globe" /><span>{{ i18n.t('sources') }}</span
-      ><small>{{ i18n.t('soon') }}</small></span
+    <a
+      class="nav-item"
+      routerLink="/sources"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="globe" /><span>{{ i18n.t('sources') }}</span></a
     >
     <span class="nav-item unavailable" role="link" aria-disabled="true"
       ><jh-icon name="bell" /><span>{{ i18n.t('notifications') }}</span

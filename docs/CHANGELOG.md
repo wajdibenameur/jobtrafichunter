@@ -1,5 +1,11 @@
 # Changelog
 
+- 2026-11-07 — Phase 2.2/2.4 : page Sources FR/EN, filtres tunisiens, préférences,
+  liens, sites personnalisés et confirmation URL/CSV ; registre de connecteurs
+  manuels et erreurs typées. Réimport CSV sans effacer les champs absents.
+  81 tests backend, 18 Angular et 7 parcours E2E réussis ; build/typecheck,
+  Ruff/mypy/Alembic et audits runtime sans vulnérabilité connue. Rapport de phase.
+
 - 2026-11-07 — Phase 2.3 : import manuel persistant et atomique, confirmation
   explicite, aperçu CSV borné, URL normalisée et première découverte conservée.
   79 tests backend réussis ; Ruff/mypy et cohérence Alembic vérifiés, migration
