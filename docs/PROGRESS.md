@@ -1,58 +1,54 @@
 # Progress
 
-Last updated: 2026-11-07 by Codex / intégration avec la base du propriétaire
-Current phase: 1 - Socle backend vérifié, préalable frontend
-Status: WAITING_FOR_VALIDATION (rapport Velson uniquement ; phase 1 incomplète)
+Last updated: 2026-11-07 by Codex / livraison frontend et cl?ture locale phase 1
+Current phase: 1 - Socle local backend et frontend pr?t pour validation
+Status: WAITING_FOR_VALIDATION (rapport de phase 1 ; Docker diff?r? par propri?taire)
 
 ## Phase checklist
 
-- [x] 0.1 Lire le cahier des charges et la section 27.
-- [x] 0.2 Copier SPEC sans modification et créer les consignes agents identiques.
-- [x] 0.3 Créer suivi, décisions, TODO, changelog et modèle de preuve des sources.
-- [x] 0.4 Écrire le rapport initial et le plan proposé pour la phase 1.
-- [x] 0.5 Rapport et plan phase 1 validés : « DONC COMMANCER ».
-- [ ] 1 Socle complet (backend + frontend ; Docker différé par propriétaire).
-    - [x] 1.1 Python 3.11, dépendances verrouillées, structure et dépôt racine.
-    - [x] 1.2 Auth propriétaire, migration initiale, API et headers de sécurité.
-    - [x] 1.3 Tests PostgreSQL réels, Ruff/mypy, audit dépendances, README.
-    - [x] 1.4 Entrée worker avec sonde DB ; sans queue ni handlers métier.
-    - [x] 1.5 Analyse des sources Velson et rapport des écrans/tokens/risques.
-    - [ ] 1.6 Validation du rapport Velson avant intégration frontend. <- NEXT
-    - [ ] 1.7 Layout Angular standalone, connexion API, FR/EN et tests visuels.
-    - [ ] 1.8 Exécution CI GitHub et vérification PostgreSQL 16.
-    - [ ] Docker / Compose / images : report explicite, pas déclaré livré.
-- [ ] 2 Sources, vérifications et framework de connecteurs.
-- [ ] 3 Configuration, profils, orchestrateur, queue, déduplication, résultats.
-- [ ] 4 CV privés, parsing, édition et validation du profil.
-- [ ] 5 Recherche CV, matching explicable et calibration, linkedin_email vérifié.
+- [x] 0 Documentation initiale et plan approuv?s (? DONC COMMANCER ?).
+- [ ] 1 Validation du socle local selon `reports/phase-1.md`. <- NEXT
+    - [x] 1.1 Python 3.11, d?pendances verrouill?es, structure et d?p?t racine.
+    - [x] 1.2 Auth propri?taire, migration initiale, API et s?curit?.
+    - [x] 1.3 Tests PostgreSQL r?els, Ruff/mypy, audit d?pendances, README.
+    - [x] 1.4 Worker avec sonde DB ; queue et handlers en phase 3.
+    - [x] 1.5 Analyse Velson (sources) ; r?f?rence originale pr?serv?e.
+    - [x] 1.6 Audit accept? par la continuation du propri?taire (? contenue ?).
+    - [x] 1.7 Angular standalone strict, layout/connexion/compte, FR/EN et tests.
+    - [x] 1.8 Build, Karma, parcours E2E et revue des captures desktop/mobile.
+    - [ ] 1.9 CI GitHub et PostgreSQL 16 : pipeline pr?par?, ex?cution non r?alis?e.
+    - [ ] Docker / Compose / images : report explicite, pas d?clar? livr?.
+- [ ] 2 Sources, v?rifications et framework de connecteurs.
+- [ ] 3 Configuration, profils, orchestrateur, queue, d?duplication, r?sultats.
+- [ ] 4 CV priv?s, parsing, ?dition et validation du profil.
+- [ ] 5 Recherche CV, matching explicable, calibration et linkedin_email v?rifi?.
 - [ ] 6 Telegram, planification, historique et logs.
 - [ ] 7 Candidatures, durcissement, tests complets, documentation et restauration.
 
 ## Last session
 
-Done: `backend/app/core`, module auth complet, migration `0001_auth`, CLI setup/TLS,
-worker de base, helper PostgreSQL isolé, verrous runtime/dev, tests, README et CI
-préparée. Rapports : `reports/phase-1-backend.md` et `reports/velson-audit.md`.
-Tests: Python 3.11.9 / PostgreSQL 17.10 : 43 passed, couverture 85.32 % ;
-Ruff check PASS ; 31 fichiers formatés ; mypy PASS (22 fichiers) ; compileall PASS.
-Vérification supplémentaire demandée : JOBHUNTER_TEST_ENV=.env.test, variable
-TEST_DATABASE_URL héritée supprimée ; pytest -m integration -q --tb=short :
-9 passed, 34 deselected in 17.78s (code 0). Schémas de test dédiés nettoyés.
-Les identifiants n'ont été ni affichés ni ajoutés au suivi Git.
-Audit runtime PASS sans vulnérabilité connue après correction cryptography 50.0.2.
-SPEC conserve son SHA-256 initial ; consignes agents identiques, 48 lignes.
-Not done / blocked: frontend en attente de validation SPEC §3 ; aucune modification
-du template. CI préparée mais non lancée sur GitHub ; PG16, Docker, navigateur et
-modules métier non vérifiés. Base réelle/propriétaire non configurés automatiquement.
-L'installation Python 3.12 lancée avant correction utilisateur n'est pas utilisée.
-Échecs intermédiaires réseau/cache et démarrage fixture résolus ; voir rapport.
-Premier staging Git refusé par le sandbox (index.lock), relance autorisée réussie.
-Contrôle du staging PASS : aucun secret local généré ni template de référence.
-Instance PostgreSQL de test arrêtée ; serveur système laissé intact.
-Next step: faire valider `reports/velson-audit.md`, puis implémenter le lot Angular
-du plan approuvé. Ne pas démarrer la phase 2 avant validation de la phase 1.
+Done: `frontEnd/jobhunter` sous Angular 22, Node portable 22.22.3 ; connexion et
+compte FastAPI, session avec refresh partag?, guards, FR/EN, layout mobile/clavier,
+th?me Velson, Poppins OFL, build/preview HTTPS et helper PowerShell. CI ?tendue.
+Helper `backend/scripts/frontend_e2e.py` : sch?ma et propri?taire jetables avec
+`.env.test`, API HTTPS, build de production, Chrome, nettoyage garanti.
+Rapport de phase : `reports/phase-1.md` ; commandes dans les README.
+Tests: backend `.env.test` : 43 passed in 22.94s ; Angular Karma : 14 SUCCESS ;
+E2E : 5 passed (11.1s). Typecheck app/tests/E2E PASS ; build production PASS
+(291.05 kB initial). Ruff PASS (32 fichiers format?s), mypy PASS (22 fichiers).
+Audit npm runtime : 0 vuln?rabilit?. Audit Python pr?c?dent : aucun avis connu.
+Captures inspect?es : connexion desktop/mobile, dashboard desktop/mobile et compte.
+Corrections : CSS critique bloqu? par CSP, focus apr?s fermeture du menu mobile,
+distinction d?connexion volontaire/session expir?e. Aucun secret local affich?.
+Not done / blocked: aucun remote Git configur? ; CI GitHub/PG16 non ex?cut?s.
+Docker reste diff?r?. Pas de baseline pixel automatis?e du template original.
+Modules m?tier, recherche et CV non impl?ment?s ; leurs liens affichent ? Bient?t ?.
+Aucun compte propri?taire r?el install? automatiquement. Les fixtures E2E et leur
+fichier d'identifiants ont ?t? nettoy?s ; serveurs de test arr?t?s.
+Next step: validation du rapport de phase 1 par le propri?taire, puis plan de
+phase 2 (sources et connecteurs). Ne pas commencer la phase 2 sans confirmation.
 
 ## Open questions for the owner
 
-- Valider la reprise du layout et de la connexion selon `reports/velson-audit.md`.
-- Conditions de licence du template à clarifier avant toute redistribution.
+- Valider le p?rim?tre local de phase 1 avec Docker diff?r? et CI externe ? ex?cuter.
+- Clarifier les droits du template avant redistribution de ses assets commerciaux.

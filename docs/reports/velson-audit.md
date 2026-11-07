@@ -1,6 +1,8 @@
 # Analyse Velson — préalable au lot frontend
 
-Date : 2026-11-07. Statut : WAITING_FOR_VALIDATION.
+Date : 2026-11-07. Statut : ACCEPTED_FOR_IMPLEMENTATION.
+La continuation demandée par le propriétaire a autorisé le lot frontend ; son
+implémentation et ses contrôles sont décrits dans `phase-1.md`.
 Analyse des fichiers uniquement : aucun lancement, build ou test visuel du template.
 Aucun fichier du template modifié. Audit réalisé après le socle backend, suivant
 l'instruction du propriétaire de réserver Velson au début du frontend.

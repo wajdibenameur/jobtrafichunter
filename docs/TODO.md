@@ -2,8 +2,8 @@
 
 ## Prochaine action
 
-- Faire valider `reports/velson-audit.md` avant le code frontend, conformément à
-  SPEC §3. Le lot backend de phase 1 est testé ; la phase entière reste ouverte.
+- Faire valider `reports/phase-1.md` : socle local backend/frontend livré ; Docker
+  reste différé. Prochaine phase proposée : registre et vérification des sources.
 
 ## Points à traiter avant ou pendant la phase 1
 
@@ -16,17 +16,17 @@
 - Configurer la base applicative et le propriétaire réels lors du lancement local.
   Aucune identité utilisateur ou clé de production n'a été créée automatiquement.
 - Résoudre les points techniques du rapport avant le code concerné : isolation
-  du parseur, DOC historique, HTTPS local et gestion des secrets Telegram.
+  du parseur, DOC historique et gestion des secrets Telegram. HTTPS local est livré.
 
-## Frontend différé par le propriétaire
+## Frontend livré et suites
 
-- Analyse des sources et cartographie des dix écrans disponibles dans le rapport
-  Velson ; attendre validation avant reprise du layout et de la connexion.
-- Vérifier le rendu dans le navigateur et obtenir les conditions de licence du
-  template : aucune licence générale trouvée à sa racine pendant l'analyse.
-- Vérifier les versions Angular/Node officiellement supportées au moment du choix.
-- Préserver le design, migrer vers standalone et supprimer les dépendances inutiles
-  seulement dans le périmètre approuvé. Ne pas publier le template sans licence.
+- Layout, connexion, compte et FR/EN livrés sous Angular 22 standalone.
+- 14 tests Karma et 5 parcours Playwright réussis ; captures desktop/mobile
+  inspectées après correction CSP/styles et focus du menu mobile.
+- GitHub CI complète préparée (frontend + backend + E2E) mais non exécutée.
+- Conserver l'illustration commerciale et la référence hors du dépôt public ;
+  clarifier les droits avant toute redistribution du template. Police Poppins OFL.
+- Développer les vrais compteurs/offres du dashboard avec les API métier futures.
 
 ## Phases ultérieures et dépendances externes
 
@@ -42,6 +42,6 @@
 
 ## Limites actuelles
 
-- Authentification et migration exécutées en test ; pas encore d'écran connecté.
+- Authentification, connexion navigateur et compte sont reliés et testés.
 - Worker sans file ni handlers de recherche ; modules métier des phases suivantes absents.
 - Aucun connecteur activé et aucune vérification juridique encore réalisée.

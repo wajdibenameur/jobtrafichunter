@@ -1,10 +1,11 @@
 # JobHunter AI
 
 Plateforme de recherche d'emploi configurable pour un propriétaire unique.
-Backend FastAPI modulaire, PostgreSQL et frontend Angular à venir.
+Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
-État : socle backend de phase 1. Python **3.11** selon instruction du propriétaire.
-Docker est reporté ; Velson sera analysé au début du travail frontend.
+État : socle local de phase 1 prêt pour validation. Python **3.11** selon
+instruction du propriétaire. Docker est reporté. Connexion, compte et layout
+Angular sont connectés à FastAPI ; les fonctions métier arrivent aux phases suivantes.
 Voir [le suivi](docs/PROGRESS.md), [les décisions](docs/DECISIONS.md) et
 [le cahier des charges](docs/SPEC.md).
 
@@ -46,9 +47,45 @@ Les cookies restent `Secure` ; l'API locale utilise donc HTTPS.
 - Compte protégé : `/api/account`.
 
 Toutes les requêtes mutantes exigent `Origin: https://localhost:8443`, y compris
-les clients CLI ; les origines supplémentaires doivent être ajoutées explicitement
-à `ALLOWED_ORIGINS`. Le mot de passe du propriétaire est saisi interactivement,
+les clients CLI utilisant directement l'API ; pour le frontend, ajouter aussi
+`https://localhost:4200` à `ALLOWED_ORIGINS`, comme dans `.env.example`.
+Le mot de passe du propriétaire est saisi interactivement,
 jamais en argument CLI. La création est verrouillée dès qu'un propriétaire existe.
+
+## Frontend Angular
+
+Depuis la racine, après démarrage HTTPS du backend :
+
+```powershell
+.\scripts\frontend.ps1 install
+.\scripts\frontend.ps1 start
+```
+
+Ouvrir **https://localhost:4200**. Le helper sélectionne le Node portable du projet
+ou utilise une version Node compatible installée. L'interface propose connexion,
+compte, navigation responsive et FR/EN. Les fonctionnalités métier non disponibles
+sont indiquées « Bientôt ». Aucun compte de démonstration n'est installé dans la
+base réelle. Voir [le README frontend](frontEnd/jobhunter/README.md).
+
+Build et vérifications depuis la racine :
+
+```powershell
+.\scripts\frontend.ps1 typecheck
+.\scripts\frontend.ps1 build
+.\scripts\frontend.ps1 test
+```
+
+Après build, les tests de bout en bout utilisent `backend/.env.test` :
+
+```powershell
+cd backend
+.venv\Scripts\python.exe scripts/frontend_e2e.py
+```
+
+Le helper lance une API HTTPS et un propriétaire jetable dans un schéma isolé,
+exécute Chrome sans interface puis nettoie ses données. Captures et logs restent
+locaux dans `.cache/frontend-e2e`. Le template commercial est conservé intact et
+hors Git ; seule son illustration est copiée localement. Poppins est fourni sous OFL.
 
 ## Vérifications
 
@@ -90,8 +127,9 @@ dans `__init__.py`. Les tests AST contrôlent frontières et dépendances autori
 Les migrations sont transactionnelles et protégées contre les courses par un
 verrou PostgreSQL ; une migration appliquée ne doit plus être modifiée.
 
-Aucun connecteur, parsing CV, matching, Telegram ou écran métier n'est encore
-implémenté. `python -m app.worker --once` fournit une sonde DB et le processus
+Aucun connecteur, parsing CV, matching, Telegram ni recherche métier n'est encore
+implémenté. Le dashboard initial explique cet état sans résultats de démonstration.
+`python -m app.worker --once` fournit une sonde DB et le processus
 worker possède un arrêt propre ; la queue et ses handlers arrivent en phase 3.
 Aucune permission de collecte n'est présumée. Le template Velson reste dans son
 dépôt local indépendant, exclu du dépôt racine tant que sa licence n'est pas étudiée.

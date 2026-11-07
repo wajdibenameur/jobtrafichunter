@@ -1,0 +1,107 @@
+<main class="auth-page">
+  <header class="auth-header">
+    <a class="brand brand-dark" href="/" aria-label="JobHunter AI"
+      ><span class="brand-mark"><jh-icon name="search" /></span>JobHunter<span class="brand-ai"
+        >AI</span
+      ></a
+    >
+    <jh-language />
+  </header>
+  <div class="auth-intro">
+    <p class="eyebrow">{{ i18n.t('app') }}</p>
+    <p>{{ i18n.t('tagline') }}</p>
+  </div>
+  <section class="auth-card" aria-labelledby="signin-title">
+    <div class="auth-form-panel">
+      <div class="auth-heading">
+        <h1 id="signin-title">{{ i18n.t('signInTitle') }}</h1>
+        <p>{{ i18n.t('signInSubtitle') }}</p>
+      </div>
+      @if (error(); as key) {
+        <div class="alert alert-danger" role="alert">{{ i18n.t(key) }}</div>
+      } @else if (session.state() === 'unavailable') {
+        <div class="alert alert-warning" role="status">{{ i18n.t('unavailable') }}</div>
+      } @else if (expired) {
+        <div class="alert alert-warning" role="status">{{ i18n.t('expired') }}</div>
+      }
+      <form [formGroup]="form" (ngSubmit)="submit()" [attr.aria-busy]="busy()" novalidate>
+        <div class="form-field">
+          <label for="email">{{ i18n.t('email') }}</label>
+          <div class="input-with-icon">
+            <jh-icon name="user" /><input
+              id="email"
+              type="email"
+              autocomplete="username"
+              formControlName="email"
+              placeholder="vous@exemple.com"
+              [attr.aria-invalid]="form.controls.email.touched && form.controls.email.invalid"
+              [attr.aria-describedby]="
+                form.controls.email.touched && form.controls.email.invalid ? 'email-error' : null
+              "
+            />
+          </div>
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <p class="field-error" id="email-error">{{ i18n.t('emailRequired') }}</p>
+          }
+        </div>
+        <div class="form-field">
+          <label for="password">{{ i18n.t('password') }}</label>
+          <div class="input-with-icon">
+            <jh-icon name="shield" /><input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              autocomplete="current-password"
+              formControlName="password"
+              [attr.aria-invalid]="form.controls.password.touched && form.controls.password.invalid"
+              [attr.aria-describedby]="
+                form.controls.password.touched && form.controls.password.invalid
+                  ? 'password-error'
+                  : null
+              "
+            />
+            <button
+              class="password-toggle"
+              type="button"
+              (click)="showPassword.set(!showPassword())"
+              [attr.aria-label]="i18n.t(showPassword() ? 'hidePassword' : 'showPassword')"
+              [attr.aria-pressed]="showPassword()"
+            >
+              <jh-icon [name]="showPassword() ? 'eyeOff' : 'eye'" />
+            </button>
+          </div>
+          @if (form.controls.password.touched && form.controls.password.invalid) {
+            <p class="field-error" id="password-error">{{ i18n.t('passwordRequired') }}</p>
+          }
+        </div>
+        <button class="btn btn-login" type="submit" [disabled]="busy()">
+          @if (busy()) {
+            <span class="spinner"></span>
+          }
+          {{ i18n.t(busy() ? 'signingIn' : 'signIn') }}<jh-icon name="arrow" />
+        </button>
+      </form>
+      <p class="owner-note"><jh-icon name="shield" />{{ i18n.t('ownerOnly') }}</p>
+    </div>
+    <div class="auth-art-panel" aria-hidden="true">
+      @if (illustration()) {
+        <img
+          src="/assets/template/images/signin.png"
+          alt=""
+          (error)="illustration.set(false)"
+          width="1771"
+          height="1115"
+        />
+      } @else {
+        <div class="art-fallback"><jh-icon name="briefcase" /></div>
+      }
+      <h2>{{ i18n.t('secureSpace') }}</h2>
+      <p>{{ i18n.t('privateSpace') }}</p>
+    </div>
+    <footer class="auth-card-footer">
+      <p>{{ i18n.t('noAccount') }}</p>
+    </footer>
+  </section>
+  <footer class="auth-footer">
+    © {{ 2026 }} JobHunter AI <span>·</span> {{ i18n.t('footer') }}
+  </footer>
+</main>

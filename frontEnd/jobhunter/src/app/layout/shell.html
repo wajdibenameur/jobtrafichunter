@@ -1,0 +1,111 @@
+<a class="skip-link" href="#main-content">{{ i18n.t('skipContent') }}</a>
+@if (mobileOpen()) {
+  <button
+    type="button"
+    class="nav-overlay"
+    (click)="closeMenu()"
+    [attr.aria-label]="i18n.t('closeMenu')"
+  ></button>
+}
+<aside
+  class="sidebar"
+  [class.is-open]="mobileOpen()"
+  [attr.inert]="mobile() && !mobileOpen() ? '' : null"
+  #navigation
+  (keydown)="trapFocus($event)"
+>
+  <a routerLink="/dashboard" class="brand" (click)="closeMenu(false)"
+    ><span class="brand-mark"><jh-icon name="search" /></span>JobHunter<span class="brand-ai"
+      >AI</span
+    ></a
+  >
+  <nav [attr.aria-label]="i18n.t('workspace')">
+    <p class="nav-caption">{{ i18n.t('workspace') }}</p>
+    <a
+      class="nav-item"
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="grid" />{{ i18n.t('dashboard') }}</a
+    >
+    @for (item of futureNav; track item.key) {
+      <span
+        class="nav-item unavailable"
+        role="link"
+        aria-disabled="true"
+        [attr.title]="i18n.t('comingFeature')"
+        ><jh-icon [name]="item.icon" /><span>{{ i18n.t(item.key) }}</span
+        ><small>{{ i18n.t('soon') }}</small></span
+      >
+    }
+    <p class="nav-caption preferences-caption">{{ i18n.t('preferences') }}</p>
+    <span class="nav-item unavailable" role="link" aria-disabled="true"
+      ><jh-icon name="globe" /><span>{{ i18n.t('sources') }}</span
+      ><small>{{ i18n.t('soon') }}</small></span
+    >
+    <span class="nav-item unavailable" role="link" aria-disabled="true"
+      ><jh-icon name="bell" /><span>{{ i18n.t('notifications') }}</span
+      ><small>{{ i18n.t('soon') }}</small></span
+    >
+    <a
+      class="nav-item"
+      routerLink="/account"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="user" />{{ i18n.t('account') }}</a
+    >
+  </nav>
+  <div class="sidebar-note">
+    <span class="sidebar-note-icon"><jh-icon name="shield" /></span>
+    <p>{{ i18n.t('secureSpace') }}</p>
+    <small>{{ i18n.t('footer') }}</small>
+  </div>
+</aside>
+<header class="topbar" [attr.inert]="mobileOpen() ? '' : null">
+  <button
+    type="button"
+    class="icon-button menu-toggle"
+    #menuButton
+    (click)="openMenu()"
+    [attr.aria-label]="i18n.t('openMenu')"
+    [attr.aria-expanded]="mobileOpen()"
+  >
+    <jh-icon name="menu" />
+  </button>
+  <span class="topbar-label"
+    >{{ i18n.t('app') }}<span class="topbar-divider">/</span
+    ><span>{{ i18n.t('workspace') }}</span></span
+  >
+  <div class="topbar-actions">
+    <jh-language /><a routerLink="/account" class="topbar-account"
+      ><span class="avatar">{{ session.owner()?.email?.slice(0, 1)?.toUpperCase() }}</span
+      ><span class="account-caption"
+        ><strong>{{ session.owner()?.email }}</strong
+        ><small>{{ i18n.t('owner') }}</small></span
+      ></a
+    >
+    <button
+      type="button"
+      class="icon-button logout-button"
+      (click)="logout()"
+      [disabled]="loggingOut()"
+      [attr.aria-label]="i18n.t(loggingOut() ? 'signingOut' : 'signOut')"
+      [attr.title]="i18n.t('signOut')"
+    >
+      <jh-icon name="logout" />
+    </button>
+  </div>
+</header>
+<div class="workspace" [attr.inert]="mobileOpen() ? '' : null">
+  <main id="main-content" tabindex="-1">
+    @if (logoutError()) {
+      <div class="alert alert-danger" role="alert">{{ i18n.t('logoutError') }}</div>
+    }
+    <router-outlet />
+  </main>
+  <footer class="workspace-footer">
+    <span>© 2026 JobHunter AI</span><span>{{ i18n.t('footer') }}</span>
+  </footer>
+</div>

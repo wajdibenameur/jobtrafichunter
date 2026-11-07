@@ -1,0 +1,46 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">{{ i18n.t('account') }}</p>
+    <h1>{{ i18n.t('personalAccount') }}</h1>
+    <p>{{ i18n.t('accountSubtitle') }}</p>
+  </div>
+</div>
+@if (loading()) {
+  <div class="card account-loading" role="status">
+    <span class="spinner"></span>{{ i18n.t('loading') }}
+  </div>
+} @else if (error()) {
+  <div class="card account-loading">
+    <p role="alert">{{ i18n.t('accountLoadError') }}</p>
+    <button type="button" class="btn btn-primary" (click)="load()">{{ i18n.t('retry') }}</button>
+  </div>
+} @else if (owner(); as owner) {
+  <div class="account-grid">
+    <section class="card owner-card">
+      <span class="avatar avatar-large">{{ owner.email.slice(0, 1).toUpperCase() }}</span
+      ><span class="badge success">{{ i18n.t('owner') }}</span>
+      <h2>{{ owner.email }}</h2>
+      <p>{{ i18n.t('connected') }}</p>
+      <div class="owner-detail">
+        <span>{{ i18n.t('email') }}</span
+        ><strong>{{ owner.email }}</strong>
+      </div>
+    </section>
+    <div class="security-cards">
+      <section class="card security-card">
+        <span class="security-icon"><jh-icon name="shield" /></span>
+        <div>
+          <h2>{{ i18n.t('sessionSecurity') }}</h2>
+          <p>{{ i18n.t('securityBody') }}</p>
+        </div>
+      </section>
+      <section class="card security-card">
+        <span class="security-icon blue"><jh-icon name="user" /></span>
+        <div>
+          <h2>{{ i18n.t('singleOwner') }}</h2>
+          <p>{{ i18n.t('singleOwnerBody') }}</p>
+        </div>
+      </section>
+    </div>
+  </div>
+}

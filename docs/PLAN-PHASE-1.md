@@ -81,4 +81,7 @@ Socle et migration auth implémentés et vérifiés ; worker limité au cycle de
 et à une sonde DB. PostgreSQL 17.10 a servi aux tests locaux, sans modifier le
 serveur système. La CI PostgreSQL 16 est préparée, mais non exécutée sur GitHub.
 Docker, conteneurs, réseaux/volumes et scans images restent différés.
-Le rapport Velson est prêt pour validation préalable au code frontend.
+Le rapport Velson a été accepté par la continuation du propriétaire ; layout,
+connexion, compte et FR/EN sont livrés et testés. Voir `reports/phase-1.md`.
+Le périmètre local de phase 1 est prêt pour validation ; Docker reste différé,
+et la CI GitHub/PostgreSQL 16 reste à exécuter.

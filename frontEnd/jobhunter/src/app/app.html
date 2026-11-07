@@ -1,0 +1,4 @@
+@if (session.state() === 'loading') {
+  <div class="page-loading" role="status"><span class="spinner"></span>{{ i18n.t('loading') }}</div>
+}
+<router-outlet />

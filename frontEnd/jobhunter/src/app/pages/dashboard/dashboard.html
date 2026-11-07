@@ -1,0 +1,71 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">{{ i18n.t('dashboard') }}</p>
+    <h1>{{ i18n.t('welcome') }}</h1>
+    <p>{{ i18n.t('dashboardSubtitle') }}</p>
+  </div>
+  <span class="status-pill"><span></span>{{ i18n.t('connected') }}</span>
+</div>
+<section class="welcome-card" aria-labelledby="welcome-title">
+  <div class="welcome-copy">
+    <p class="eyebrow">{{ i18n.t('privateLabel') }}</p>
+    <h2 id="welcome-title">{{ i18n.t('readyTitle') }}</h2>
+    <p>{{ i18n.t('readyBody') }}</p>
+    <a routerLink="/account" class="btn btn-white"
+      >{{ i18n.t('viewAccount') }}<jh-icon name="arrow"
+    /></a>
+  </div>
+  <div class="welcome-art" aria-hidden="true">
+    <div class="orbit orbit-one"></div>
+    <div class="orbit orbit-two"></div>
+    <div class="profile-paper">
+      <div class="paper-avatar"><jh-icon name="user" /></div>
+      <span class="paper-line long"></span><span class="paper-line"></span>
+      <div class="paper-divider"></div>
+      <span class="paper-line long"></span><span class="paper-line long"></span
+      ><span class="paper-line short"></span>
+      <div class="paper-tags"><span></span><span></span></div>
+    </div>
+    <span class="paper-check"><jh-icon name="check" /></span
+    ><span class="floating-search"><jh-icon name="search" /></span>
+  </div>
+</section>
+<div class="dashboard-grid">
+  <section class="card opportunities-card" aria-labelledby="opportunities-title">
+    <div class="card-heading">
+      <h2 id="opportunities-title">{{ i18n.t('opportunities') }}</h2>
+      <span class="badge muted">{{ i18n.t('soon') }}</span>
+    </div>
+    <div class="empty-state">
+      <div class="empty-icon"><jh-icon name="search" /></div>
+      <h3>{{ i18n.t('noOpportunities') }}</h3>
+      <p>{{ i18n.t('noOpportunitiesBody') }}</p>
+    </div>
+  </section>
+  <section class="card journey-card" aria-labelledby="journey-title">
+    <div class="card-heading">
+      <div>
+        <h2 id="journey-title">{{ i18n.t('journey') }}</h2>
+        <p>{{ i18n.t('journeySubtitle') }}</p>
+      </div>
+    </div>
+    <ol class="journey-list">
+      @for (step of steps; track step.title) {
+        <li [class.is-ready]="step.ready">
+          <span class="step-icon"><jh-icon [name]="step.icon" /></span>
+          <div>
+            <h3>{{ i18n.t(step.title) }}</h3>
+            <p>{{ i18n.t(step.body) }}</p>
+          </div>
+          <span class="step-state">
+            @if (step.ready) {
+              <jh-icon name="check" />
+            } @else {
+              {{ i18n.t('soon') }}
+            }
+          </span>
+        </li>
+      }
+    </ol>
+  </section>
+</div>

@@ -35,14 +35,41 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y postgresql-16
-          sudo pg_ctlcluster 16 main start || sudo pg_isready -p 5432
-          sudo -u postgres psql -v ON_ERROR_STOP=1 -c "CREATE ROLE jobhunter_ci LOGIN PASSWORD 'ephemeral-ci-only';"
-          sudo -u postgres createdb -O jobhunter_ci jobhunter_ci_test
+          sudo pg_createcluster 16 jobhunter-ci --port 55432 --start
+          sudo -u postgres psql -p 55432 -v ON_ERROR_STOP=1 -c "CREATE ROLE jobhunter_ci LOGIN PASSWORD 'ephemeral-ci-only';"
+          sudo -u postgres createdb -p 55432 -O jobhunter_ci jobhunter_ci_test
       - name: Unit, architecture and real PostgreSQL integration tests
         env:
-          TEST_DATABASE_URL: postgresql+asyncpg://jobhunter_ci:ephemeral-ci-only@127.0.0.1:5432/jobhunter_ci_test
+          TEST_DATABASE_URL: postgresql+asyncpg://jobhunter_ci:ephemeral-ci-only@127.0.0.1:55432/jobhunter_ci_test
         run: python -m pytest -q --cov=app --cov-report=term-missing --cov-fail-under=70
       - name: Audit runtime dependencies
         run: python -m pip_audit -r requirements.lock --no-deps --disable-pip
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.22.3'
+          cache: npm
+          cache-dependency-path: frontEnd/jobhunter/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: frontEnd/jobhunter
+        run: npm ci
+      - name: Check frontend types and production build
+        working-directory: frontEnd/jobhunter
+        env:
+          JOBHUNTER_TEMPLATE_OPTIONAL: '1'
+        run: |
+          npm run typecheck
+          npm run build
+      - name: Angular component and session tests
+        working-directory: frontEnd/jobhunter
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: npm test
+      - name: Browser flow against FastAPI and PostgreSQL
+        env:
+          TEST_DATABASE_URL: postgresql+asyncpg://jobhunter_ci:ephemeral-ci-only@127.0.0.1:55432/jobhunter_ci_test
+        run: python scripts/frontend_e2e.py
+      - name: Audit frontend runtime dependencies
+        working-directory: frontEnd/jobhunter
+        run: npm audit --omit=dev
 
-# Docker builds and frontend checks will be added in their approved lots.
+# Docker builds remain deferred by the owner. This workflow has not yet run on GitHub.

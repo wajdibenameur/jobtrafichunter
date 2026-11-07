@@ -22,6 +22,9 @@ From `backend`, use `.venv/Scripts/python.exe` on Windows (`python` in CI):
 - `-m app.worker --once` checks DB only; no search handlers exist yet.
 Integration tests require `.env.test` or TEST_DATABASE_URL (database ending _test).
 For the isolated local fixture use JOBHUNTER_TEST_ENV=.env.test.local.
+From the root: `scripts/frontend.ps1 install|start|build|test|typecheck|preview`.
+Frontend: Angular 22, Node >=22.22.3 compatible range, Karma/Jasmine and Playwright.
+From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.test.
 
 ## Working agreement
 - Follow SPEC sections 24, 26 and 27; propose a phase plan before coding and wait
@@ -29,7 +32,7 @@ For the isolated local fixture use JOBHUNTER_TEST_ENV=.env.test.local.
 - Current owner override (2026-11-07): defer Velson analysis until frontend work.
   Preserve `frontEnd/velson_template` and its existing local changes meanwhile.
 - Owner override: Python 3.11; Docker work deferred. Audit is now in
-  `docs/reports/velson-audit.md`, awaiting validation before frontend code.
+  `docs/reports/velson-audit.md`, accepted by owner continuation; frontend delivered.
 - Update `docs/CHANGELOG.md` and `docs/PROGRESS.md` after each completed task.
   Commit only the intended changes together once checks pass and Git is ready.
 - Ask before architecture changes, breaking API changes or existing table changes.
@@ -44,5 +47,5 @@ For the isolated local fixture use JOBHUNTER_TEST_ENV=.env.test.local.
 - The frontend will follow Velson after the deferred analysis and validation.
 
 ## Current kickoff deliverables
-See `docs/reports/phase-1-backend.md` and `docs/reports/velson-audit.md`.
-Backend auth foundation is tested; phase 1 is not complete. Frontend is pending.
+See `docs/reports/phase-1.md` for delivered local scope, checks and known limits.
+Phase 1 awaits owner validation. Docker and GitHub execution are not claimed done.

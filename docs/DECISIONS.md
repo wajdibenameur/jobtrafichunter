@@ -59,3 +59,36 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Mise à jour vers 50.0.2, verrous et hashes régénérés, tests relancés.
 - Nouvel audit runtime : aucune vulnérabilité connue détectée.
 - Aucun changement du modèle de chiffrement ou de l'architecture.
+
+## D-008 — 2026-11-07 — Démarrage du lot frontend
+
+- Instruction propriétaire : « contenue », après le rapport Velson et les tests DB.
+- Interprétation : poursuivre le lot frontend du plan déjà approuvé et reprendre
+  le layout/connexion suivant le rapport d'audit. Référence originale inchangée.
+- Application distincte sous `frontEnd/jobhunter`, exécution locale uniquement ;
+  aucune publication, aucune modification du moteur DB ou des cookies d'auth.
+- Les fichiers commerciaux du template restent locaux et ignorés par Git.
+
+## D-009 — 2026-11-07 — Compatibilité Angular vérifiée
+
+- Versions stables vérifiées sur le registre npm : Angular 22.2.5, CLI 22.2.6.
+- Le Node système 22.21.1 est inférieur au minimum demandé (22.22.3).
+- Utiliser un Node 22.22.3 portable sous `.tools`, sans remplacer Node global.
+- Source : https://angular.dev/reference/versions ; métadonnées npm officielles.
+- Conforme à la demande Angular stable du SPEC et au plan approuvé. Aucune
+  migration ou altération de l'application de référence Angular 18.
+
+## D-010 — 2026-11-07 — Assets et preview local
+
+- Reprendre la palette/dimensions du template dans des composants SCSS/Angular.
+  Copier localement seulement l'illustration fournie, dans un dossier ignoré.
+- Poppins est servi localement avec sa licence OFL, depuis le dépôt Google Fonts.
+  Aucun bundle JS vendor, page de démo ou fichier commercial n'est commité.
+- La CI utilise un remplacement d'illustration lorsque le template privé manque.
+- Les tests navigateur emploient le build de production et un preview HTTPS
+  loopback avec proxy vers FastAPI. Ce helper de développement n'est ni un nouveau
+  service déployable ni une modification de l'architecture de production.
+- Le CSS critique à gestionnaire inline généré par Angular est désactivé pour
+  respecter la CSP, plutôt que permettre du JavaScript inline.
+- Les identifiants du propriétaire E2E sont jetables ; le schéma et leur fichier
+  sont supprimés après le test. Aucune donnée propriétaire réelle n'est modifiée.

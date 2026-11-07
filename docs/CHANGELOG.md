@@ -15,3 +15,8 @@
 - 2026-11-07 — Tests d'intégration exécutés avec `backend/.env.test` configuré par
   le propriétaire : 9 passed, 34 deselected en 17.78 s ; aucun secret affiché,
   aucun changement du code applicatif.
+- 2026-11-07 — Phase 1, lot frontend : Angular 22 standalone strict, layout Velson,
+  connexion/compte FastAPI, session par cookies avec refresh partagé, FR/EN,
+  navigation mobile accessible, TLS/proxy local, thème et Poppins OFL ; build/types
+  validés, 14 tests Karma et 5 parcours Playwright réussis. CI étendue et référence
+  préservée ; Docker reporté. Corrections réelles CSS/CSP et retour de focus mobile.
