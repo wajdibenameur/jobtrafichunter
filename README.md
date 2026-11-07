@@ -4,7 +4,8 @@ Plateforme de recherche d'emploi configurable pour un propriétaire unique.
 Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
 État : socle local de phase 1 prêt pour validation. Python **3.11** selon
-instruction du propriétaire. Docker est reporté. Connexion, compte et layout
+instruction du propriétaire. Le projet reste entièrement local, sans Docker.
+Connexion, compte et layout
 Angular sont connectés à FastAPI ; les fonctions métier arrivent aux phases suivantes.
 Voir [le suivi](docs/PROGRESS.md), [les décisions](docs/DECISIONS.md) et
 [le cahier des charges](docs/SPEC.md).

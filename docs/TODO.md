@@ -2,22 +2,22 @@
 
 ## Prochaine action
 
-- Faire valider `reports/phase-1.md` : socle local backend/frontend livré ; Docker
-  reste différé. Prochaine phase proposée : registre et vérification des sources.
+- Faire valider `reports/phase-1.md` : socle local backend/frontend livré, Docker
+  hors périmètre. Prochaine phase proposée : registre et vérification des sources.
 
 ## Points à traiter avant ou pendant la phase 1
 
 - Dépôt racine initialisé ; maquette imbriquée exclue et préservée.
 - Dossier normalisé en `backend`, environnement Python 3.11.9 opérationnel.
 - Dépendances verrouillées, lint/typage/tests locaux passés ; voir rapport backend.
-- Docker, Compose, scans images et déploiement reportés par le propriétaire.
+- Docker, Compose, scans d'images et hébergement retirés du périmètre par D-012.
 - Exécuter la CI préparée sur GitHub et vérifier PostgreSQL 16 ; seuls les tests
   locaux PostgreSQL 17.10 ont été exécutés.
 - Configuration locale `.env` réalisée avec schéma applicatif `jobhunter_app`,
-  secrets privés et migration initiale appliquée. Création du propriétaire à faire
-  interactivement avec `python -m app.setup owner`.
-- Prévoir une base applicative distincte avant déploiement durable ; le rôle local
-  actuel ne peut pas créer de base et l'application utilise un schéma isolé.
+  secrets privés et migration initiale appliquée. Le propriétaire confirme une
+  connexion réussie depuis le frontend ; cette configuration fonctionne en local.
+- Conserver la séparation des schémas applicatif et tests ; envisager une base
+  applicative distincte en cas d'évolution des usages, sans bloquer le mode local.
 - Résoudre les points techniques du rapport avant le code concerné : isolation
   du parseur, DOC historique et gestion des secrets Telegram. HTTPS local est livré.
 

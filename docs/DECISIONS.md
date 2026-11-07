@@ -109,3 +109,17 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Compte propriétaire absent : création interactive à effectuer par l'utilisateur.
 - Il s'agit de la configuration de développement locale ; la séparation en une
   base applicative propre sera à prévoir avant tout déploiement durable.
+
+## D-012 — 2026-11-07 — Projet exclusivement local, sans Docker
+
+- Instruction propriétaire : « pour docker pas besoin on reste en local ».
+- Cette décision remplace le report provisoire D-005 : Docker et Compose ne
+  seront pas implémentés ; images, scans d'images, registres et hébergement
+  ne sont plus des livrables ou prérequis de validation de ce projet local.
+- Conserver Python 3.11, Angular et PostgreSQL locaux, le worker séparé partageant
+  le code Python et la queue PostgreSQL prévue. Aucun changement du modèle auth.
+- Conserver les tests, migrations, secrets privés et HTTPS local déjà en place.
+- SPEC reste une copie immuable ; cette instruction utilisateur prévaut sur ses
+  exigences de conteneurisation et de déploiement. Les anciens rapports décrivent
+  l'état historique ; les consignes et le plan actuels reflètent cette décision.
+- Le propriétaire a également confirmé avoir testé la connexion avec succès.

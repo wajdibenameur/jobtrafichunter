@@ -23,3 +23,6 @@
 - 2026-11-07 — Configuration locale `.env` à la demande du propriétaire : secrets
   générés/préservés, schéma `jobhunter_app`, migration appliquée, santé API 200 et
   accès protégé 401 vérifiés ; compte propriétaire à créer interactivement.
+- 2026-11-07 — Décision propriétaire D-012 : projet exclusivement local ; Docker,
+  Compose, images et hébergement retirés du périmètre. Consignes et plan adaptés ;
+  connexion frontend/backend confirmée par le propriétaire. Aucun code modifié.

@@ -1,6 +1,9 @@
 # Phase 1 — socle local backend et frontend
 
 Date : 2026-11-07. Statut : WAITING_FOR_VALIDATION.
+Mise à jour D-012 : le propriétaire confirme la connexion locale et retire
+Docker du projet. Les mentions de report ci-dessous décrivent la livraison
+initiale ; aucun travail Docker ou d'hébergement n'est désormais attendu.
 Périmètre local livré avec Python 3.11 ; Docker reste reporté par instruction du
 propriétaire. La CI est préparée, mais son exécution GitHub et PostgreSQL 16 ne
 sont pas revendiquées : aucun remote Git n'est configuré.
@@ -92,7 +95,7 @@ contre une baseline navigateur du template original n'est revendiquée.
 
 ## Limites et prochaine phase
 
-- Docker, images et déploiement restent différés. Le preview HTTPS est local.
+- Docker, images et hébergement sont hors périmètre depuis D-012. Exécution locale.
 - CI GitHub non exécutée, PostgreSQL 16 non vérifié localement ; les résultats
   actuels utilisent le PostgreSQL configuré dans la base de test du propriétaire.
 - Les CV, sources, recherche, matching, notifications et candidatures ne sont pas

@@ -5,9 +5,9 @@ Then read `docs/DECISIONS.md`, `docs/TODO.md` and the relevant sections of
 `docs/SPEC.md`. The specification is immutable; propose changes to the owner.
 
 ## Stack and modules
-FastAPI (Python 3.11 owner override), Angular, PostgreSQL; Docker deferred.
-PostgreSQL 16 remains the deployment target; local tests used installed 17.10.
-One modular backend and one worker sharing the same image; PostgreSQL task queue.
+FastAPI (Python 3.11 owner override), Angular and local PostgreSQL; local-only app.
+Docker, Compose, container images and hosting are out of scope by owner request.
+One modular backend and one worker sharing Python code; PostgreSQL task queue.
 Backend modules: auth, cv, profile, sources, search, listings, matching, ai,
 notifications, applications. Layout: `backend/app/modules/<module>/`.
 Each module owns its tables and exports its public interface via `__init__.py`.
@@ -31,7 +31,7 @@ From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.te
   for owner approval. Stop after each phase report until the owner validates it.
 - Current owner override (2026-11-07): defer Velson analysis until frontend work.
   Preserve `frontEnd/velson_template` and its existing local changes meanwhile.
-- Owner override: Python 3.11; Docker work deferred. Audit is now in
+- Owner override: Python 3.11; local-only, no Docker work planned. Audit is in
   `docs/reports/velson-audit.md`, accepted by owner continuation; frontend delivered.
 - Update `docs/CHANGELOG.md` and `docs/PROGRESS.md` after each completed task.
   Commit only the intended changes together once checks pass and Git is ready.
@@ -48,4 +48,4 @@ From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.te
 
 ## Current kickoff deliverables
 See `docs/reports/phase-1.md` for delivered local scope, checks and known limits.
-Phase 1 awaits owner validation. Docker and GitHub execution are not claimed done.
+Phase 1 awaits owner validation. Docker is not required; GitHub CI is not run.

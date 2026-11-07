@@ -72,4 +72,4 @@ jobs:
         working-directory: frontEnd/jobhunter
         run: npm audit --omit=dev
 
-# Docker builds remain deferred by the owner. This workflow has not yet run on GitHub.
+# Local-only project: Docker builds and hosting are out of scope by owner request.

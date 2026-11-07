@@ -1,7 +1,8 @@
 # Plan proposé — Phase 1
 
 Date : 2026-11-07. Statut : APPROVED / IN_PROGRESS (« DONC COMMANCER »).
-Dérogations ultérieures : Python 3.11 local ; Docker reporté par le propriétaire.
+Dérogations ultérieures : Python 3.11 et projet exclusivement local ; Docker
+retiré du périmètre par le propriétaire (D-012).
 Livraison backend : `reports/phase-1-backend.md`. Le frontend reste à réaliser.
 
 ## Périmètre
@@ -35,15 +36,13 @@ ce lot et ses vérifications ; aucun frontend factice ne sera déclaré livré.
 - Les tables métier seront ajoutées avec leurs modules, via migrations append-only.
   Confirmer ce découpage de « base migrations » avant la première migration.
 
-## 3. Infra et worker (Docker différé)
+## 3. Exécution locale et worker (sans Docker)
 
-- `backend/Dockerfile`, démarrage Alembic sécurisé contre les courses API/worker,
-  `backend/app/worker.py` avec arrêt propre et signal de santé.
-- `docker-compose.yml`, override de développement, `.env.example` sans secrets,
-  volumes privés et réseau PostgreSQL interne.
-- API et worker issus d'une image non-root commune ; worker métier en phase 3.
-- Vérifier Compose, healthchecks, ressources, rotation des logs et secrets requis.
-- Choisir le mécanisme HTTPS local avant la validation des cookies Secure.
+- API et worker exécutés localement dans l'environnement Python 3.11 du projet.
+- Migrations Alembic protégées par verrou PostgreSQL, `.env` privé et commandes
+  CMD/PowerShell documentées ; aucun Dockerfile ni fichier Compose à créer.
+- `backend/app/worker.py` avec arrêt propre et sonde DB ; worker métier en phase 3.
+- HTTPS local, contrôle des secrets requis et tests de santé API/base.
 
 ## 4. Lot frontend, après analyse différée
 
@@ -52,8 +51,7 @@ ce lot et ses vérifications ; aucun frontend factice ne sera déclaré livré.
 - Choisir la version stable officiellement supportée d'Angular au moment du lot.
 - Créer le shell standalone, routes lazy, client API typé, connexion propriétaire,
   FR/EN et états d'erreur/chargement en conservant le design validé.
-- Préparer build Angular et image Nginx, reverse proxy `/api`, fallback SPA,
-  headers de sécurité et intégration du service frontend à Compose.
+- Préparer build Angular, proxy local `/api`, fallback SPA et headers de sécurité.
 
 ## 5. Vérifications et livraison
 
@@ -62,17 +60,17 @@ ce lot et ses vérifications ; aucun frontend factice ne sera déclaré livré.
 - Tests de frontières intermodules, refus des requêtes non authentifiées,
   absence de secrets dans les logs et vérification des settings.
 - Build et tests frontend après son lot ; vérification visuelle contre Velson.
-- CI `.github/workflows/ci.yml` : lint, typage, tests, audit dépendances,
-  build et scan images ; rapport des commandes et résultats réels.
+- CI `.github/workflows/ci.yml` : lint, typage, tests, audits de dépendances et
+  build Angular, sans images ; rapport des commandes et résultats réels.
 - Documenter les commandes dans README et consignes agents ; écrire
   `docs/reports/phase-1.md`, mettre à jour PROGRESS/CHANGELOG et attendre validation.
 
 ## Risques et limites à résoudre
 
 - Git imbriqué et modifications existantes : aucun reset, nettoyage ou ajout global.
-- Python local 3.11 : tests 3.12 en conteneur ou environnement dédié à préparer.
+- Python local 3.11 : conserver la version explicitement demandée.
 - Compatibilité de l'ancien template avec Angular choisi et licence à contrôler.
-- Docker CLI disponible mais moteur et Compose non testés à ce stade.
+- Docker/Compose hors périmètre : aucune vérification de conteneur à prévoir.
 - Pas de connecteur, parsing CV, matching ni notification métier en phase 1.
 
 ## Résultat du lot backend
@@ -80,8 +78,8 @@ ce lot et ses vérifications ; aucun frontend factice ne sera déclaré livré.
 Socle et migration auth implémentés et vérifiés ; worker limité au cycle de vie
 et à une sonde DB. PostgreSQL 17.10 a servi aux tests locaux, sans modifier le
 serveur système. La CI PostgreSQL 16 est préparée, mais non exécutée sur GitHub.
-Docker, conteneurs, réseaux/volumes et scans images restent différés.
+Docker, conteneurs, réseaux/volumes et scans d'images sont hors périmètre.
 Le rapport Velson a été accepté par la continuation du propriétaire ; layout,
 connexion, compte et FR/EN sont livrés et testés. Voir `reports/phase-1.md`.
-Le périmètre local de phase 1 est prêt pour validation ; Docker reste différé,
+Le périmètre local de phase 1 est prêt pour validation ; Docker n'est pas requis,
 et la CI GitHub/PostgreSQL 16 reste à exécuter.
