@@ -26,7 +26,10 @@ from app.core.logging import configure_logging, correlation_id
 from app.core.settings import Settings
 from app.modules.auth import OwnerView, require_owner
 from app.modules.auth import router as auth_router
+from app.modules.listings import router as listings_router
+from app.modules.sources import SourceService
 from app.modules.sources import router as source_router
+from app.shared.source_reference import SourceReference
 
 logger = logging.getLogger("jobhunter.api")
 
@@ -58,6 +61,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         redoc_url=None,
     )
     app.state.runtime = runtime
+
+    async def source_lookup(user_id: UUID, source_id: UUID) -> SourceReference:
+        async with runtime.sessions() as session:
+            return await SourceService(session).resolve(user_id, source_id)
+
+    app.state.source_lookup = source_lookup
     app.add_middleware(
         CORSMiddleware,
         allow_origins=runtime.settings.allowed_origins,
@@ -169,4 +178,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app.include_router(auth_router, prefix="/api")
     app.include_router(source_router, prefix="/api", dependencies=[Depends(require_owner)])
+    app.include_router(listings_router, prefix="/api", dependencies=[Depends(require_owner)])
     return app

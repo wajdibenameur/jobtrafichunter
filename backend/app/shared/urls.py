@@ -42,4 +42,7 @@ def canonical_url(value: str) -> str:
         for key, val in parse_qsl(parsed.query, keep_blank_values=True)
         if not key.casefold().startswith("utm_") and key.casefold() not in TRACKING_KEYS
     )
-    return urlunsplit(("https", host, parsed.path or "/", urlencode(query), ""))
+    result = urlunsplit(("https", host, parsed.path or "/", urlencode(query), ""))
+    if len(result.encode("utf-8")) > 2000:
+        raise ValueError("Canonical job URL is too long")
+    return result

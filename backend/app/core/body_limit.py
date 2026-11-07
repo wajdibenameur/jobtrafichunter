@@ -13,7 +13,11 @@ class BodyLimitMiddleware:
             await self.app(scope, receive, send)
             return
         # CV uploads will get their own validated limit in phase 4.
-        limit = 16 * 1024
+        limit = (
+            1024 * 1024
+            if scope["path"] in {"/api/jobs/import", "/api/jobs/import/preview"}
+            else 16 * 1024
+        )
         buffered = bytearray()
         size = 0
         while True:

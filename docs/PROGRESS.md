@@ -18,7 +18,7 @@ Status: IN_PROGRESS (phase 2 approved; manual sources per D-015)
     - [x] 2.0b Phase 2 approved by owner: oui vasi.
     - [x] 2.1 Source registry, owner preferences, manual connector and migration 0002.
     - [ ] 2.2 Framework, transport et v?rification compl?te des connecteurs.
-    - [ ] 2.3 Persistent manual import and CSV preview. <- NEXT
+    - [x] 2.3 Persistent manual import and CSV preview.
     - [ ] 2.4 Page Sources Angular, tests et rapport.
 - [ ] 3 Configuration, profils, orchestrateur, queue, d?duplication, r?sultats.
 - [ ] 4 CV priv?s, parsing, ?dition et validation du profil.
@@ -28,16 +28,14 @@ Status: IN_PROGRESS (phase 2 approved; manual sources per D-015)
 
 ## Last session
 
-Done: phase 2 approved. Owner chose LinkedIn, Indeed, Keejob and Tanitjobs in
-manual/link workflows (D-015); JobTech/Jobicy selection superseded.
-Built source registry, owner-scoped preferences/custom sources, encoded links,
-request principal, isolated business sessions and migration 0002_sources.
-Tests: backend pytest: 64 passed in 38.48s; Ruff and strict mypy checked.
-Manual connector fetch raises an explicit MANUAL_ONLY error; no network calls.
-Not done: manual listing persistence/CSV and Angular Sources page remain next.
-No automated provider connector expected under owner's selected scope.
+Done: persistent owner-scoped manual import, explicit confirmation, CSV preview,
+canonical URL deduplication, concurrent import protection and import records.
+Migration 0003 applied to local application schema; Alembic check reports no drift.
+Tests: backend pytest: 79 passed in 41.62s; Ruff and strict mypy (50 files) pass.
+Not done: Angular Sources page and final phase report.
+No automated provider connector expected under owner's selected scope D-015.
 Pre-existing angular.json analytics change preserved and excluded from commits.
-Next step: build listings/import module and migration 0003, then Sources UI.
+Next step: implement Sources UI and browser checks.
 
 ## Open questions for the owner
 

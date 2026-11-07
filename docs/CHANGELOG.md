@@ -1,5 +1,10 @@
 # Changelog
 
+- 2026-11-07 — Phase 2.3 : import manuel persistant et atomique, confirmation
+  explicite, aperçu CSV borné, URL normalisée et première découverte conservée.
+  79 tests backend réussis ; Ruff/mypy et cohérence Alembic vérifiés, migration
+  0003 appliquée au schéma applicatif local.
+
 - 2026-11-07 — Phase 2.1 : registre LinkedIn/Indeed/Keejob/Tanitjobs, préférences
   propriétaire, sources personnalisées, liens encodés, principal de requête,
   migration 0002 et contrat manuel sans réseau ; 64 tests backend réussis.
