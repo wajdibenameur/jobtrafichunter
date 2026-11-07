@@ -80,3 +80,32 @@ class ImportRecord(Base):
     listing_id: Mapped[UUID] = mapped_column(ForeignKey("job_listings.id", ondelete="CASCADE"))
     row_number: Mapped[int]
     disposition: Mapped[str] = mapped_column(String(20))
+
+
+class ListingProvenance(Base):
+    __tablename__ = "listing_provenance"
+    listing_id: Mapped[UUID] = mapped_column(
+        ForeignKey("job_listings.id", ondelete="CASCADE"), primary_key=True
+    )
+    user_id: Mapped[UUID] = mapped_column(
+        ForeignKey("app_users.id", ondelete="CASCADE"), index=True
+    )
+    identity_key: Mapped[str] = mapped_column(String(64), index=True)
+    root_id: Mapped[UUID] = mapped_column(
+        ForeignKey("job_listings.id", ondelete="CASCADE"), index=True
+    )
+
+
+class ListingRelation(Base):
+    __tablename__ = "listing_relations"
+    __table_args__ = (
+        UniqueConstraint("user_id", "left_id", "right_id", "kind", name="uq_listing_relation"),
+    )
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    user_id: Mapped[UUID] = mapped_column(
+        ForeignKey("app_users.id", ondelete="CASCADE"), index=True
+    )
+    left_id: Mapped[UUID] = mapped_column(ForeignKey("job_listings.id", ondelete="CASCADE"))
+    right_id: Mapped[UUID] = mapped_column(ForeignKey("job_listings.id", ondelete="CASCADE"))
+    kind: Mapped[str] = mapped_column(String(20))
+    policy_version: Mapped[str] = mapped_column(String(50))

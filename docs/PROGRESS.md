@@ -22,7 +22,7 @@ Status: IN_PROGRESS
 - [ ] 3 Criteria, profiles, orchestrator, queue, deduplication and results.
     - [x] 3.0 Plan approved: vasi (D-019).
     - [x] 3.1 Criteria and saved search profiles.
-    - [ ] 3.2 Conservative deduplication, provenance and repost relations.
+    - [x] 3.2 Conservative deduplication, provenance and repost relations.
     - [ ] 3.3 PostgreSQL queue, local execution, resume/cancel and SSE.
     - [ ] 3.4 Search/profiles/results Angular pages and final report.
 - [ ] 4 Private CVs, parsing, editing and profile validation.
@@ -58,7 +58,13 @@ duplication and explicit idempotent examples protected and owner-scoped.
 Migration 0004 applied; Alembic reports no drift. 91 backend tests pass (57.16s),
 Ruff/format and mypy checked for this lot. New dedup DTO/algorithm files are work
 in progress and are excluded from the profiles commit. Frontend not changed yet.
-Next step: finish 3.2 provenance/deduplication, then queue/execution and Angular.
+3.2 delivered: additive provenance seeded for prior imports, conservative complete-
+link grouping with all source links, explicit candidate/repost relations, old
+discovery preserved even when selecting only a newer source. No original row removed.
+Tests: 96 backend passed (71.05s), dedup algorithm coverage 100%, Ruff/mypy pass
+for the completed lot; Alembic 0005 applied and no drift. Local-filter file is
+work in progress for 3.3, excluded from this commit.
+Next step: build 3.3 filtering and queue/execution, then Angular.
 
 ## Open questions for the owner
 

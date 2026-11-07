@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import AppError
@@ -48,6 +49,9 @@ class ListingService:
                 "IMPORT_NOT_SUPPORTED", "Manual import is unavailable for this source", 409
             )
         async with self.session.begin():
+            await self.session.execute(
+                text("SELECT pg_advisory_xact_lock(:key)"), {"key": user_id.int & ((1 << 63) - 1)}
+            )
             rows = [await self.repo.import_one(user_id, source, job) for job in body.jobs]
             batch_id = await self.repo.record_batch(user_id, source.id, rows)
             # Flush metadata before producing plain schemas; no ORM objects leave this layer.

@@ -1,11 +1,18 @@
 from uuid import UUID
 
-from sqlalchemy import func, or_, select
+from sqlalchemy import delete, func, or_, select, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import AppError
-from app.modules.listings.models import ImportBatch, ImportRecord, JobListing
+from app.modules.listings.dedup import identity_key
+from app.modules.listings.models import (
+    ImportBatch,
+    ImportRecord,
+    JobListing,
+    ListingProvenance,
+    ListingRelation,
+)
 from app.modules.listings.normalization import fingerprint
 from app.modules.listings.schemas import ImportJob
 from app.shared.clock import utcnow
@@ -36,6 +43,7 @@ class ListingRepository:
         if inserted is not None:
             listing = await self.session.get(JobListing, inserted)
             assert listing is not None
+            await self.refresh_provenance(listing)
             return listing, True
         identity = JobListing.canonical_url == url
         if job.source_job_id is not None:
@@ -94,7 +102,48 @@ class ListingRepository:
             listing.title, listing.company, listing.city, listing.description, listing.canonical_url
         )
         await self.session.flush()
+        await self.refresh_provenance(listing)
         return listing, False
+
+    async def refresh_provenance(self, listing: JobListing) -> None:
+        previous = await self.session.get(ListingProvenance, listing.id)
+        if previous is not None:
+            # An edit may invalidate prior evidence: split the old group conservatively.
+            root = previous.root_id
+            await self.session.execute(
+                update(ListingProvenance)
+                .where(
+                    ListingProvenance.user_id == listing.user_id, ListingProvenance.root_id == root
+                )
+                .values(root_id=ListingProvenance.listing_id)
+            )
+            await self.session.execute(
+                delete(ListingRelation).where(
+                    ListingRelation.user_id == listing.user_id,
+                    or_(
+                        ListingRelation.left_id == root,
+                        ListingRelation.right_id == root,
+                        ListingRelation.left_id == listing.id,
+                        ListingRelation.right_id == listing.id,
+                    ),
+                )
+            )
+        await self.session.execute(
+            insert(ListingProvenance)
+            .values(
+                listing_id=listing.id,
+                user_id=listing.user_id,
+                root_id=listing.id,
+                identity_key=identity_key(listing.title, listing.company, listing.city),
+            )
+            .on_conflict_do_update(
+                index_elements=[ListingProvenance.listing_id],
+                set_={
+                    "identity_key": identity_key(listing.title, listing.company, listing.city),
+                    "root_id": listing.id,
+                },
+            )
+        )
 
     async def record_batch(
         self, user_id: UUID, source_id: UUID, rows: list[tuple[JobListing, bool]]

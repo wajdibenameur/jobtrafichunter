@@ -1,5 +1,10 @@
 # Changelog
 
+- 2026-11-07 — Phase 3.2 : provenance additive et reprise des imports, regroupement
+  conservateur, candidats ambigus/reposts distincts et découverte ancienne conservée
+  entre sources. 96 tests backend réussis ; algorithme dédup couvert à 100 %,
+  migration 0005 appliquée et cohérence Alembic vérifiée.
+
 - 2026-11-07 — Phase 3.1 : critères bornés, profils CRUD/duplication et exemples
   explicites idempotents, routes protégées et migration additive 0004 appliquée.
   91 tests backend réussis, Ruff/mypy et cohérence Alembic vérifiés.
