@@ -57,6 +57,27 @@ La couverture du service auth est 83 %, celle du repository 100 %.
 La CI PostgreSQL 16 a été écrite mais pas exécutée sur GitHub. Aucun build Docker,
 test navigateur frontend, test CV ou connecteur n'a été exécuté.
 
+### Vérification supplémentaire — base configurée par le propriétaire
+
+Le 2026-11-07, suite à la configuration de `backend/.env.test`, la suite
+d'intégration a été exécutée explicitement avec ce fichier, sans utiliser
+`.env.test.local` ni une variable TEST_DATABASE_URL héritée.
+
+Commande PowerShell depuis `backend` :
+
+```powershell
+$env:JOBHUNTER_TEST_ENV = '.env.test'
+Remove-Item Env:TEST_DATABASE_URL -ErrorAction SilentlyContinue
+.venv\Scripts\python.exe -m pytest -m integration -q --tb=short
+```
+
+Résultat réel : **9 passed, 34 deselected in 17.78s**, code retour 0.
+Les 34 autres tests étaient hors du périmètre demandé, sans être en échec.
+Les tests ont appliqué les migrations dans leurs schémas aléatoires dédiés,
+puis supprimé ces schémas. Aucun identifiant du fichier n'a été affiché ou commité.
+Ce résultat valide le socle backend couvert par ces tests sur cette connexion ;
+il ne valide pas les modules métier encore absents ni la CI PostgreSQL 16.
+
 ## Échecs rencontrés et corrigés
 
 - Accès réseau/cache uv restreint : installation relancée avec autorisation et

@@ -12,3 +12,6 @@
   sans vulnérabilité connue après mise à jour cryptography. Docker reporté.
 - 2026-11-07 — Audit frontend Velson documenté (pages, composants, tokens, assets,
   écrans manquants et risques), sans modification du template ; validation attendue.
+- 2026-11-07 — Tests d'intégration exécutés avec `backend/.env.test` configuré par
+  le propriétaire : 9 passed, 34 deselected en 17.78 s ; aucun secret affiché,
+  aucun changement du code applicatif.

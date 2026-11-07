@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-11-07 by Codex / lot backend phase 1
+Last updated: 2026-11-07 by Codex / intégration avec la base du propriétaire
 Current phase: 1 - Socle backend vérifié, préalable frontend
 Status: WAITING_FOR_VALIDATION (rapport Velson uniquement ; phase 1 incomplète)
 
@@ -35,6 +35,10 @@ worker de base, helper PostgreSQL isolé, verrous runtime/dev, tests, README et 
 préparée. Rapports : `reports/phase-1-backend.md` et `reports/velson-audit.md`.
 Tests: Python 3.11.9 / PostgreSQL 17.10 : 43 passed, couverture 85.32 % ;
 Ruff check PASS ; 31 fichiers formatés ; mypy PASS (22 fichiers) ; compileall PASS.
+Vérification supplémentaire demandée : JOBHUNTER_TEST_ENV=.env.test, variable
+TEST_DATABASE_URL héritée supprimée ; pytest -m integration -q --tb=short :
+9 passed, 34 deselected in 17.78s (code 0). Schémas de test dédiés nettoyés.
+Les identifiants n'ont été ni affichés ni ajoutés au suivi Git.
 Audit runtime PASS sans vulnérabilité connue après correction cryptography 50.0.2.
 SPEC conserve son SHA-256 initial ; consignes agents identiques, 48 lignes.
 Not done / blocked: frontend en attente de validation SPEC §3 ; aucune modification
