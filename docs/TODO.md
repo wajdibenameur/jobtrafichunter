@@ -2,9 +2,9 @@
 
 ## Prochaine action
 
-- Phase 2 validée par le propriétaire (D-017). Clarifier « cv » : continuation
-  vers le plan de phase 3 ou priorité à la gestion des CV. Préparer ensuite le
-  plan correspondant et le faire approuver avant le code.
+- Phase 2 validée (D-017), continuation vers la phase 3 confirmée (D-018).
+- Faire approuver `PLAN-PHASE-3.md` : profils, recherche locale dans les imports,
+  déduplication/provenance, queue et résultats. Aucun code avant cet accord.
 - D-015 : LinkedIn, Indeed, Keejob et Tanitjobs en liens/import manuel ; aucune
   collecte automatisée attendue dans cette livraison. Ajout de sites personnalisés disponible.
 

@@ -178,3 +178,14 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   n’est déduit de l’abréviation « cv ».
 - Clarification demandée : continuation vers le plan de phase 3, ou priorité à
   la gestion des CV. Attendre ce choix avant de préparer le plan correspondant.
+
+## D-018 — 2026-11-07 — Continuation vers la phase 3
+
+- Le propriétaire précise : « Ça va, continuer avec la phase 3 ». La gestion
+  des CV conserve sa place en phase 4 ; l’ambiguïté de D-017 est levée.
+- Plan concret préparé dans PLAN-PHASE-3.md, statut PROPOSED avant code selon
+  AGENTS.md/SPEC §24.1. L’accord de continuation ne vaut pas approbation anticipée
+  de ses choix détaillés de tables, déduplication ou exécution locale.
+- Proposition à approuver : rechercher parmi les imports existants, garder les
+  fournisseurs en manuel selon D-015, file PostgreSQL et provenance additives,
+  sans collecte, score IA, CV ou notifications simulés.

@@ -1,8 +1,8 @@
 ﻿# Progress
 
-Last updated: 2026-11-07 by Codex / owner validation
-Current phase: 2 validated; next phase awaiting scope clarification (D-017)
-Status: WAITING_FOR_OWNER_INPUT
+Last updated: 2026-11-07 by Codex / phase 3 plan
+Current phase: 3 - Plan prepared; implementation not started (D-018)
+Status: WAITING_FOR_PLAN_APPROVAL
 
 ## Phase checklist
 
@@ -20,6 +20,11 @@ Status: WAITING_FOR_OWNER_INPUT
     - [x] 2.3 Atomic confirmed import, CSV preview and migration 0003.
     - [x] 2.4 Sources Angular FR/EN, Tunisian filter, tests and phase report.
 - [ ] 3 Criteria, profiles, orchestrator, queue, deduplication and results.
+    - [x] 3.0 Continuation confirmed; docs/PLAN-PHASE-3.md proposed.
+    - [ ] 3.1 Criteria and saved search profiles.
+    - [ ] 3.2 Conservative deduplication, provenance and repost relations.
+    - [ ] 3.3 PostgreSQL queue, local execution, resume/cancel and SSE.
+    - [ ] 3.4 Search/profiles/results Angular pages and final report.
 - [ ] 4 Private CVs, parsing, editing and profile validation.
 - [ ] 5 CV search, explainable matching, calibration, verified linkedin_email.
 - [ ] 6 Telegram, scheduling, history and logs.
@@ -42,11 +47,13 @@ Not done: automated providers, HTTP transport, matching, IA extraction and queue
 are outside this manual delivery. GitHub CI/PostgreSQL 16 not executed.
 Preserved original template and pre-existing angular.json analytics change;
 angular.json excluded from commits. SPEC unchanged; no private assets/secrets staged.
-Owner replied "oui cv" after the phase report: phase 2 accepted (D-017).
-Clarification pending: "ca va, continue" or prioritise CV management.
-No implementation started after the phase gate; only tracking documents changed.
-Next step: clarify scope, then propose the corresponding phase plan before coding.
+Owner confirmed continuation with phase 3 (D-018); CV management remains phase 4.
+Prepared docs/PLAN-PHASE-3.md: search imported offers, saved criteria/profiles,
+additive listing provenance/grouping and persistent PostgreSQL queue/results.
+No code, migration, dependency or provider access changed. Documentation checks
+only for this task; the above application results are from phase 2, not rerun.
+Next step: obtain approval of the concrete phase 3 plan before implementation.
 
 ## Open questions for the owner
 
-- Does "cv" mean "ca va" or a request to prioritise CV management?
+- Approve docs/PLAN-PHASE-3.md, including local imported-offer search and additive tables.

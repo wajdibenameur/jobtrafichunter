@@ -1,5 +1,9 @@
 # Changelog
 
+- 2026-11-07 — Suite phase 3 confirmée (D-018), plan concret préparé : critères,
+  profils, recherche dans les imports, déduplication additive et queue PostgreSQL.
+  Approbation du plan attendue ; aucun code, dépendance ou migration exécutée.
+
 - 2026-11-07 — Phase 2 validée par le propriétaire (D-017). Clarification de
   « cv » demandée avant de choisir la phase suivante ; aucun code modifié.
 
