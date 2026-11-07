@@ -1,0 +1,28 @@
+# Local secrets, environments and generated files
+.env
+.env.*
+!.env.example
+!.env.test.example
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.test.example
+.cache/
+.tools/
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.coverage
+**/htmlcov/
+**/*.egg-info/
+**/node_modules/
+**/dist/
+**/.angular/
+local-data/
+# Preserve reference template as a local, independent repository.
+frontEnd/velson_template/
+
+/backend/.env.test
+/backend/.env.test.local

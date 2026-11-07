@@ -1,0 +1,48 @@
+# JobHunter AI - agent instructions
+
+Read `docs/PROGRESS.md` first, update it last.
+Then read `docs/DECISIONS.md`, `docs/TODO.md` and the relevant sections of
+`docs/SPEC.md`. The specification is immutable; propose changes to the owner.
+
+## Stack and modules
+FastAPI (Python 3.11 owner override), Angular, PostgreSQL; Docker deferred.
+PostgreSQL 16 remains the deployment target; local tests used installed 17.10.
+One modular backend and one worker sharing the same image; PostgreSQL task queue.
+Backend modules: auth, cv, profile, sources, search, listings, matching, ai,
+notifications, applications. Layout: `backend/app/modules/<module>/`.
+Each module owns its tables and exports its public interface via `__init__.py`.
+Cross-module imports must use that interface; enforce boundaries in CI.
+
+## Commands
+From `backend`, use `.venv/Scripts/python.exe` on Windows (`python` in CI):
+- `-m ruff check .` and `-m ruff format --check .`
+- `-m mypy app` and `-m pytest -q`
+- `-m alembic upgrade head` (configured dedicated PostgreSQL required)
+- `-m app.setup owner` / `tls`; see README for HTTPS API startup.
+- `-m app.worker --once` checks DB only; no search handlers exist yet.
+Integration tests require `.env.test` or TEST_DATABASE_URL (database ending _test).
+For the isolated local fixture use JOBHUNTER_TEST_ENV=.env.test.local.
+
+## Working agreement
+- Follow SPEC sections 24, 26 and 27; propose a phase plan before coding and wait
+  for owner approval. Stop after each phase report until the owner validates it.
+- Current owner override (2026-11-07): defer Velson analysis until frontend work.
+  Preserve `frontEnd/velson_template` and its existing local changes meanwhile.
+- Owner override: Python 3.11; Docker work deferred. Audit is now in
+  `docs/reports/velson-audit.md`, awaiting validation before frontend code.
+- Update `docs/CHANGELOG.md` and `docs/PROGRESS.md` after each completed task.
+  Commit only the intended changes together once checks pass and Git is ready.
+- Ask before architecture changes, breaking API changes or existing table changes.
+- Record decisions, alternatives, evidence and approval in `docs/DECISIONS.md`.
+- Never activate an automated connector unless legal_status is PERMITTED and
+  current official documentation and terms have been reviewed and recorded.
+- Never scrape LinkedIn. Email alerts require separate verification and consent.
+- Never log CV content, tokens or secrets; never commit personal data or secrets.
+- Preserve original CVs; never invent extracted facts or visa sponsorship.
+- Never claim a feature works without running its checks; report failures honestly.
+- Do not fabricate calibration labels, real postings, source permissions or tests.
+- The frontend will follow Velson after the deferred analysis and validation.
+
+## Current kickoff deliverables
+See `docs/reports/phase-1-backend.md` and `docs/reports/velson-audit.md`.
+Backend auth foundation is tested; phase 1 is not complete. Frontend is pending.
