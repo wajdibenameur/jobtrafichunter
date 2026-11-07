@@ -27,6 +27,7 @@ from app.core.settings import Settings
 from app.modules.auth import OwnerView, require_owner
 from app.modules.auth import router as auth_router
 from app.modules.listings import router as listings_router
+from app.modules.search import router as search_router
 from app.modules.sources import SourceService
 from app.modules.sources import router as source_router
 from app.shared.source_reference import SourceReference
@@ -179,4 +180,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(auth_router, prefix="/api")
     app.include_router(source_router, prefix="/api", dependencies=[Depends(require_owner)])
     app.include_router(listings_router, prefix="/api", dependencies=[Depends(require_owner)])
+    app.include_router(search_router, prefix="/api", dependencies=[Depends(require_owner)])
     return app

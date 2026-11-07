@@ -189,3 +189,12 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Proposition à approuver : rechercher parmi les imports existants, garder les
   fournisseurs en manuel selon D-015, file PostgreSQL et provenance additives,
   sans collecte, score IA, CV ou notifications simulés.
+
+## D-019 — 2026-11-07 — Plan de phase 3 approuvé
+
+- Le propriétaire répond « vasi » après présentation de PLAN-PHASE-3.md.
+- Accord pour les lots 3.1–3.4 et migrations additives 0004–0006 : profils,
+  recherche des imports, provenance/déduplication conservatrice, worker/queue,
+  progression et pages Angular. Continuer sans nouvelle confirmation de ce plan.
+- Les limites D-015 et du plan restent applicables : aucun accès fournisseur,
+  CV, matching IA ou notification simulé. Conserver les tables existantes.

@@ -1,5 +1,9 @@
 # Changelog
 
+- 2026-11-07 — Phase 3.1 : critères bornés, profils CRUD/duplication et exemples
+  explicites idempotents, routes protégées et migration additive 0004 appliquée.
+  91 tests backend réussis, Ruff/mypy et cohérence Alembic vérifiés.
+
 - 2026-11-07 — Suite phase 3 confirmée (D-018), plan concret préparé : critères,
   profils, recherche dans les imports, déduplication additive et queue PostgreSQL.
   Approbation du plan attendue ; aucun code, dépendance ou migration exécutée.

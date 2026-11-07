@@ -3,8 +3,8 @@
 ## Prochaine action
 
 - Phase 2 validée (D-017), continuation vers la phase 3 confirmée (D-018).
-- Faire approuver `PLAN-PHASE-3.md` : profils, recherche locale dans les imports,
-  déduplication/provenance, queue et résultats. Aucun code avant cet accord.
+- Plan de phase 3 approuvé « vasi » (D-019). Profils backend livrés (3.1) ;
+  poursuivre déduplication/provenance, queue et interface selon ce plan.
 - D-015 : LinkedIn, Indeed, Keejob et Tanitjobs en liens/import manuel ; aucune
   collecte automatisée attendue dans cette livraison. Ajout de sites personnalisés disponible.
 

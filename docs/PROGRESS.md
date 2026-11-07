@@ -1,8 +1,8 @@
 ﻿# Progress
 
 Last updated: 2026-11-07 by Codex / phase 3 plan
-Current phase: 3 - Plan prepared; implementation not started (D-018)
-Status: WAITING_FOR_PLAN_APPROVAL
+Current phase: 3 - Approved plan implementation (D-019)
+Status: IN_PROGRESS
 
 ## Phase checklist
 
@@ -20,8 +20,8 @@ Status: WAITING_FOR_PLAN_APPROVAL
     - [x] 2.3 Atomic confirmed import, CSV preview and migration 0003.
     - [x] 2.4 Sources Angular FR/EN, Tunisian filter, tests and phase report.
 - [ ] 3 Criteria, profiles, orchestrator, queue, deduplication and results.
-    - [x] 3.0 Continuation confirmed; docs/PLAN-PHASE-3.md proposed.
-    - [ ] 3.1 Criteria and saved search profiles.
+    - [x] 3.0 Plan approved: vasi (D-019).
+    - [x] 3.1 Criteria and saved search profiles.
     - [ ] 3.2 Conservative deduplication, provenance and repost relations.
     - [ ] 3.3 PostgreSQL queue, local execution, resume/cancel and SSE.
     - [ ] 3.4 Search/profiles/results Angular pages and final report.
@@ -52,8 +52,14 @@ Prepared docs/PLAN-PHASE-3.md: search imported offers, saved criteria/profiles,
 additive listing provenance/grouping and persistent PostgreSQL queue/results.
 No code, migration, dependency or provider access changed. Documentation checks
 only for this task; the above application results are from phase 2, not rerun.
-Next step: obtain approval of the concrete phase 3 plan before implementation.
+Plan approved by owner "vasi" (D-019), implementing without further approval gates
+inside the agreed phase. Search module owns profiles/configurations; CRUD,
+duplication and explicit idempotent examples protected and owner-scoped.
+Migration 0004 applied; Alembic reports no drift. 91 backend tests pass (57.16s),
+Ruff/format and mypy checked for this lot. New dedup DTO/algorithm files are work
+in progress and are excluded from the profiles commit. Frontend not changed yet.
+Next step: finish 3.2 provenance/deduplication, then queue/execution and Angular.
 
 ## Open questions for the owner
 
-- Approve docs/PLAN-PHASE-3.md, including local imported-offer search and additive tables.
+None required inside approved phase 3 scope.
