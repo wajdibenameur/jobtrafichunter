@@ -170,3 +170,11 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   exacte normalisée est atomique. Fusion floue et reposts restent pour la phase 3.
 - Validation exécutée : 81 tests backend, 18 Angular et 7 E2E, plus build/types,
   lint/mypy, migration et audits. Le rapport clôt la phase avant validation owner.
+
+## D-017 — 2026-11-07 — Validation de la phase 2
+
+- Après le rapport, le propriétaire répond « oui cv » : son « oui » valide la
+  livraison de phase 2. Aucun nouveau code ni changement de périmètre autorisé
+  n’est déduit de l’abréviation « cv ».
+- Clarification demandée : continuation vers le plan de phase 3, ou priorité à
+  la gestion des CV. Attendre ce choix avant de préparer le plan correspondant.

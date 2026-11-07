@@ -1,5 +1,8 @@
 # Changelog
 
+- 2026-11-07 — Phase 2 validée par le propriétaire (D-017). Clarification de
+  « cv » demandée avant de choisir la phase suivante ; aucun code modifié.
+
 - 2026-11-07 — Phase 2.2/2.4 : page Sources FR/EN, filtres tunisiens, préférences,
   liens, sites personnalisés et confirmation URL/CSV ; registre de connecteurs
   manuels et erreurs typées. Réimport CSV sans effacer les champs absents.

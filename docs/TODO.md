@@ -2,8 +2,9 @@
 
 ## Prochaine action
 
-- Phase 2 manuelle livrée : attendre la validation du propriétaire sur
-  `reports/phase-2.md` avant de proposer et implémenter le plan de phase 3.
+- Phase 2 validée par le propriétaire (D-017). Clarifier « cv » : continuation
+  vers le plan de phase 3 ou priorité à la gestion des CV. Préparer ensuite le
+  plan correspondant et le faire approuver avant le code.
 - D-015 : LinkedIn, Indeed, Keejob et Tanitjobs en liens/import manuel ; aucune
   collecte automatisée attendue dans cette livraison. Ajout de sites personnalisés disponible.
 

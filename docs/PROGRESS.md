@@ -1,8 +1,8 @@
 ﻿# Progress
 
-Last updated: 2026-11-07 by Codex / phase 2 delivery
-Current phase: 2 - Sources and manual import delivered (D-014, D-015)
-Status: WAITING_FOR_VALIDATION
+Last updated: 2026-11-07 by Codex / owner validation
+Current phase: 2 validated; next phase awaiting scope clarification (D-017)
+Status: WAITING_FOR_OWNER_INPUT
 
 ## Phase checklist
 
@@ -12,7 +12,7 @@ Status: WAITING_FOR_VALIDATION
     - [x] Local .env configured; owner confirmed successful connection.
     - GitHub CI and PostgreSQL 16 prepared but not run; no Git remote.
     - Docker, Compose, images and hosting out of scope (D-012).
-- [x] 2 Owner-selected manual sources and import delivered; validation pending.
+- [x] 2 Owner-selected manual sources and import delivered; owner validated D-017.
     - [x] 2.0 Phase plan approved: oui vasi (D-014).
     - [x] 2.1 LinkedIn/Indeed/Keejob/Tanitjobs registry, preferences, custom sources.
     - [x] 2.2 Manual connector contract, registry and typed failures.
@@ -42,8 +42,11 @@ Not done: automated providers, HTTP transport, matching, IA extraction and queue
 are outside this manual delivery. GitHub CI/PostgreSQL 16 not executed.
 Preserved original template and pre-existing angular.json analytics change;
 angular.json excluded from commits. SPEC unchanged; no private assets/secrets staged.
-Next step: wait for owner validation; then propose a phase 3 plan before coding.
+Owner replied "oui cv" after the phase report: phase 2 accepted (D-017).
+Clarification pending: "ca va, continue" or prioritise CV management.
+No implementation started after the phase gate; only tracking documents changed.
+Next step: clarify scope, then propose the corresponding phase plan before coding.
 
 ## Open questions for the owner
 
-- Validate the manual phase 2 delivery before phase 3 (AGENTS.md / SPEC 24.2).
+- Does "cv" mean "ca va" or a request to prioritise CV management?
