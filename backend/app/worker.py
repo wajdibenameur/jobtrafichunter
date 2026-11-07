@@ -1,4 +1,4 @@
-"""Worker lifecycle scaffold. Search task handlers and queue arrive in phase 3."""
+"""Local PostgreSQL search worker. --once checks DB and processes one task cycle."""
 
 import argparse
 import asyncio
@@ -6,11 +6,10 @@ import logging
 import signal
 from types import FrameType
 
-from sqlalchemy import text
-
 from app.core.db import Runtime, make_runtime
 from app.core.logging import configure_logging
 from app.core.settings import Settings
+from app.modules.search import SearchQueue
 
 logger = logging.getLogger("jobhunter.worker")
 
@@ -18,13 +17,12 @@ logger = logging.getLogger("jobhunter.worker")
 async def run_worker(runtime: Runtime, stop: asyncio.Event, *, once: bool = False) -> None:
     try:
         while not stop.is_set():
-            async with runtime.engine.connect() as connection:
-                await connection.execute(text("SELECT 1"))
-            logger.info("worker_idle_no_task_handlers_registered")
+            processed = await SearchQueue(runtime).run_once()
+            logger.info("worker_cycle_completed" if processed else "worker_idle")
             if once:
                 return
             try:
-                await asyncio.wait_for(stop.wait(), timeout=30)
+                await asyncio.wait_for(stop.wait(), timeout=1 if processed else 2)
             except TimeoutError:
                 pass
     finally:
@@ -48,7 +46,9 @@ async def start(*, once: bool) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--once", action="store_true", help="Check DB and exit; no task processing")
+    parser.add_argument(
+        "--once", action="store_true", help="Check DB, process one task cycle and exit"
+    )
     args = parser.parse_args()
     try:
         asyncio.run(start(once=args.once))

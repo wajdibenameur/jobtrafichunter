@@ -1,5 +1,10 @@
 # Changelog
 
+- 2026-11-07 — Phase 3.3 : file PostgreSQL avec leases/heartbeat, reprise bornée,
+  annulation, snapshots des résultats, SSE et filtres structurés hiver/été Paris.
+  104 tests backend réussis, dédup 100 % et filtres 91 % couverts ; migrations
+  jusqu’à 0006 appliquées, Ruff/mypy/Alembic vérifiés. tzdata haché ajouté sous Windows.
+
 - 2026-11-07 — Phase 3.2 : provenance additive et reprise des imports, regroupement
   conservateur, candidats ambigus/reposts distincts et découverte ancienne conservée
   entre sources. 96 tests backend réussis ; algorithme dédup couvert à 100 %,

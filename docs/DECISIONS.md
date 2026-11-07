@@ -198,3 +198,14 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   progression et pages Angular. Continuer sans nouvelle confirmation de ce plan.
 - Les limites D-015 et du plan restent applicables : aucun accès fournisseur,
   CV, matching IA ou notification simulé. Conserver les tables existantes.
+
+## D-020 — 2026-11-07 — Fuseaux horaires et exécutions locales
+
+- Le plan approuvé exige « aujourd’hui » Europe/Paris ; ZoneInfo seul échoue
+  sur le Windows local sans base de fuseaux système. Ajouter le paquet de données
+  tzdata (aucun framework/service), verrouillé et haché sans autres mises à jour.
+- Documentation officielle consultée : https://pypi.org/project/tzdata/ et
+  https://tzdata.python.org/ ; paquet de repli IANA pour zoneinfo, version résolue
+  2026.6. Contrôler hiver/été dans les tests, sans coder un décalage UTC fixe.
+- Les états de collecte restent SKIPPED/MANUAL_ONLY. Les tâches effectuent
+  uniquement scan local, déduplication, filtrage et snapshots de résultats.

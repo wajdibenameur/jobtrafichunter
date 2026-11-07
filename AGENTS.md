@@ -19,7 +19,7 @@ From `backend`, use `.venv/Scripts/python.exe` on Windows (`python` in CI):
 - `-m mypy app` and `-m pytest -q`
 - `-m alembic upgrade head` (configured dedicated PostgreSQL required)
 - `-m app.setup owner` / `tls`; see README for HTTPS API startup.
-- `-m app.worker --once` checks DB only; no search handlers exist yet.
+- `-m app.worker --once` checks DB and processes one local search task cycle.
 Integration tests require `.env.test` or TEST_DATABASE_URL (database ending _test).
 For the isolated local fixture use JOBHUNTER_TEST_ENV=.env.test.local.
 From the root: `scripts/frontend.ps1 install|start|build|test|typecheck|preview`.
