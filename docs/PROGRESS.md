@@ -27,6 +27,14 @@ Status: WAITING_FOR_VALIDATION (rapport de phase 1 ; Docker diff?r? par propri?t
 
 ## Last session
 
+Configuration locale complémentaire : `.env` préparé et validé avec le schéma
+`jobhunter_app` de la base locale existante (rôle sans CREATEDB), secrets générés
+ou conservés sans affichage, migration 0001_auth appliquée dans ce schéma.
+Contrôles réels : current_schema correct, santé API 200, compte protégé 401,
+origine frontend HTTPS acceptée. Compte propriétaire encore absent ; lancer
+`python -m app.setup owner` interactivement. Fichiers .env et sauvegarde hors Git.
+Décision D-011 ; aucune modification du fichier .env.test ni du modèle métier.
+
 Done: `frontEnd/jobhunter` sous Angular 22, Node portable 22.22.3 ; connexion et
 compte FastAPI, session avec refresh partag?, guards, FR/EN, layout mobile/clavier,
 th?me Velson, Poppins OFL, build/preview HTTPS et helper PowerShell. CI ?tendue.

@@ -13,8 +13,11 @@
 - Docker, Compose, scans images et déploiement reportés par le propriétaire.
 - Exécuter la CI préparée sur GitHub et vérifier PostgreSQL 16 ; seuls les tests
   locaux PostgreSQL 17.10 ont été exécutés.
-- Configurer la base applicative et le propriétaire réels lors du lancement local.
-  Aucune identité utilisateur ou clé de production n'a été créée automatiquement.
+- Configuration locale `.env` réalisée avec schéma applicatif `jobhunter_app`,
+  secrets privés et migration initiale appliquée. Création du propriétaire à faire
+  interactivement avec `python -m app.setup owner`.
+- Prévoir une base applicative distincte avant déploiement durable ; le rôle local
+  actuel ne peut pas créer de base et l'application utilise un schéma isolé.
 - Résoudre les points techniques du rapport avant le code concerné : isolation
   du parseur, DOC historique et gestion des secrets Telegram. HTTPS local est livré.
 

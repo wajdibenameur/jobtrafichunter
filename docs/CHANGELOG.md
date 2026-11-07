@@ -20,3 +20,6 @@
   navigation mobile accessible, TLS/proxy local, thème et Poppins OFL ; build/types
   validés, 14 tests Karma et 5 parcours Playwright réussis. CI étendue et référence
   préservée ; Docker reporté. Corrections réelles CSS/CSP et retour de focus mobile.
+- 2026-11-07 — Configuration locale `.env` à la demande du propriétaire : secrets
+  générés/préservés, schéma `jobhunter_app`, migration appliquée, santé API 200 et
+  accès protégé 401 vérifiés ; compte propriétaire à créer interactivement.

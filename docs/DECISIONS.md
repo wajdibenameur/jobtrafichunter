@@ -92,3 +92,20 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   respecter la CSP, plutôt que permettre du JavaScript inline.
 - Les identifiants du propriétaire E2E sont jetables ; le schéma et leur fichier
   sont supprimés après le test. Aucune donnée propriétaire réelle n'est modifiée.
+
+## D-011 — 2026-11-07 — Configuration locale de l'application
+
+- Le propriétaire demande de configurer `.env` avec son accès PostgreSQL local.
+- Vérification : connexion disponible sur le serveur système ; rôle sans droit
+  CREATEDB et aucune base applicative distincte existante.
+- Utiliser la base locale existante dans le schéma dédié `jobhunter_app`, via
+  DATABASE_SCHEMA déjà supporté. Les fixtures continuent dans leurs schémas
+  aléatoires dédiés. Aucun changement du modèle, du moteur ou des tables existantes.
+- Secrets JWT/chiffrement générés ou préservés, ancien `.env` sauvegardé localement,
+  migrations appliquées dans le seul schéma applicatif. Tous ces fichiers privés
+  restent ignorés par Git. Aucun secret n'est reproduit ici.
+- Vérifications réelles : settings et schéma actifs corrects, santé API 200,
+  compte non authentifié 401, origine HTTPS frontend acceptée.
+- Compte propriétaire absent : création interactive à effectuer par l'utilisateur.
+- Il s'agit de la configuration de développement locale ; la séparation en une
+  base applicative propre sera à prévoir avant tout déploiement durable.
