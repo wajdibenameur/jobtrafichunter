@@ -2,6 +2,11 @@
 
 ## Prochaine action
 
+- Priorité courante : revue du plan `reports/apify-phase-a.md` (D-022).
+  Phase A terminée ; attendre l’accord pour B, l’Actor/méthode autorisés et le
+  choix sur le matching CV absent. Aucun run réel avant l’accord distinct C.
+- Recommandation UI : carte LinkedIn — Apify séparée dans Sources, pas de menu
+  supplémentaire ; conserver les quatre modes manuels et la recherche locale.
 - Phase 2 validée (D-017), continuation vers la phase 3 confirmée (D-018).
 - Phase 3 locale livrée selon le plan approuvé D-019 ; consulter
   `reports/phase-3.md` et attendre la validation avant de planifier la phase 4.

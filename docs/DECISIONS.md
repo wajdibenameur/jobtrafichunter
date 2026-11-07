@@ -222,3 +222,26 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   publics au point de composition, test dédié de worker neuf et E2E verts.
 - Livraison vérifiée : 105 tests backend, 21 Angular et 9 E2E ; rapport phase-3.md.
   Attendre la validation avant de proposer le plan CV de phase 4.
+
+## D-022 — 2026-11-08 — Apify : analyse de Phase A uniquement
+
+- Le propriétaire demande une intégration LinkedIn Jobs via l’API Apify, selon
+  trois étapes : A inspection/plan maintenant, B après accord, C test réel de
+  dix offres après validation et autorisation financière explicite. Aucune
+  activation, implémentation, dépense ou modification des secrets autorisée en A.
+- Cette demande ouvre l’étude d’une source automatisée supplémentaire ; elle
+  ne supprime pas D-015 ni l’interdiction de scraping LinkedIn dans AGENTS/SPEC.
+  Les quatre modes manuels et la recherche locale doivent rester disponibles.
+- Recommandation, pas encore approuvée : carte « LinkedIn — Apify » distincte
+  dans Sources, composant dédié, suivi/résultats communs. Une page/menu séparé
+  dupliquerait le parcours ; fusionner avec LinkedIn manuel masquerait la facturation.
+- Inspection : matching CV non implémenté. Ne pas prétendre le réutiliser ;
+  statut indisponible et choix de périmètre explicite avant B. Pas de CV vers Apify.
+- Conditions/robots officiels consultés dans docs/sources/linkedin-apify.md :
+  aucune permission établie pour un Actor précis, aucun statut PERMITTED attribué.
+- Plan concret : docs/reports/apify-phase-a.md, migration additive proposée,
+  consentement unitaire, run_id/checkpoints et arrêt en cas de lancement incertain.
+  Aucun outil Apify exposé dans cette session ; aucune dépendance Codex envisagée
+  pour le fonctionnement de l’application. Aucune conclusion sur le MCP local.
+- La validation de la livraison générale de phase 3 reste en attente ; ne pas
+  interpréter cette demande de fonctionnalité comme validation implicite ou phase 4.

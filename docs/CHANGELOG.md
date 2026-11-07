@@ -1,5 +1,10 @@
 # Changelog
 
+- 2026-11-08 — Apify Phase A : inspection de l’existant et des documents officiels,
+  proposition de carte séparée dans Sources, migrations/additions et reprise sans
+  relance facturable aveugle ; matching CV absent et permissions non établies
+  explicités. Aucun code, secret, appel Apify utilisateur ou dépense modifié/lancé.
+
 - 2026-11-07 — Phase 3.4 : pages Angular Profils/Recherche/Résultats et dashboard
   réel, FR/EN/mobile, progression persistante et détails/provenance ; worker E2E
   séparé et correction de son enregistrement de tables. 105 tests backend,
