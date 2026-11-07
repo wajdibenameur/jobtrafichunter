@@ -123,3 +123,15 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   exigences de conteneurisation et de déploiement. Les anciens rapports décrivent
   l'état historique ; les consignes et le plan actuels reflètent cette décision.
 - Le propriétaire a également confirmé avoir testé la connexion avec succès.
+
+## D-013 — 2026-11-07 — Phase 1 validée et préparation de la phase 2
+
+- Le propriétaire demande « contenue » après confirmation de la connexion locale.
+- Interprétation : accepter la livraison locale de phase 1 et préparer le plan
+  suivant, avec Docker/hébergement hors périmètre selon D-012.
+- Le plan de phase 2 reste PROPOSED : la règle AGENTS/SPEC demande son approbation
+  avant le code. Aucun module, migration, dépendance ou connecteur ajouté ici.
+- La modification préexistante de `frontEnd/jobhunter/angular.json` (analytics
+  désactivé) est préservée et exclue du commit documentaire.
+- Pré-vérification : permissions non confirmées pour les connecteurs candidats ;
+  documenter les contradictions et ne pas activer de collecte sur cette base.

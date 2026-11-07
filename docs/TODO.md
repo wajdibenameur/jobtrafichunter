@@ -2,8 +2,10 @@
 
 ## Prochaine action
 
-- Faire valider `reports/phase-1.md` : socle local backend/frontend livré, Docker
-  hors périmètre. Prochaine phase proposée : registre et vérification des sources.
+- Phase 1 locale validée par continuation du propriétaire.
+- Faire approuver `PLAN-PHASE-2.md` avant implémentation, selon AGENTS/SPEC §24.1.
+- Compléter les vérifications de `sources/preverification-phase-2.md` ; conserver
+  les candidats non confirmés en lien/import. Ne pas promettre deux sources déjà permises.
 
 ## Points à traiter avant ou pendant la phase 1
 

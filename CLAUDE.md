@@ -48,4 +48,5 @@ From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.te
 
 ## Current kickoff deliverables
 See `docs/reports/phase-1.md` for delivered local scope, checks and known limits.
-Phase 1 awaits owner validation. Docker is not required; GitHub CI is not run.
+Phase 1 local scope is validated. Phase 2 plan in docs/PLAN-PHASE-2.md awaits approval.
+Docker is not required; GitHub CI is not run. Keep unverified connectors inactive.

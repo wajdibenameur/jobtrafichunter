@@ -1,5 +1,9 @@
 # Changelog
 
+- 2026-11-07 — Phase 1 locale validée par continuation ; plan de phase 2 et
+  pré-vérification documentaire des sources créés, sans code ni collecte.
+  Contradictions Remotive et limites Arbeitnow consignées ; aucun candidat activé.
+
 - 2026-11-07 — Étape 0 : lecture du cahier des charges et de la section 27 ; copie
   exacte dans SPEC.md, création des consignes agents, du suivi, du rapport initial,
   du plan de phase 1 et du modèle de vérification des sources ; analyse Velson

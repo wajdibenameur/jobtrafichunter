@@ -1,6 +1,6 @@
 # Phase 1 — socle local backend et frontend
 
-Date : 2026-11-07. Statut : WAITING_FOR_VALIDATION.
+Date : 2026-11-07. Statut : VALIDATED_LOCAL_SCOPE (continuation propriétaire, D-013).
 Mise à jour D-012 : le propriétaire confirme la connexion locale et retire
 Docker du projet. Les mentions de report ci-dessous décrivent la livraison
 initiale ; aucun travail Docker ou d'hébergement n'est désormais attendu.
