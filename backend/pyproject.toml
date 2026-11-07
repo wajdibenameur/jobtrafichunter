@@ -40,10 +40,10 @@ plugins = ["pydantic.mypy"]
 files = ["app"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "app/modules/auth/tests"]
+testpaths = ["tests", "app/modules"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
-addopts = "-ra --strict-markers"
+addopts = "-ra --strict-markers --import-mode=importlib"
 markers = ["integration: requires a dedicated real PostgreSQL database"]
 
 [tool.coverage.run]

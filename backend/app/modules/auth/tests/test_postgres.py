@@ -3,6 +3,8 @@ from datetime import timedelta
 
 import httpx
 import pytest
+from alembic.config import Config
+from alembic.script import ScriptDirectory
 from sqlalchemy import inspect, select, text
 
 from app.core.db import Runtime
@@ -37,7 +39,7 @@ async def test_migration_and_owner_setup_lock(database: Runtime) -> None:
         tables = await connection.run_sync(lambda conn: inspect(conn).get_table_names())
         revision = await connection.scalar(text("SELECT version_num FROM alembic_version"))
     assert {"app_users", "auth_sessions", "refresh_tokens", "login_buckets"} <= set(tables)
-    assert revision == "0001_auth"
+    assert revision == ScriptDirectory.from_config(Config("alembic.ini")).get_current_head()
     await create_owner(database)
     async with database.sessions() as session:
         with pytest.raises(AppError, match="already exists"):

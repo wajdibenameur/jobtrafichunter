@@ -135,3 +135,23 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   désactivé) est préservée et exclue du commit documentaire.
 - Pré-vérification : permissions non confirmées pour les connecteurs candidats ;
   documenter les contradictions et ne pas activer de collecte sur cette base.
+
+## D-014 — 2026-11-07 — Phase 2 approuvée
+
+- Le propriétaire répond « oui vasi » au plan `PLAN-PHASE-2.md`.
+- Accord pour les modules sources/listings minimaux, nouvelles migrations,
+  principal de requête, import manuel et page Sources décrits dans ce plan.
+- Continuer sans Docker/hébergement ; préserver le changement angular.json existant.
+- Les vérifications de connecteurs restent obligatoires et indépendantes du toggle.
+
+## D-015 — 2026-11-07 — Sources manuelles choisies par le propriétaire
+
+- Après avoir envisagé JobTech/Jobicy, le propriétaire choisit explicitement
+  « LinkedIn + Indeed en liens/import manuel », puis ajoute les sites tunisiens.
+- Cette instruction remplace le choix provisoire JobTech/Jobicy et l'objectif
+  de deux collectes automatiques pour cette livraison : LinkedIn, Indeed, Keejob
+  et Tanitjobs en liens/import manuel, avec ajout de sources personnalisées.
+- Aucun connecteur HTTP fournisseur n'est développé/activé à cette phase.
+  Le contrat générique conserve une erreur explicite si fetch automatique est demandé.
+- La recherche approfondie JobTech/Jobicy/Himalayas reste documentaire uniquement.
+- L'import persistant et le registre/page Sources du plan approuvé restent à réaliser.

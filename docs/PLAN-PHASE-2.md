@@ -1,9 +1,14 @@
 # Plan proposé — Phase 2 : sources et connecteurs
 
-Date : 2026-11-07. Statut : PROPOSED / WAITING_FOR_APPROVAL.
-La continuation du propriétaire valide le socle local de phase 1. Ce nouveau
-plan doit être approuvé avant code, selon AGENTS.md et SPEC §24.1/§27.3.
+Date : 2026-11-07. Statut : APPROVED / IN_PROGRESS (« oui vasi », D-014).
+La continuation du propriétaire valide le socle local de phase 1 et ce plan.
 Python 3.11, Angular et PostgreSQL locaux ; aucun Docker ou hébergement.
+
+**Modification approuvée D-015 :** la livraison utilise LinkedIn, Indeed, Keejob
+et Tanitjobs en liens/import manuel, plus sources personnalisées. Aucun connecteur
+automatisé fournisseur n'est attendu pour cette phase. Les objectifs automatisés
+ci-dessous décrivent le plan initial et restent différés, sans bloquer la livraison
+manuelle expressément choisie par le propriétaire.
 
 ## Résultat attendu
 

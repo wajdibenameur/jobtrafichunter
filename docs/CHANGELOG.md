@@ -1,5 +1,9 @@
 # Changelog
 
+- 2026-11-07 — Phase 2.1 : registre LinkedIn/Indeed/Keejob/Tanitjobs, préférences
+  propriétaire, sources personnalisées, liens encodés, principal de requête,
+  migration 0002 et contrat manuel sans réseau ; 64 tests backend réussis.
+
 - 2026-11-07 — Phase 1 locale validée par continuation ; plan de phase 2 et
   pré-vérification documentaire des sources créés, sans code ni collecte.
   Contradictions Remotive et limites Arbeitnow consignées ; aucun candidat activé.

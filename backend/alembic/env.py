@@ -6,8 +6,10 @@ from alembic import context
 from app.core.db import Base, make_runtime
 from app.core.settings import Settings
 from app.modules.auth import AuthService  # public import registers the auth-owned tables
+from app.modules.sources import SourceService
 
 assert AuthService is not None
+assert SourceService is not None
 target_metadata = Base.metadata
 
 

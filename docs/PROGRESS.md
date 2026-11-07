@@ -2,7 +2,7 @@
 
 Last updated: 2026-11-07 by Codex / pr?paration phase 2
 Current phase: 2 - Plan sources et connecteurs pr?par?, avant impl?mentation
-Status: WAITING_FOR_APPROVAL (plan de phase 2 ; SPEC ?24.1 et ?27.3)
+Status: IN_PROGRESS (phase 2 approved; manual sources per D-015)
 
 ## Phase checklist
 
@@ -15,10 +15,10 @@ Status: WAITING_FOR_APPROVAL (plan de phase 2 ; SPEC ?24.1 et ?27.3)
     - Hors p?rim?tre : Docker, Compose, images et h?bergement (D-012).
 - [ ] 2 Sources, v?rifications et framework de connecteurs.
     - [x] 2.0 Plan ?crit et pr?-v?rification documentaire des candidats.
-    - [ ] 2.0b Approbation de `PLAN-PHASE-2.md`. <- NEXT
-    - [ ] 2.1 Registre des sources, checklist et migration.
+    - [x] 2.0b Phase 2 approved by owner: oui vasi.
+    - [x] 2.1 Source registry, owner preferences, manual connector and migration 0002.
     - [ ] 2.2 Framework, transport et v?rification compl?te des connecteurs.
-    - [ ] 2.3 Liens de recherche et import manuel persistant.
+    - [ ] 2.3 Persistent manual import and CSV preview. <- NEXT
     - [ ] 2.4 Page Sources Angular, tests et rapport.
 - [ ] 3 Configuration, profils, orchestrateur, queue, d?duplication, r?sultats.
 - [ ] 4 CV priv?s, parsing, ?dition et validation du profil.
@@ -28,27 +28,17 @@ Status: WAITING_FOR_APPROVAL (plan de phase 2 ; SPEC ?24.1 et ?27.3)
 
 ## Last session
 
-Done: continuation du propri?taire enregistr?e comme validation du socle local.
-Cr?ation de `PLAN-PHASE-2.md` (fichiers, migrations, risques, tests et ?tapes)
-et `sources/preverification-phase-2.md` avec preuves officielles et inconnues.
-Revue documentaire Remotive/Arbeitnow/JobTech/France Travail : aucun candidat
-marqu? PERMITTED, aucun appel de collecte d'offres et aucun contact fournisseur.
-Tests: t?che documentaire seulement ; aucun test applicatif relanc?.
-Contr?les : SPEC inchang?, consignes AGENTS/CLAUDE identiques et <60 lignes,
-pr?sence des livrables et diff documentaire v?rifi?s avant commit.
-?tat fonctionnel pr?c?dent : 43 tests backend, 14 Angular et 5 E2E r?ussis ;
-connexion locale confirm?e par le propri?taire. Ces tests ne couvrent pas la phase 2.
-Not done / blocked: le plan de phase 2 n?cessite l'accord pr?vu par AGENTS/SPEC.
-Code/migrations/connecteurs non commenc?s. Contradictions Remotive et port?e du
-stockage Arbeitnow ? clarifier ; quotas/robots/accessibilit? des candidats incomplets.
-La modification pr?existante `frontEnd/jobhunter/angular.json` est conserv?e et
-ne fait pas partie du commit documentaire. Pas de changement des secrets locaux.
-Next step: approbation du plan puis t?che 2.1 (registre, politique et migration).
-Ne pas activer de collecte avant v?rification compl?te de la source concern?e.
+Done: phase 2 approved. Owner chose LinkedIn, Indeed, Keejob and Tanitjobs in
+manual/link workflows (D-015); JobTech/Jobicy selection superseded.
+Built source registry, owner-scoped preferences/custom sources, encoded links,
+request principal, isolated business sessions and migration 0002_sources.
+Tests: backend pytest: 64 passed in 38.48s; Ruff and strict mypy checked.
+Manual connector fetch raises an explicit MANUAL_ONLY error; no network calls.
+Not done: manual listing persistence/CSV and Angular Sources page remain next.
+No automated provider connector expected under owner's selected scope.
+Pre-existing angular.json analytics change preserved and excluded from commits.
+Next step: build listings/import module and migration 0003, then Sources UI.
 
 ## Open questions for the owner
 
-- Accord sur le plan de phase 2, incluant le socle listings minimal pour rendre
-  l'import manuel persistant d?s cette phase.
-- Sources de remplacement ? approuver si deux collectes autoris?es ne sont pas
-  confirmables ; aucun scraping utilis? pour compenser une int?gration indisponible.
+None required for current manual scope. Docker and hosting remain out of scope.

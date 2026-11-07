@@ -43,3 +43,9 @@ def get_runtime(request: Request) -> Runtime:
 async def get_session(request: Request) -> AsyncIterator[AsyncSession]:
     async with get_runtime(request).sessions() as session:
         yield session
+
+
+async def get_business_session(request: Request) -> AsyncIterator[AsyncSession]:
+    # Distinct dependency: auth's read transaction must not own business transactions.
+    async with get_runtime(request).sessions() as session:
+        yield session

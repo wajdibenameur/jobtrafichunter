@@ -7,6 +7,7 @@ from app.core.db import get_runtime, get_session
 from app.core.security import client_key
 from app.modules.auth.schemas import AuthStatus, LoginRequest, OwnerView
 from app.modules.auth.service import AuthService, Tokens, unauthorized
+from app.shared.identity import Principal
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 Session = Annotated[AsyncSession, Depends(get_session)]
@@ -23,7 +24,9 @@ async def require_owner(request: Request, auth: Service) -> OwnerView:
     token = request.cookies.get("__Host-jh_access")
     if not token:
         raise unauthorized()
-    return await auth.current_owner(token)
+    owner = await auth.current_owner(token)
+    request.state.principal = Principal(owner.id)
+    return owner
 
 
 def set_cookies(response: Response, tokens: Tokens, request: Request) -> None:

@@ -26,6 +26,7 @@ from app.core.logging import configure_logging, correlation_id
 from app.core.settings import Settings
 from app.modules.auth import OwnerView, require_owner
 from app.modules.auth import router as auth_router
+from app.modules.sources import router as source_router
 
 logger = logging.getLogger("jobhunter.api")
 
@@ -167,4 +168,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return owner
 
     app.include_router(auth_router, prefix="/api")
+    app.include_router(source_router, prefix="/api", dependencies=[Depends(require_owner)])
     return app
