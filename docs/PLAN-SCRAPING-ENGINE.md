@@ -1,9 +1,12 @@
 # Plan proposé — Scraping Engine indépendant d'Apify
 
-Date : 2026-11-08. Statut : LOT_2_DELIVERED / WAITING_FOR_VALIDATION (D-029).
+Date : 2026-11-08. Statut : LOT_3_GENERIC_EXTRACTION_DELIVERED / WAITING_FOR_VALIDATION.
 D-028 autorise l'enregistrement des documents, pas leur implémentation.
 La continuation « contenue » autorise ensuite le lot 2 seulement (D-029).
 Livraison/limites : [rapport du lot 2](reports/scraping-lot-2.md).
+Lot 2 validé et extraction lot 3 autorisée par « contenue » (D-030).
+Extraction générique livrée : [rapport du lot 3](reports/scraping-lot-3.md).
+Adaptateurs fournisseurs toujours conditionnés à des permissions établies.
 Voir [audit](reports/scraping-engine-audit.md), [revue des sources](sources/scraping-review.md)
 et [plan AI Job Agent](PLAN-AI-JOB-AGENT.md). Phase 4 toujours en attente de validation.
 
@@ -28,7 +31,7 @@ Ordre d'implémentation encore proposé ; permission source indépendante de l'a
 
 ## Lot 2 — Infrastructure des connecteurs
 
-Livré selon le [rapport](reports/scraping-lot-2.md) ; autres lots encore proposés.
+Livré selon le [rapport](reports/scraping-lot-2.md), validé par continuation D-030.
 
 - Étendre sources/connectors/contracts.py et registry.py : requête typée avec
   limites/fenêtre/cursor, résultat paginé avec compteur/checkpoint et erreurs typées,
@@ -46,6 +49,9 @@ Livré selon le [rapport](reports/scraping-lot-2.md) ; autres lots encore propos
 - Tests simulés : HTTP, quotas, plafonds, DNS/redirections, permissions expirées.
 
 ## Lot 3 — Extraction et première source permise
+
+Extraction générique livrée, validation attendue. Aucun fournisseur enregistré,
+car aucune permission pour un périmètre source concret n'est encore établie.
 
 - Créer sources/connectors/jsonld.py : listes, @graph, mainEntity, ListItem.item,
   types simples/multiples, champs optionnels validés ; limites profondeur/objets.
@@ -123,7 +129,7 @@ Ne pas revendiquer une collecte réelle réussie sur la seule base des fixtures.
 
 ## Validation attendue
 
-Lot 2 autorisé par D-029 ; attendre la validation de sa livraison avant lot 3.
+Lot 2 validé D-030 ; attendre validation de l'extraction lot 3 avant le lot 4.
 Autres lots et articulation avec AI Job Agent encore proposés ; validation de
 phase 4 séparée. Migrations/dépendances concrètes à examiner aux lots concernés.
 Ce chantier ne réactive pas Apify (D-023) et n'autorise aucune dépense.

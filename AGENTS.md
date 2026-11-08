@@ -56,4 +56,4 @@ AI Job Agent audit: docs/reports/ai-job-agent-audit.md; plan: docs/PLAN-AI-JOB-A
 D-027 authorizes documentation only; the seven-lot plan remains PROPOSED.
 Do not exceed approved lot scope or infer phase 4 delivery approval.
 Scraping: docs/PLAN-SCRAPING-ENGINE.md and docs/reports/scraping-engine-audit.md.
-D-029 approves Scraping lot 2 only; validate its delivery before lot 3. Sources inactive.
+D-030 validates lot 2; lot 3 generic extraction delivered, validate before lot 4. Sources inactive.

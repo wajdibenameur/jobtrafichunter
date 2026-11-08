@@ -5,7 +5,8 @@
 - Scraping Engine : audit `reports/scraping-engine-audit.md`, preuves
   `sources/scraping-review.md`, plan `PLAN-SCRAPING-ENGINE.md`.
   D-029 : lot 2 livré, 181 tests backend réussis ; rapport `reports/scraping-lot-2.md`.
-  Valider cette livraison avant extraction lot 3 ; autres lots encore proposés.
+  Lot 2 validé D-030 ; extraction générique lot 3 livrée, rapport
+  `reports/scraping-lot-3.md`, à valider avant lot 4. Aucun fournisseur activé.
   Articulation AI Job Agent : un seul chantier filtres/matching/alertes/documents.
 - Demande AI Job Agent auditée : `reports/ai-job-agent-audit.md` et
   `PLAN-AI-JOB-AGENT.md`. Mise à jour documentaire autorisée (D-027), plan PROPOSED.
@@ -69,7 +70,8 @@
 - Avant transport HTTP : contrôles DNS/IP effectives/redirections, limites de
   téléchargement/décompression et quota livrés dans le transport isolé du lot 2.
   Il reste à raccorder l'autorisation DB courante et les quotas/checkpoints durables
-  au worker (lot 5), puis extraction JSON-LD/précision des dates (lot 3).
+  au worker et persister les métadonnées JSON-LD/précision des dates (lot 5).
+  Extraction générique livrée au lot 3 ; adaptateurs réels conditionnés aux permissions.
   La validation syntaxique historique des liens seule reste insuffisante contre SSRF.
 - Aucun fournisseur automatisé livré ou activé. Les candidats documentaires
   Remotive, Arbeitnow, JobTech, Jobicy/Himalayas n’accordent aucun accès implicite.

@@ -21,8 +21,10 @@ la documentation ; le plan AI Job Agent et la livraison de phase 4 restent à va
 Scraping Engine indépendant d'Apify : [audit](docs/reports/scraping-engine-audit.md),
 [revue des sources](docs/sources/scraping-review.md) et
 [plan en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Infrastructure du lot 2 livrée
-selon D-029 : [livraison et limites](docs/reports/scraping-lot-2.md), à valider avant
-le lot 3. Aucun adaptateur fournisseur ou collecte activés. Les fonctionnalités communes
+selon D-029 : [livraison et limites](docs/reports/scraping-lot-2.md), validée D-030.
+L'[extraction JSON-LD du lot 3](docs/reports/scraping-lot-3.md)
+est livrée sur fixtures, à valider avant la page Angular du lot 4.
+Aucun adaptateur fournisseur ou collecte activés. Les fonctionnalités communes
 avec AI Job Agent seront réalisées une seule fois après validation des plans.
 
 ## Installation locale — PowerShell

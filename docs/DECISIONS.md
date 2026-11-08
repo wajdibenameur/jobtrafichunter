@@ -399,3 +399,30 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   138,22 s, Ruff/format/mypy verts, Alembic sans écart et audit runtime sans
   vulnérabilité connue. Rapport reports/scraping-lot-2.md ; attendre validation
   avant lot 3. Quotas en mémoire, callback DB et intégration worker encore futurs.
+
+## D-030 — 2026-11-08 — Lot 2 validé, extraction du lot 3 autorisée
+
+- Après la livraison du lot 2 et l'annonce d'attendre sa validation pour le lot 3,
+  le propriétaire répond « contenue ». Accord de continuation pour le lot 3,
+  annoncé comme extraction JSON-LD/normalisation sur fixtures, sans collecte réelle.
+- Réutiliser le transport/contrat du lot 2 ; ajouter Beautiful Soup (licence MIT,
+  Python 3.11 compatible), parser html.parser standard, verrous hachés. Références
+  revues : https://pypi.org/project/beautifulsoup4/,
+  https://www.crummy.com/software/BeautifulSoup/bs4/doc/ et https://schema.org/JobPosting.
+- DTO internes additifs pour lieux multiples, contrat, précision/provenance des
+  dates et avertissements. Pas de changement de table ni migration : la persistance
+  de ces métadonnées sera à proposer dans le lot 5. Date seule/sans fuseau ne devient
+  jamais une heure de publication inventée. Aucun rapprochement de visa implicite.
+- Les permissions de source ne sont pas acquises : livrer l'extraction générique
+  et sa préparation de page sous autorisation, sans adaptateur fournisseur enregistré.
+  Les candidats Keejob/API carrières restent à vérifier pour un périmètre précis.
+- L'aide officielle LinkedIn confirme 24 h/semaine/mois mais pas le contrat URL
+  exact f_TPR ni 2 h/6 h : conserver le générateur existant tant que non vérifié.
+  Source : https://www.linkedin.com/help/linkedin/answer/a507441. Aucun scraping LinkedIn.
+- La validation de phase 4 et des lots suivants reste distincte. Pas de nouveau
+  worker/service, activation, accès aux cookies, secret ou appel payant.
+- Livraison générique : 38 nouveaux tests JSON-LD ; 88 ciblés réussis en 3,51 s,
+  suite complète 219 réussis en 132,68 s ; Ruff/format/mypy verts, Alembic sans
+  écart, audit runtime sans vulnérabilité connue. Rapport reports/scraping-lot-3.md.
+  Aucun adaptateur réel ajouté faute de permission source établie ; aucune collecte.
+  Attendre validation de cette livraison avant page Angular lot 4.

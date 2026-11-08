@@ -1,5 +1,11 @@
 # Changelog
 
+- 2026-11-08 — D-030 : lot 2 validé, extraction générique JSON-LD lot 3 livrée :
+  graphes/références locales, texte sûr, lieux/contrats, dates à précision conservée,
+  provenance, avertissements et pagination sous autorisation. 38 nouveaux tests,
+  219 backend réussis, Ruff/format/mypy/Alembic/audit verts ; aucune migration,
+  activation fournisseur ou collecte réelle. Validation attendue avant lot 4.
+
 - 2026-11-08 — D-029 / Scraping lot 2 livré : contrat paginé additif, registre
   interne sans fournisseur actif, transport HTTP IP épinglée/TLS, permissions
   revérifiées, quotas/retry/budgets et décompression bornée. 50 nouveaux tests,

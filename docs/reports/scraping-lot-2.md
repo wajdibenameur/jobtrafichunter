@@ -1,8 +1,9 @@
 # Scraping Engine — lot 2 : infrastructure des connecteurs
 
-Date : 2026-11-08. Statut : DELIVERED / WAITING_FOR_OWNER_VALIDATION.
+Date : 2026-11-08. Statut : VALIDATED (continuation propriétaire D-030).
 Autorisation : continuation propriétaire « contenue » (D-029),
-limitée au lot 2 du [plan](../PLAN-SCRAPING-ENGINE.md). Livraison à valider avant lot 3.
+limitée au lot 2 du [plan](../PLAN-SCRAPING-ENGINE.md). Livraison depuis validée
+pour continuer le lot 3 ; la fin du rapport conserve la proposition historique.
 Ce document décrit l'infrastructure, pas une collecte fournisseur fonctionnelle.
 
 ## Périmètre

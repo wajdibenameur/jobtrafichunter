@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Literal, Protocol
+from datetime import date, datetime
+from typing import Literal, Protocol, Self
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.shared.urls import public_https_url
 
@@ -32,13 +32,60 @@ class Capabilities:
     publication_filter: bool = False
 
 
+class NormalizedLocation(BaseModel):
+    model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
+    country: str | None = Field(default=None, max_length=100)
+    city: str | None = Field(default=None, max_length=100)
+    region: str | None = Field(default=None, max_length=100)
+    label: str | None = Field(default=None, max_length=200)
+
+
 class NormalizedListing(BaseModel):
     model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
     original_url: str = Field(max_length=4096)
     title: str | None = Field(default=None, max_length=300)
     company: str | None = Field(default=None, max_length=200)
     description: str | None = Field(default=None, max_length=50000)
-    _url = field_validator("original_url")(public_https_url)
+    source_job_id: str | None = Field(default=None, max_length=200)
+    application_url: str | None = Field(default=None, max_length=4096)
+    locations: list[NormalizedLocation] = Field(default_factory=list, max_length=30)
+    applicant_locations: list[str] = Field(default_factory=list, max_length=30)
+    work_mode: Literal["remote", "hybrid", "onsite"] | None = None
+    employment_types: list[str] = Field(default_factory=list, max_length=30)
+    skills: list[str] = Field(default_factory=list, max_length=100)
+    experience_requirements: str | None = Field(default=None, max_length=4000)
+    published_at: datetime | None = None
+    published_date: date | None = None
+    publication_raw: str | None = Field(default=None, max_length=128)
+    publication_precision: Literal["UNKNOWN", "DATE", "LOCAL_DATETIME", "INSTANT"] = "UNKNOWN"
+    source_document_url: str | None = Field(default=None, max_length=4096, repr=False)
+    source_payload_hash: str | None = Field(default=None, max_length=64)
+    extractor_version: str | None = Field(default=None, max_length=50)
+    warnings: list[str] = Field(default_factory=list, max_length=100)
+
+    @field_validator("original_url", "application_url", "source_document_url")
+    @classmethod
+    def url(cls, value: str | None) -> str | None:
+        return public_https_url(value) if value is not None else None
+
+    @field_validator("published_at")
+    @classmethod
+    def aware_publication(cls, value: datetime | None) -> datetime | None:
+        if value is not None and (value.tzinfo is None or value.utcoffset() is None):
+            raise ValueError("Publication instant requires an explicit timezone")
+        return value
+
+    @model_validator(mode="after")
+    def consistent_publication(self) -> Self:
+        if self.publication_precision == "INSTANT":
+            valid = self.published_at is not None and self.published_date is None
+        elif self.publication_precision in {"DATE", "LOCAL_DATETIME"}:
+            valid = self.published_at is None and self.published_date is not None
+        else:
+            valid = self.published_at is None and self.published_date is None
+        if not valid:
+            raise ValueError("Publication precision must agree with its known value")
+        return self
 
 
 class ConnectorPage(BaseModel):
@@ -48,6 +95,10 @@ class ConnectorPage(BaseModel):
     items: list[NormalizedListing] = Field(default_factory=list, max_length=500)
     next_cursor: str | None = Field(default=None, max_length=2048)
     truncated: bool = False
+    warnings: list[str] = Field(default_factory=list, max_length=100)
+    partial: bool = False
+    matched_count: int | None = Field(default=None, ge=0)
+    invalid_count: int = Field(default=0, ge=0)
 
 
 class CollectionLimits(BaseModel):
