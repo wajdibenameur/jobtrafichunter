@@ -263,3 +263,19 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Le plan Apify A et les preuves de source restent conservés. Revoir ensuite
   leur intégration au matching réel et les conditions de l’Actor avant reprise B.
   Aucun appel Apify authentifié/facturable, secret ou fichier applicatif modifié.
+
+## D-024 — 2026-11-08 — Phase 3 validée et plan CV approuvé
+
+- À la question explicite de valider la phase 3 et `PLAN-PHASE-4.md`, le
+  propriétaire répond « ok ». Les deux validations sont acquises ; ne pas les
+  redemander. Le plan de phase 4 est autorisé, Apify reste reporté selon D-023.
+- Commencer par le coffre privé de CV et les tests d’intégrité/immutabilité.
+  La clé existante est consommée via Settings, jamais modifiée ou affichée.
+- Revue officielle : AESGCM/HKDF de cryptography et isolation AppContainer de
+  Microsoft. Pas de nouvelle dépendance pour le coffre ; cryptography existe.
+  Sources : https://cryptography.io/en/latest/hazmat/primitives/aead/ et
+  https://learn.microsoft.com/en-us/windows/win32/secauthz/implementing-an-appcontainer.
+- Sonde locale : Python 3.11.9 ; API CreateAppContainerProfile présente ; aucun
+  WindowsSandbox.exe, Tesseract, soffice ou antiword trouvé dans PATH. Cela ne
+  prouve pas l’impossibilité d’AppContainer, ni l’existence d’une sandbox prête.
+  Aucune extraction de document non fiable dans un subprocess ordinaire.

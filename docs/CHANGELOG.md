@@ -1,5 +1,11 @@
 # Changelog
 
+- 2026-11-08 — Phase 3 et plan CV validés (D-024). Fondations CV : coffre
+  AES-256-GCM/HKDF immuable et lanceur Windows AppContainer sans réseau avec
+  limites Job Object, copie locale de Python sans secrets et sondes natives.
+  122 tests backend réussis, Ruff/format/mypy verts. Phase 4 toujours en cours ;
+  aucune API d’upload, extraction métier ou interface CV annoncée disponible.
+
 - 2026-11-08 — Choix propriétaire D-023 : reporter Apify jusqu’aux modules CV et
   matching ; plan de phase 4 proposé pour stockage privé, extraction isolée et
   validation du profil. Documentation uniquement, aucun développement ni appel

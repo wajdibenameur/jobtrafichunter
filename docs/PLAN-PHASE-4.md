@@ -1,9 +1,9 @@
 # Plan proposé — Phase 4 : CV privés et profil candidat validé
 
-Date : 2026-11-08. Statut : **PROPOSED / WAITING_FOR_APPROVAL**.
-Ce plan ne constitue pas une livraison ni une autorisation de développement.
+Date : 2026-11-08. Statut : **APPROVED / IN_PROGRESS — D-024**.
+Le propriétaire valide la phase 3 et ce plan par « ok ». Ce n’est pas une livraison.
 Le propriétaire choisit d’attendre les modules CV et matching avant Apify (D-023).
-La livraison de phase 3 reste à valider : [rapport](reports/phase-3.md).
+La phase 3 est validée : [rapport](reports/phase-3.md).
 
 ## Résultat attendu
 

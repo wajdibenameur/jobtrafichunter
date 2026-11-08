@@ -2,17 +2,16 @@
 
 ## Prochaine action
 
-- Priorité courante : validation de la phase 3 et revue de `PLAN-PHASE-4.md`.
+- Priorité courante : phase 4 approuvée (D-024), coffre et isolation Windows.
+  Phase 3 validée ; continuer les lots du plan sans redemander cet accord.
   Le propriétaire choisit d’attendre CV et matching avant Apify (D-023).
-  Plan CV proposé uniquement ; aucune implémentation CV/Apify commencée.
 - Apify : plan A conservé dans `reports/apify-phase-a.md` (D-022), B reportée
   après CV/matching. Vérifier l’Actor/méthode avant reprise et obtenir l’accord
   distinct C avant tout run réel. Ne pas substituer une version collecte seule.
 - Recommandation UI : carte LinkedIn — Apify séparée dans Sources, pas de menu
   supplémentaire ; conserver les quatre modes manuels et la recherche locale.
 - Phase 2 validée (D-017), continuation vers la phase 3 confirmée (D-018).
-- Phase 3 locale livrée selon le plan approuvé D-019 ; consulter
-  `reports/phase-3.md` et attendre la validation avant de planifier la phase 4.
+- Phase 3 locale livrée et validée ; rapport `reports/phase-3.md`.
 - D-015 : LinkedIn, Indeed, Keejob et Tanitjobs en liens/import manuel ; aucune
   collecte automatisée attendue dans cette livraison. Ajout de sites personnalisés disponible.
 
