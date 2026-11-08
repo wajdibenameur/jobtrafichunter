@@ -1,6 +1,6 @@
 # Plan proposé — Scraping Engine indépendant d'Apify
 
-Date : 2026-11-08. Statut : LOT_4_UI_DELIVERED / WAITING_FOR_VALIDATION.
+Date : 2026-11-08. Statut : LOT_4_VALIDATED / LOT_5_PLAN_PROPOSED (D-032).
 D-028 autorise l'enregistrement des documents, pas leur implémentation.
 La continuation « contenue » autorise ensuite le lot 2 seulement (D-029).
 Livraison/limites : [rapport du lot 2](reports/scraping-lot-2.md).
@@ -8,7 +8,8 @@ Lot 2 validé et extraction lot 3 autorisée par « contenue » (D-030).
 Extraction générique livrée : [rapport du lot 3](reports/scraping-lot-3.md).
 Adaptateurs fournisseurs toujours conditionnés à des permissions établies.
 Extraction générique validée et lot 4 autorisé D-031 ;
-[page Angular et filtres](reports/scraping-lot-4.md) livrés, validation attendue.
+[page Angular et filtres](reports/scraping-lot-4.md) validés par continuation D-032.
+[Plan détaillé du lot 5](PLAN-SCRAPING-LOT-5.md) proposé, accord attendu avant code.
 Voir [audit](reports/scraping-engine-audit.md), [revue des sources](sources/scraping-review.md)
 et [plan AI Job Agent](PLAN-AI-JOB-AGENT.md). Phase 4 toujours en attente de validation.
 
@@ -70,7 +71,7 @@ car aucune permission pour un périmètre source concret n'est encore établie.
 
 ## Lot 4 — Angular
 
-Livré selon le [rapport](reports/scraping-lot-4.md), validation attendue avant lot 5.
+Livré selon le [rapport](reports/scraping-lot-4.md), validé par continuation D-032.
 Les actions de collecte/volume/fréquence restent indisponibles jusqu'aux services requis.
 
 - Ajouter pages/scraping/ (composant/template/styles/tests), route dans app.routes.ts,
@@ -87,6 +88,9 @@ Les actions de collecte/volume/fréquence restent indisponibles jusqu'aux servic
 - Tests accessibilité/clavier/mobile, exclusivité radios, SSE/rechargement/erreurs.
 
 ## Lot 5 — Intégration queue, worker et PostgreSQL
+
+[Interfaces, sept tables annexes, transactions, risques et tests proposés](PLAN-SCRAPING-LOT-5.md).
+Accord spécifique attendu avant implémentation et migrations ; aucune collecte réelle.
 
 - Étendre search/executions.py, queue.py, schémas/API et app/worker.py au besoin.
   Mode collecte explicite et optionnel, recherche locale historique inchangée.
@@ -134,7 +138,7 @@ Ne pas revendiquer une collecte réelle réussie sur la seule base des fixtures.
 
 ## Validation attendue
 
-Lot 3 générique validé D-031 ; attendre validation du lot 4 avant proposition concrète du lot 5.
+Lot 4 validé D-032 ; attendre approbation du plan détaillé du lot 5 avant code.
 Autres lots et articulation avec AI Job Agent encore proposés ; validation de
 phase 4 séparée. Migrations/dépendances concrètes à examiner aux lots concernés.
 Ce chantier ne réactive pas Apify (D-023) et n'autorise aucune dépense.

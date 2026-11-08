@@ -20,7 +20,8 @@ profil à 24 h, préférences enregistrées conservées via Dates avancées si n
 Les fenêtres horaires excluent les dates inconnues/futures. Redémarrer l'API pour
 charger le nouveau champ `publication_minutes`. Aucune migration pour ce lot.
 Les actions de collecte et volume/fréquence sont désactivés avec leur explication.
-Voir [la livraison du lot 4](../../docs/reports/scraping-lot-4.md), à valider avant lot 5.
+Voir [la livraison du lot 4](../../docs/reports/scraping-lot-4.md), validée D-032,
+et [le plan du lot 5](../../docs/PLAN-SCRAPING-LOT-5.md), proposé avant code.
 
 ## Lancement CMD depuis frontEnd\jobhunter
 

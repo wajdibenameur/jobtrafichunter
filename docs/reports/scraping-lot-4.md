@@ -1,6 +1,8 @@
 # Scraping Engine — lot 4 : interface Angular et filtres partagés
 
-Date : 2026-11-08. Statut : DELIVERED / WAITING_FOR_OWNER_VALIDATION.
+Date : 2026-11-08. Statut : VALIDATED_BY_OWNER_CONTINUATION (D-032).
+Livraison commit 72143fd ; continuation « contenue » après le rapport de livraison.
+Suite : [plan détaillé du lot 5](../PLAN-SCRAPING-LOT-5.md), proposé avant code.
 Continuation propriétaire « contenue » : lot 3 générique validé, lot 4 autorisé
 (D-031). [Plan](../PLAN-SCRAPING-ENGINE.md). Aucun connecteur ni collecte réelle activé.
 

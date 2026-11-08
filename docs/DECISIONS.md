@@ -454,3 +454,26 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   inspectées sans débordement. Rapport reports/scraping-lot-4.md ; attendre validation
   avant proposition concrète des interfaces/migrations de lot 5. API/UI de collecte
   réelle, ordonnanceur, permissions fournisseur et matching restent absents/inactifs.
+
+## D-032 — 2026-11-08 — Lot 4 validé, proposition détaillée du lot 5
+
+- Après le rapport de livraison du lot 4 (commit 72143fd), le propriétaire répond
+  « contenue ». La livraison UI/filtres est validée et la préparation du plan de
+  lot 5 annoncée est autorisée. Pas d'approbation anticipée de son code/migrations.
+- Code queue/executions/modèles, interfaces sources/listings, worker et contrats
+  Angular relus. Plan concret : [PLAN-SCRAPING-LOT-5.md](PLAN-SCRAPING-LOT-5.md).
+- Recommandation soumise à accord : même queue/worker ; scope additif, sept tables
+  annexes dans sources/search/listings et trois migrations append-only ; transactions
+  courtes avec ingestion/reçu/checkpoint atomiques et budgets HTTP durables.
+- Alternatives étudiées : colonnes dans les tables actuelles (couplage des curseurs),
+  ingestion/curseur en transactions séparées (fenêtre de crash), deuxième queue
+  (garanties dupliquées). Retenir la proposition annexe après accord seulement.
+- Ingestion collectée distincte de l'import confirmé pour ne pas écraser ses champs ;
+  déduplication existante partagée. Reprise réseau au moins une fois, aucun engagement
+  exactly-once ; budgets réservés conservateurs après crash, dates non inventées.
+- Périmètre prévu : intégration sur connecteurs simulés seulement, aucune source
+  automatique actuellement éligible/enregistrée. Fréquence, matching et Apify reportés.
+  Phase 4 CV et autres lots AI Job Agent toujours indépendants et non validés ici.
+- Livrable de cette session documentaire seulement : pas de code, migration exécutée,
+  collecte réelle, test payant ou nouvelle dépendance. Contrôles documentaires à
+  enregistrer dans PROGRESS ; suites applicatives non relancées sans changement code.

@@ -1,5 +1,10 @@
 # Changelog
 
+- 2026-11-08 — D-032 : lot 4 validé par continuation ; plan détaillé Scraping lot 5
+  enregistré (interfaces, sept tables annexes/trois migrations, transaction atomique,
+  budgets durables et tests simulés). Proposition seulement, accord attendu avant
+  code/migrations ; aucune collecte ni nouvel appel réseau, SPEC inchangée.
+
 - 2026-11-08 — D-031 : lot 3 validé, lot 4 Angular Scraping/filtres communs livré :
   profils réels sauvegardés, statuts/historique locaux, radios horaires strictes
   et compatibilité des profils historiques ; collecte non configurée explicitée.

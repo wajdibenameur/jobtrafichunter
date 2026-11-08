@@ -24,11 +24,12 @@ Scraping Engine indépendant d'Apify : [audit](docs/reports/scraping-engine-audi
 [plan en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Infrastructure du lot 2 livrée
 selon D-029 : [livraison et limites](docs/reports/scraping-lot-2.md), validée D-030.
 L'extraction JSON-LD du lot 3 est validée D-031. La [page Scraping du lot 4](docs/reports/scraping-lot-4.md)
-est livrée : profils/critères enregistrables, radios 2 h/6 h/24 h/7 j/30 j et
+est validée D-032 : profils/critères enregistrables, radios 2 h/6 h/24 h/7 j/30 j et
 historique local réutilisé. Les anciens profils conservent leurs règles ; nouveau
 profil Angular à 24 h par défaut. Redémarrer l'API pour charger publication_minutes.
 Lancer/Arrêter/Tester et volume/fréquence restent indisponibles tant que la collecte
-n'est pas intégrée. Validation de cette livraison attendue avant le détail du lot 5.
+n'est pas intégrée. Le [plan détaillé du lot 5](docs/PLAN-SCRAPING-LOT-5.md)
+propose l'intégration queue/worker et ses migrations ; accord attendu avant code.
 Aucun adaptateur fournisseur ou collecte activés. Les fonctionnalités communes
 restantes avec AI Job Agent seront réalisées une seule fois après validation des plans.
 

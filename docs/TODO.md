@@ -5,8 +5,9 @@
 - Scraping Engine : audit `reports/scraping-engine-audit.md`, preuves
   `sources/scraping-review.md`, plan `PLAN-SCRAPING-ENGINE.md`.
   D-029 : lot 2 livré, 181 tests backend réussis ; rapport `reports/scraping-lot-2.md`.
-  Lot 3 générique validé D-031 ; lot 4 page/filtres livré, rapport
-  `reports/scraping-lot-4.md`, à valider avant proposition détaillée du lot 5.
+  Lot 4 page/filtres validé D-032 ; rapport `reports/scraping-lot-4.md`.
+  Faire approuver `PLAN-SCRAPING-LOT-5.md` avant code : interfaces additives,
+  sept tables annexes/trois migrations et intégration sur fournisseurs simulés.
   Aucun fournisseur activé ; collecte, fréquence et volume indisponibles dans l'UI.
   Articulation AI Job Agent : un seul chantier filtres/matching/alertes/documents.
 - Demande AI Job Agent auditée : `reports/ai-job-agent-audit.md` et
@@ -28,7 +29,7 @@
 
 ## Fonctionnalités à venir
 
-- Filtres 2 h/6 h/24 h et radios livrés en commun dans Scraping lot 4 (D-031),
+- Filtres 2 h/6 h/24 h et radios validés en commun dans Scraping lot 4 (D-032),
   anciens profils et règles 7/30 jours conservés. Ne pas créer un second éditeur.
 - Lots encore proposés : matching expliqué/calibré puis alertes ;
   CV adapté ; lettre ; dossier ZIP et suivi ; validation globale. Rien de livré
