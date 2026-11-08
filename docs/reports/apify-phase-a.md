@@ -1,6 +1,8 @@
 # Phase A — Plan d’intégration Apify dans JobHunter AI
 
 Date : 2026-11-08. **Analyse terminée, plan proposé ; Phase B non autorisée.**
+Suite D-023 : le propriétaire demande d’attendre les modules CV et matching.
+Phase B reportée ; [plan CV proposé](../PLAN-PHASE-4.md), non implémenté.
 Demande spécifique A/B/C du propriétaire, distincte de la future phase 4 CV.
 Python 3.11, FastAPI, PostgreSQL, Angular standalone et exécution locale conservés.
 Aucun code applicatif, migration, dépendance, secret ou paramètre de compte modifié.

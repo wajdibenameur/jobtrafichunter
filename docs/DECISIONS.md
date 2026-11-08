@@ -245,3 +245,21 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   pour le fonctionnement de l’application. Aucune conclusion sur le MCP local.
 - La validation de la livraison générale de phase 3 reste en attente ; ne pas
   interpréter cette demande de fonctionnalité comme validation implicite ou phase 4.
+
+## D-023 — 2026-11-08 — Apify reporté après CV et matching
+
+- Après « contenue », reprise du plan Apify et lecture du code, sans modification
+  applicative ni migration. Avant l’implémentation, clarification du périmètre
+  car le plan A constate que CV/matching n’existent pas encore.
+- Le propriétaire choisit explicitement « Attendre les modules CV et matching »,
+  plutôt qu’une première version de collecte sans matching. Ce choix reporte
+  l’ensemble de l’implémentation Apify B ; ne pas livrer silencieusement une
+  variante collecte seule ou poursuivre le client/la carte à sa place.
+- Préparation documentaire de `PLAN-PHASE-4.md` : stockage CV privé, extraction
+  locale isolée, versions et profil candidat validé ; matching en phase 5.
+  Ce plan reste PROPOSED. Aucun module CV/matching n’est prétendu disponible.
+- La phase 3 attend toujours sa validation et le plan de phase 4 son approbation
+  selon AGENTS.md/SPEC §24. Le choix d’attendre n’autorise pas leur code.
+- Le plan Apify A et les preuves de source restent conservés. Revoir ensuite
+  leur intégration au matching réel et les conditions de l’Actor avant reprise B.
+  Aucun appel Apify authentifié/facturable, secret ou fichier applicatif modifié.

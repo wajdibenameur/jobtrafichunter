@@ -2,9 +2,12 @@
 
 ## Prochaine action
 
-- Priorité courante : revue du plan `reports/apify-phase-a.md` (D-022).
-  Phase A terminée ; attendre l’accord pour B, l’Actor/méthode autorisés et le
-  choix sur le matching CV absent. Aucun run réel avant l’accord distinct C.
+- Priorité courante : validation de la phase 3 et revue de `PLAN-PHASE-4.md`.
+  Le propriétaire choisit d’attendre CV et matching avant Apify (D-023).
+  Plan CV proposé uniquement ; aucune implémentation CV/Apify commencée.
+- Apify : plan A conservé dans `reports/apify-phase-a.md` (D-022), B reportée
+  après CV/matching. Vérifier l’Actor/méthode avant reprise et obtenir l’accord
+  distinct C avant tout run réel. Ne pas substituer une version collecte seule.
 - Recommandation UI : carte LinkedIn — Apify séparée dans Sources, pas de menu
   supplémentaire ; conserver les quatre modes manuels et la recherche locale.
 - Phase 2 validée (D-017), continuation vers la phase 3 confirmée (D-018).

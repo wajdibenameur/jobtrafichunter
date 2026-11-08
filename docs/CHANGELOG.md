@@ -1,5 +1,10 @@
 # Changelog
 
+- 2026-11-08 — Choix propriétaire D-023 : reporter Apify jusqu’aux modules CV et
+  matching ; plan de phase 4 proposé pour stockage privé, extraction isolée et
+  validation du profil. Documentation uniquement, aucun développement ni appel
+  Apify ; validation de phase 3 et approbation du plan CV encore attendues.
+
 - 2026-11-08 — Apify Phase A : inspection de l’existant et des documents officiels,
   proposition de carte séparée dans Sources, migrations/additions et reprise sans
   relance facturable aveugle ; matching CV absent et permissions non établies
