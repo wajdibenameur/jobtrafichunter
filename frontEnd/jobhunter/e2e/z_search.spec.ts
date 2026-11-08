@@ -61,6 +61,7 @@ test('profiles, real worker, grouped results, preserved snapshots and mobile', a
   await page.getByRole('checkbox', { name: 'LinkedIn', exact: true }).check();
   await page.getByRole('checkbox', { name: 'Keejob', exact: true }).check();
   await page.getByLabel('Contient au moins un mot-clé', { exact: true }).fill('Phase3 synthetic');
+  await page.getByRole('radio', { name: 'Dates avancées', exact: true }).check();
   await page.getByRole('button', { name: 'Enregistrer le profil', exact: true }).click();
   await expect(page.getByRole('status')).toContainText('Profil enregistré');
   const original = page

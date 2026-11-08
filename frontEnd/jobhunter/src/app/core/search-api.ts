@@ -17,6 +17,7 @@ export interface SearchCriteria {
   max_years: number;
   visa_statuses: string[];
   publication_days: 0 | 1 | 3 | 7 | 30;
+  publication_minutes?: 120 | 360 | 1440 | null;
   novelty: 'all' | 'today' | '24h' | '3d' | '7d' | '30d';
   unknown_policy: 'include' | 'exclude';
   mode: 'MANUAL' | 'CV' | 'HYBRID';
@@ -38,6 +39,7 @@ export function defaultCriteria(): SearchCriteria {
     max_years: 3,
     visa_statuses: [],
     publication_days: 0,
+    publication_minutes: 1440,
     novelty: 'all',
     unknown_policy: 'include',
     mode: 'MANUAL',

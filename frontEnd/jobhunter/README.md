@@ -1,7 +1,8 @@
 ﻿# JobHunter frontend
 
 Angular 22 standalone, TypeScript strict, RxJS, tests Karma/Jasmine et Playwright.
-Connexion propriétaire, compte, Sources, Profils, Recherche, Résultats et Mes CV reliés à FastAPI ; FR/EN.
+Connexion propriétaire, compte, Sources, Profils, Recherche, Résultats, Mes CV et
+préparation Scraping reliés à FastAPI ; FR/EN.
 Sources : LinkedIn, Indeed, Keejob et Tanitjobs, filtre tunisien, préférences,
 sites personnalisés, liens de recherche et import URL/CSV avec confirmation.
 Aucune collecte automatique. La recherche filtre les imports avec un worker local ;
@@ -12,6 +13,14 @@ La phase 4 attend sa validation ; le nouveau plan AI Job Agent est proposé,
 sans développement autorisé par la seule mise à jour documentaire D-027.
 Voir [l'audit](../../docs/reports/ai-job-agent-audit.md) et
 [le plan](../../docs/PLAN-AI-JOB-AGENT.md).
+
+La page `/scraping` permet de choisir un profil, enregistrer ses critères et ouvrir
+ses résultats/historiques locaux. Radios partagées 2 h/6 h/24 h/7 j/30 j ; nouveau
+profil à 24 h, préférences enregistrées conservées via Dates avancées si nécessaire.
+Les fenêtres horaires excluent les dates inconnues/futures. Redémarrer l'API pour
+charger le nouveau champ `publication_minutes`. Aucune migration pour ce lot.
+Les actions de collecte et volume/fréquence sont désactivés avec leur explication.
+Voir [la livraison du lot 4](../../docs/reports/scraping-lot-4.md), à valider avant lot 5.
 
 ## Lancement CMD depuis frontEnd\jobhunter
 

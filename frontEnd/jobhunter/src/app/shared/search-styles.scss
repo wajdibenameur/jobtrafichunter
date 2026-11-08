@@ -1,4 +1,18 @@
 .search-ui {
+  .date-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+  .date-choices label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .date-choices input {
+    width: auto;
+  }
   .badge {
     font-size: 12px;
     padding: 6px 10px;
@@ -27,7 +41,7 @@
     margin-bottom: 16px;
     min-width: 0;
   }
-  input:not([type='checkbox']),
+  input:not([type='checkbox']):not([type='radio']),
   select,
   textarea {
     display: block;
@@ -76,10 +90,13 @@
     border-radius: 5px;
     margin: 0;
   }
-  input[type='checkbox'] {
+  input[type='checkbox'],
+  input[type='radio'] {
     accent-color: var(--vz-primary);
     width: 16px;
     height: 16px;
+    flex-shrink: 0;
+    margin: 0;
   }
   .muted,
   small {

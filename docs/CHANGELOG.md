@@ -1,5 +1,11 @@
 # Changelog
 
+- 2026-11-08 — D-031 : lot 3 validé, lot 4 Angular Scraping/filtres communs livré :
+  profils réels sauvegardés, statuts/historique locaux, radios horaires strictes
+  et compatibilité des profils historiques ; collecte non configurée explicitée.
+  248 backend, 33 Angular, 11 E2E réussis ; typage/build/Ruff/mypy/Alembic verts,
+  trois captures desktop/mobile inspectées. Aucune migration/dépendance/source activée.
+
 - 2026-11-08 — D-030 : lot 2 validé, extraction générique JSON-LD lot 3 livrée :
   graphes/références locales, texte sûr, lieux/contrats, dates à précision conservée,
   provenance, avertissements et pagination sous autorisation. 38 nouveaux tests,

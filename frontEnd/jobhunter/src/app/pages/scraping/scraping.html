@@ -1,0 +1,170 @@
+<div class="search-ui">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">JobHunter AI</p>
+      <h1>{{ i18n.t('scraping') }}</h1>
+      <p>{{ i18n.t('scrapingSubtitle') }}</p>
+    </div>
+    <a class="btn" routerLink="/sources">{{ i18n.t('sources') }}</a>
+  </div>
+  <section class="card collection-notice" aria-labelledby="collection-state">
+    <span class="badge">{{ i18n.t('collectionUnavailable') }}</span>
+    <h2 id="collection-state">{{ i18n.t('collectionNotConfigured') }}</h2>
+    <p>{{ i18n.t('collectionScope') }}</p>
+    <p class="muted">{{ i18n.t('collectionNext') }}</p>
+    <div class="search-actions">
+      <button class="btn btn-primary" disabled [title]="i18n.t('collectionNotConfigured')">
+        {{ i18n.t('startCollection') }}
+      </button>
+      <button class="btn" disabled [title]="i18n.t('collectionNotConfigured')">
+        {{ i18n.t('stopCollection') }}
+      </button>
+      <a class="btn" href="#scraping-history">{{ i18n.t('seeHistory') }}</a>
+      <a class="btn" routerLink="/search">{{ i18n.t('localSearch') }}</a>
+    </div>
+  </section>
+  @if (error(); as key) {
+    <p role="alert" class="alert alert-danger">
+      {{ i18n.t(key) }}
+      <button class="btn" (click)="load()" [disabled]="loading() || busy()">
+        {{ i18n.t('retry') }}
+      </button>
+    </p>
+  }
+  @if (loading()) {
+    <p role="status">{{ i18n.t('loading') }}</p>
+  }
+  <div class="scraping-layout">
+    <section class="card" aria-labelledby="scraping-profile">
+      <h2 id="scraping-profile">{{ i18n.t('profiles') }}</h2>
+      <p class="muted">{{ i18n.t('chooseProfileFirst') }}</p>
+      <label for="scraping-profile-choice">{{ i18n.t('chooseProfile') }}</label>
+      <select
+        id="scraping-profile-choice"
+        [formControl]="selection"
+        (change)="choose(selection.value)"
+      >
+        @for (p of profiles(); track p.id) {
+          <option [value]="p.id">{{ p.name }}</option>
+        }
+      </select>
+      @if (profile(); as selected) {
+        <form (submit)="$event.preventDefault(); save()">
+          <jh-criteria-editor
+            [criteria]="selected.criteria"
+            [sources]="sources()"
+            [busy]="busy() || loading()"
+          />
+          <button class="btn btn-primary" type="submit" [disabled]="busy() || loading()">
+            {{ i18n.t('saveProfileCriteria') }}
+          </button>
+        </form>
+      } @else if (!loading()) {
+        <p>{{ i18n.t('noSavedProfiles') }}</p>
+        <a class="btn" routerLink="/search-profiles">{{ i18n.t('profiles') }}</a>
+      }
+      @if (saved()) {
+        <p class="success-note" role="status">{{ i18n.t('profileSaved') }}</p>
+      }
+    </section>
+    <section class="card collection-settings" aria-labelledby="collection-settings">
+      <h2 id="collection-settings">{{ i18n.t('collectionSettings') }}</h2>
+      <p class="muted" id="collection-settings-help">{{ i18n.t('collectionSettingsHelp') }}</p>
+      <fieldset disabled aria-describedby="collection-settings-help">
+        <label
+          >{{ i18n.t('maxCollectedJobs') }}<input type="number" value="10" min="1" max="500"
+        /></label>
+        <label
+          >{{ i18n.t('collectionFrequency')
+          }}<select>
+            <option>{{ i18n.t('every15Minutes') }}</option>
+            <option selected>{{ i18n.t('every30Minutes') }}</option>
+            <option>{{ i18n.t('everyHour') }}</option>
+            <option>{{ i18n.t('everyDay') }}</option>
+          </select></label
+        >
+      </fieldset>
+    </section>
+  </div>
+  <section class="card" aria-labelledby="source-status">
+    <div class="result-heading">
+      <h2 id="source-status">
+        {{ i18n.t('sourceStatus') }}
+        @if (!loading() && (!error() || sources().length)) {
+          <span class="badge">{{ sources().length }}</span>
+        }
+      </h2>
+      <button class="btn" (click)="load()" [disabled]="busy() || loading()">
+        {{ i18n.t('refreshSources') }}
+      </button>
+    </div>
+    <div class="source-status-grid">
+      @for (source of sources(); track source.id) {
+        <article class="source-status-card">
+          <h3>{{ source.name }}</h3>
+          <span class="badge">{{
+            i18n.t(
+              source.manual_import_supported ? 'manualCollectionSource' : 'collectionUnavailable'
+            )
+          }}</span>
+          <dl>
+            <div>
+              <dt>{{ i18n.t('lastCollection') }}</dt>
+              <dd>
+                {{
+                  source.last_successful_sync
+                    ? (source.last_successful_sync | date: 'yyyy-MM-dd HH:mm')
+                    : i18n.t('noCollectionData')
+                }}
+              </dd>
+            </div>
+            <div>
+              <dt>{{ i18n.t('discoveredJobs') }}</dt>
+              <dd>{{ source.jobs_collected ?? i18n.t('noCollectionData') }}</dd>
+            </div>
+            <div>
+              <dt>{{ i18n.t('newCollectedJobs') }}</dt>
+              <dd>{{ i18n.t('noCollectionData') }}</dd>
+            </div>
+          </dl>
+          <p class="muted">{{ i18n.t('noCollectionTest') }}</p>
+          <button class="btn" disabled [title]="i18n.t('collectionNotConfigured')">
+            {{ i18n.t('testSource') }}
+          </button>
+        </article>
+      }
+    </div>
+  </section>
+  <section class="card" id="scraping-history" aria-labelledby="local-history">
+    <h2 id="local-history">{{ i18n.t('localHistory') }}</h2>
+    <p>{{ i18n.t('localHistoryHelp') }}</p>
+    <p class="muted">{{ i18n.t('localHistoryLimit') }}</p>
+    @for (execution of history(); track execution.id) {
+      <article class="history-row">
+        <div>
+          <strong>{{ execution.profile_name }}</strong>
+          <p>
+            {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }} ·
+            {{ i18n.t(statusKey(execution.status)) }}
+          </p>
+          <span
+            >{{ i18n.t('retainedJobs') }} :
+            {{ execution.counts['results'] ?? i18n.t('noCollectionData') }}</span
+          >
+        </div>
+        <div class="search-actions">
+          <a class="btn" routerLink="/search" [queryParams]="{ execution: execution.id }">{{
+            i18n.t('selectExecution')
+          }}</a>
+          <a class="btn" routerLink="/results" [queryParams]="{ execution: execution.id }">{{
+            i18n.t('localResults')
+          }}</a>
+        </div>
+      </article>
+    } @empty {
+      @if (!loading() && !error()) {
+        <p>{{ i18n.t('noLocalHistory') }}</p>
+      }
+    }
+  </section>
+</div>

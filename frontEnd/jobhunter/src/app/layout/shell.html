@@ -39,6 +39,14 @@
     >
     <a
       class="nav-item"
+      routerLink="/scraping"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="globe" />{{ i18n.t('scraping') }}</a
+    >
+    <a
+      class="nav-item"
       routerLink="/search-profiles"
       routerLinkActive="active"
       ariaCurrentWhenActive="page"

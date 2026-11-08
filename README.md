@@ -6,7 +6,8 @@ Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 État : phase 3 validée ; phase 4 CV/profil candidat livrée, en attente de validation.
 Python **3.11** selon
 instruction du propriétaire. Le projet reste entièrement local, sans Docker.
-Connexion, compte, Sources, Profils, Recherche et Résultats sont reliés à FastAPI. LinkedIn,
+Connexion, compte, Sources, Profils, Recherche, Résultats et préparation Scraping
+sont reliés à FastAPI. LinkedIn,
 Indeed, Keejob et Tanitjobs proposent des liens de recherche et l’import manuel
 d’offres, avec aperçu CSV et confirmation. Les recherches filtrent ces imports,
 avec queue PostgreSQL et déduplication conservatrice. Voir [le rapport](docs/reports/phase-3.md).
@@ -22,10 +23,14 @@ Scraping Engine indépendant d'Apify : [audit](docs/reports/scraping-engine-audi
 [revue des sources](docs/sources/scraping-review.md) et
 [plan en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Infrastructure du lot 2 livrée
 selon D-029 : [livraison et limites](docs/reports/scraping-lot-2.md), validée D-030.
-L'[extraction JSON-LD du lot 3](docs/reports/scraping-lot-3.md)
-est livrée sur fixtures, à valider avant la page Angular du lot 4.
+L'extraction JSON-LD du lot 3 est validée D-031. La [page Scraping du lot 4](docs/reports/scraping-lot-4.md)
+est livrée : profils/critères enregistrables, radios 2 h/6 h/24 h/7 j/30 j et
+historique local réutilisé. Les anciens profils conservent leurs règles ; nouveau
+profil Angular à 24 h par défaut. Redémarrer l'API pour charger publication_minutes.
+Lancer/Arrêter/Tester et volume/fréquence restent indisponibles tant que la collecte
+n'est pas intégrée. Validation de cette livraison attendue avant le détail du lot 5.
 Aucun adaptateur fournisseur ou collecte activés. Les fonctionnalités communes
-avec AI Job Agent seront réalisées une seule fois après validation des plans.
+restantes avec AI Job Agent seront réalisées une seule fois après validation des plans.
 
 ## Installation locale — PowerShell
 

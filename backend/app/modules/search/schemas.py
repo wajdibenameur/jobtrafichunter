@@ -1,8 +1,15 @@
 from datetime import datetime
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Self
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
 
 Label = Annotated[
     str,
@@ -29,12 +36,19 @@ class SearchCriteria(BaseModel):
         Field(default_factory=list, max_length=5)
     )
     publication_days: Literal[0, 1, 3, 7, 30] = 0
+    publication_minutes: Literal[120, 360, 1440] | None = None
     novelty: Literal["all", "today", "24h", "3d", "7d", "30d"] = "all"
     unknown_policy: Literal["include", "exclude"] = "include"
     mode: Literal["MANUAL", "CV", "HYBRID"] = "MANUAL"
     linked_cv_id: UUID | None = None
     min_score: int = Field(default=0, ge=0, le=100)
     notifications_enabled: bool = False
+
+    @model_validator(mode="after")
+    def one_publication_window(self) -> Self:
+        if self.publication_minutes is not None and self.publication_days:
+            raise ValueError("Choose one publication window")
+        return self
 
     @field_validator(
         "source_ids",

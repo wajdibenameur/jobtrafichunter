@@ -71,6 +71,55 @@
       >
     </div>
   </fieldset>
+  <fieldset [disabled]="busy">
+    <legend>{{ i18n.t('publicationWindow') }}</legend>
+    <div class="date-choices">
+      <label class="check-choice"
+        ><input type="radio" formControlName="publication_window" value="120" />{{
+          i18n.t('less2h')
+        }}</label
+      >
+      <label class="check-choice"
+        ><input type="radio" formControlName="publication_window" value="360" />{{
+          i18n.t('less6h')
+        }}</label
+      >
+      <label class="check-choice"
+        ><input type="radio" formControlName="publication_window" value="1440" />{{
+          i18n.t('less24h')
+        }}</label
+      >
+      <label class="check-choice"
+        ><input type="radio" formControlName="publication_window" value="7d" />{{
+          i18n.t('days7')
+        }}</label
+      >
+      <label class="check-choice"
+        ><input type="radio" formControlName="publication_window" value="30d" />{{
+          i18n.t('days30')
+        }}</label
+      >
+      <label class="check-choice"
+        ><input type="radio" formControlName="publication_window" value="legacy" />{{
+          i18n.t('advancedDates')
+        }}</label
+      >
+    </div>
+    <p class="muted">{{ i18n.t('strictDatesHelp') }}</p>
+    @if (form.controls.publication_window.value === 'legacy') {
+      <label
+        >{{ i18n.t('legacyPublicationWindow') }}
+        <select formControlName="publication_days">
+          <option [ngValue]="0">{{ i18n.t('allDates') }}</option>
+          <option [ngValue]="1">{{ i18n.t('days1') }}</option>
+          <option [ngValue]="3">{{ i18n.t('days3') }}</option>
+          <option [ngValue]="7">{{ i18n.t('days7') }}</option>
+          <option [ngValue]="30">{{ i18n.t('days30') }}</option>
+        </select>
+      </label>
+      <p class="muted">{{ i18n.t('legacyDatesHelp') }}</p>
+    }
+  </fieldset>
   <details>
     <summary>{{ i18n.t('advancedCriteria') }}</summary>
     <fieldset [disabled]="busy">
@@ -93,16 +142,6 @@
             @for (visa of visas; track visa) {
               <option [value]="visa">{{ i18n.t(visaKey(visa)) }}</option>
             }
-          </select></label
-        >
-        <label
-          >{{ i18n.t('publicationWindow')
-          }}<select formControlName="publication_days">
-            <option [ngValue]="0">{{ i18n.t('allDates') }}</option>
-            <option [ngValue]="1">{{ i18n.t('days1') }}</option>
-            <option [ngValue]="3">{{ i18n.t('days3') }}</option>
-            <option [ngValue]="7">{{ i18n.t('days7') }}</option>
-            <option [ngValue]="30">{{ i18n.t('days30') }}</option>
           </select></label
         >
         <label

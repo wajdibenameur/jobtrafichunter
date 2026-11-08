@@ -13,6 +13,10 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/shell').then((m) => m.Shell),
     children: [
       {
+        path: 'scraping',
+        loadComponent: () => import('./pages/scraping/scraping').then((m) => m.Scraping),
+      },
+      {
         path: 'search',
         loadComponent: () => import('./pages/search/search').then((m) => m.Search),
       },

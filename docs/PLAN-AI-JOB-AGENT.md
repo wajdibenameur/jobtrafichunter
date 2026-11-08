@@ -1,8 +1,9 @@
 # Plan proposé — AI Job Agent et dossier de candidature
 
-Date : 2026-11-08. Statut : **PROPOSED / WAITING_FOR_OWNER_APPROVAL**.
+Date : 2026-11-08. Statut : **SHARED_FILTERS_DELIVERED_D031 / OTHER_LOTS_PROPOSED**.
 D-027 autorise uniquement l'enregistrement documentaire de ce plan et de
-[l'audit](reports/ai-job-agent-audit.md). Aucun nouveau lot de code approuvé.
+[l'audit](reports/ai-job-agent-audit.md). Depuis, seuls les filtres communs sont
+autorisés et réalisés dans le lot 4 Scraping D-031 ; les autres lots restent proposés.
 La livraison de phase 4 attend aussi sa validation ; ne pas la déduire de cet accord.
 
 Articulation D-028 : le [plan Scraping Engine](PLAN-SCRAPING-ENGINE.md) ajoute une
@@ -10,8 +11,9 @@ collecte indépendante d'Apify, encore proposée. Filtres, matching, alertes et
 documents sont des chantiers communs ; ne pas créer de seconde implémentation.
 L'accord d'enregistrement de ces documents ne valide aucun des deux plans.
 Depuis, le lot 2 d'infrastructure Scraping est livré D-029 puis validé D-030.
-L'[extraction générique lot 3](reports/scraping-lot-3.md) est livrée et attend
-validation. Le présent plan AI Job Agent n'est pas approuvé par ces continuations limitées.
+L'extraction générique lot 3 est validée D-031 ; la page Scraping et les filtres
+communs sont livrés, [rapport lot 4](reports/scraping-lot-4.md), à valider.
+Le reste du présent plan n'est pas approuvé par ces continuations limitées.
 
 ## Cadre et correspondance avec les phases
 
@@ -36,6 +38,10 @@ lettre et dossier constituent une extension proposée. Les phases 1–4 ne sont 
 - Aucune nouvelle migration. Validation de phase 4 et du plan encore attendue.
 
 ## Lot 2 — Filtres temporels et radios
+
+Réalisé via le lot 4 Scraping D-031, livraison à valider ; ne pas le redévelopper.
+Contrat effectif : publication_minutes 120/360/1440 ou jours historiques 7/30,
+avec choix avancé conservant les anciens profils. Le détail ci-dessous est le plan initial.
 
 - Modifier backend search/schemas.py, filters.py et leurs tests ; côté Angular,
   core/search-api.ts, shared/criteria-editor.ts/html, pages/search et traductions.

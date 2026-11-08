@@ -1,12 +1,14 @@
 # Plan proposé — Scraping Engine indépendant d'Apify
 
-Date : 2026-11-08. Statut : LOT_3_GENERIC_EXTRACTION_DELIVERED / WAITING_FOR_VALIDATION.
+Date : 2026-11-08. Statut : LOT_4_UI_DELIVERED / WAITING_FOR_VALIDATION.
 D-028 autorise l'enregistrement des documents, pas leur implémentation.
 La continuation « contenue » autorise ensuite le lot 2 seulement (D-029).
 Livraison/limites : [rapport du lot 2](reports/scraping-lot-2.md).
 Lot 2 validé et extraction lot 3 autorisée par « contenue » (D-030).
 Extraction générique livrée : [rapport du lot 3](reports/scraping-lot-3.md).
 Adaptateurs fournisseurs toujours conditionnés à des permissions établies.
+Extraction générique validée et lot 4 autorisé D-031 ;
+[page Angular et filtres](reports/scraping-lot-4.md) livrés, validation attendue.
 Voir [audit](reports/scraping-engine-audit.md), [revue des sources](sources/scraping-review.md)
 et [plan AI Job Agent](PLAN-AI-JOB-AGENT.md). Phase 4 toujours en attente de validation.
 
@@ -50,7 +52,7 @@ Livré selon le [rapport](reports/scraping-lot-2.md), validé par continuation D
 
 ## Lot 3 — Extraction et première source permise
 
-Extraction générique livrée, validation attendue. Aucun fournisseur enregistré,
+Extraction générique livrée et validée D-031. Aucun fournisseur enregistré,
 car aucune permission pour un périmètre source concret n'est encore établie.
 
 - Créer sources/connectors/jsonld.py : listes, @graph, mainEntity, ListItem.item,
@@ -67,6 +69,9 @@ car aucune permission pour un périmètre source concret n'est encore établie.
 - Tests JSON/HTML synthétiques : malformés, formats, URLs, dates, tailles et pagination.
 
 ## Lot 4 — Angular
+
+Livré selon le [rapport](reports/scraping-lot-4.md), validation attendue avant lot 5.
+Les actions de collecte/volume/fréquence restent indisponibles jusqu'aux services requis.
 
 - Ajouter pages/scraping/ (composant/template/styles/tests), route dans app.routes.ts,
   entrée shell, client typé et traductions FR/EN. Reprendre le design Velson.
@@ -129,7 +134,7 @@ Ne pas revendiquer une collecte réelle réussie sur la seule base des fixtures.
 
 ## Validation attendue
 
-Lot 2 validé D-030 ; attendre validation de l'extraction lot 3 avant le lot 4.
+Lot 3 générique validé D-031 ; attendre validation du lot 4 avant proposition concrète du lot 5.
 Autres lots et articulation avec AI Job Agent encore proposés ; validation de
 phase 4 séparée. Migrations/dépendances concrètes à examiner aux lots concernés.
 Ce chantier ne réactive pas Apify (D-023) et n'autorise aucune dépense.

@@ -426,3 +426,31 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   écart, audit runtime sans vulnérabilité connue. Rapport reports/scraping-lot-3.md.
   Aucun adaptateur réel ajouté faute de permission source établie ; aucune collecte.
   Attendre validation de cette livraison avant page Angular lot 4.
+
+## D-031 — 2026-11-08 — Lot 3 validé, page Angular et filtres partagés autorisés
+
+- Après le rapport lot 3, le propriétaire demande « contenue » : validation de
+  l'extraction générique et continuation vers le lot 4 annoncé, pas d'activation source.
+- Page Scraping dans le shell Velson existant : profils/sources/critères réels,
+  enregistrement via SearchApi, liens vers recherche/résultats/historique locaux.
+  Aucun endpoint de collecte n'existe encore : lancement/arrêt/test fournisseur
+  et paramètres de fréquence/volume restent indisponibles avec explication honnête.
+  L'historique local ne sera pas présenté comme des collectes externes.
+- Radios partagées et fonctionnelles via extension additive des critères JSONB :
+  publication_minutes optionnel 120/360/1440, exclusif avec publication_days non nul.
+  Fenêtres horaires strictes : date connue, cutoff exclu, futur exclu, quel que soit
+  unknown_policy pour ce seul champ. Le backend garde son défaut historique null.
+- L'interface propose 24 h pour un nouveau profil. Profils enregistrés et snapshots
+  antérieurs restent inchangés ; 7/30 jours gardent publication_days, cutoff inclus
+  et traitement historique des inconnus. Le choix avancé conserve toutes dates,
+  3 jours et ancien filtre 24 h sans conversion silencieuse.
+- Réutiliser CriteriaEditor et filter_fact ; aucune deuxième logique de dates,
+  aucune migration, nouveau service ou dépendance frontend. Tests de frontières,
+  Paris/Tunis, radios, sauvegarde réelle, erreurs et rendu mobile/FR-EN.
+- Phase 4 CV et autres lots AI Job Agent restent indépendants ; aucun consentement
+  de collecte, permission PERMITTED ou dépense déduit de cette continuation.
+- Livraison : 248 tests backend en 155,31 s (29 nouveaux), 33 Angular (9 nouveaux),
+  11 E2E en 31,2 s. Typage/build/Ruff/mypy/Alembic réussis, captures desktop/mobile
+  inspectées sans débordement. Rapport reports/scraping-lot-4.md ; attendre validation
+  avant proposition concrète des interfaces/migrations de lot 5. API/UI de collecte
+  réelle, ordonnanceur, permissions fournisseur et matching restent absents/inactifs.

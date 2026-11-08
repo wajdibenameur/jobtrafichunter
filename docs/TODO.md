@@ -5,8 +5,9 @@
 - Scraping Engine : audit `reports/scraping-engine-audit.md`, preuves
   `sources/scraping-review.md`, plan `PLAN-SCRAPING-ENGINE.md`.
   D-029 : lot 2 livré, 181 tests backend réussis ; rapport `reports/scraping-lot-2.md`.
-  Lot 2 validé D-030 ; extraction générique lot 3 livrée, rapport
-  `reports/scraping-lot-3.md`, à valider avant lot 4. Aucun fournisseur activé.
+  Lot 3 générique validé D-031 ; lot 4 page/filtres livré, rapport
+  `reports/scraping-lot-4.md`, à valider avant proposition détaillée du lot 5.
+  Aucun fournisseur activé ; collecte, fréquence et volume indisponibles dans l'UI.
   Articulation AI Job Agent : un seul chantier filtres/matching/alertes/documents.
 - Demande AI Job Agent auditée : `reports/ai-job-agent-audit.md` et
   `PLAN-AI-JOB-AGENT.md`. Mise à jour documentaire autorisée (D-027), plan PROPOSED.
@@ -27,12 +28,15 @@
 
 ## Fonctionnalités à venir
 
-- Lots proposés : filtres 2 h/6 h et radios ; matching expliqué/calibré puis alertes ;
+- Filtres 2 h/6 h/24 h et radios livrés en commun dans Scraping lot 4 (D-031),
+  anciens profils et règles 7/30 jours conservés. Ne pas créer un second éditeur.
+- Lots encore proposés : matching expliqué/calibré puis alertes ;
   CV adapté ; lettre ; dossier ZIP et suivi ; validation globale. Rien de livré
   pour ces nouvelles fonctionnalités du seul fait de leur inscription dans le plan.
-- Arbitrages avant code : défaut actuel toutes dates contre nouveau défaut 24 h,
-  dates inconnues exclues des fenêtres strictes, bornes 24 h, conservation des
-  profils/choix historiques 3 jours et toutes dates, présentation Paris/Tunis.
+- Arbitrages D-031 réalisés : nouveau profil Angular 24 h strict, défaut backend
+  historique toutes dates conservé ; dates inconnues/futures et cutoff exclus des
+  fenêtres horaires. Choix avancés 3 jours/toutes dates/ancien 24 h et 7/30 jours
+  gardent leur sémantique. Tests Paris/Tunis et été/hiver réussis.
 - Module documents et nouvelles dépendances d'export/local IA : propositions
   seulement ; faire approuver les frontières et vérifier licences/compatibilité.
 - Pas de découverte automatique de nouvelles offres avec les seules sources manuelles.

@@ -1,6 +1,7 @@
 # Scraping Engine — lot 3 : extraction JSON-LD
 
-Date : 2026-11-08. Statut : GENERIC_EXTRACTION_DELIVERED / WAITING_FOR_VALIDATION.
+Date : 2026-11-08. Statut : VALIDATED_GENERIC_EXTRACTION (continuation D-031).
+Les propositions de suite ci-dessous décrivent la livraison historique.
 Continuation propriétaire « contenue » : lot 2 validé, extraction lot 3 autorisée
 (D-030). [Plan](../PLAN-SCRAPING-ENGINE.md), [sources](../sources/scraping-review.md).
 La partie adaptateurs fournisseurs reste conditionnée à des permissions établies.

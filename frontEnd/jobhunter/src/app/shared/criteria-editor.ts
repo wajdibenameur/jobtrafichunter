@@ -178,6 +178,7 @@ export class CriteriaEditor implements OnChanges {
       validators: [Validators.required, Validators.min(0), Validators.max(60)],
     }),
     publication_days: new FormControl<SearchCriteria['publication_days']>(0, { nonNullable: true }),
+    publication_window: new FormControl('1440', { nonNullable: true }),
     novelty: new FormControl<SearchCriteria['novelty']>('all', { nonNullable: true }),
     unknown_policy: new FormControl<SearchCriteria['unknown_policy']>('include', {
       nonNullable: true,
@@ -192,6 +193,13 @@ export class CriteriaEditor implements OnChanges {
     this.form.reset(
       {
         ...c,
+        publication_window: c.publication_minutes
+          ? String(c.publication_minutes)
+          : c.publication_days === 7
+            ? '7d'
+            : c.publication_days === 30
+              ? '30d'
+              : 'legacy',
         domains: c.domains.filter((d) => DOMAINS.includes(d)),
         titles: c.titles.filter((t) => TITLES.includes(t)),
         include: c.include_keywords.join(', '),
@@ -208,6 +216,10 @@ export class CriteriaEditor implements OnChanges {
     this.form.controls.source_ids.setValue(
       ids.includes(id) ? ids.filter((item) => item !== id) : [...ids, id],
     );
+    this.form.markAsDirty();
+  }
+  get dirty(): boolean {
+    return this.form.dirty;
   }
   getValue(): SearchCriteria | null {
     this.form.markAllAsTouched();
@@ -234,7 +246,17 @@ export class CriteriaEditor implements OnChanges {
       include_keywords: split(value.include),
       exclude_keywords: split(value.exclude),
       max_years: value.max_years,
-      publication_days: value.publication_days,
+      publication_days:
+        value.publication_window === '7d'
+          ? 7
+          : value.publication_window === '30d'
+            ? 30
+            : value.publication_window === 'legacy'
+              ? value.publication_days
+              : 0,
+      publication_minutes: ['120', '360', '1440'].includes(value.publication_window)
+        ? (Number(value.publication_window) as 120 | 360 | 1440)
+        : null,
       novelty: value.novelty,
       unknown_policy: value.unknown_policy,
     };

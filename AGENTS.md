@@ -53,7 +53,7 @@ Phase 3 validated (D-024); phase 4 delivered (D-026), wait for validation before
 Apify deferred until CV/matching (D-023); no paid run without separate C approval.
 Docker is not required; GitHub CI is not run. Keep unverified connectors inactive.
 AI Job Agent audit: docs/reports/ai-job-agent-audit.md; plan: docs/PLAN-AI-JOB-AGENT.md.
-D-027 authorizes documentation only; the seven-lot plan remains PROPOSED.
+AI Job Agent shared filters delivered via D-031; its other lots remain PROPOSED.
 Do not exceed approved lot scope or infer phase 4 delivery approval.
 Scraping: docs/PLAN-SCRAPING-ENGINE.md and docs/reports/scraping-engine-audit.md.
-D-030 validates lot 2; lot 3 generic extraction delivered, validate before lot 4. Sources inactive.
+D-031 validates lot 3; lot 4 UI/shared filters delivered, validate before lot 5. Sources inactive.

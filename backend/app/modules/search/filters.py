@@ -95,7 +95,13 @@ def filter_fact(
             unknown.append("description_exclusions")
     if criteria.visa_statuses and fact.visa_status not in criteria.visa_statuses:
         rejected.append("visa_status")
-    if criteria.publication_days:
+    if criteria.publication_minutes is not None:
+        if fact.published_at is None:
+            unknown.append("published_at")
+            rejected.append("published_at")
+        elif not now - timedelta(minutes=criteria.publication_minutes) < fact.published_at <= now:
+            rejected.append("published_at")
+    elif criteria.publication_days:
         if fact.published_at is None:
             unknown.append("published_at")
         elif (

@@ -80,7 +80,7 @@
           {{
             item.listing.published_at
               ? (item.listing.published_at | date: 'yyyy-MM-dd')
-              : i18n.t('unknownValue')
+              : i18n.t('publicationUnverified')
           }}
         </p>
         @if (item.unknown_fields.length) {
@@ -141,7 +141,7 @@
         {{
           item.listing.published_at
             ? (item.listing.published_at | date: 'yyyy-MM-dd')
-            : i18n.t('unknownValue')
+            : i18n.t('publicationUnverified')
         }}
       </p>
       <p>
