@@ -9,6 +9,9 @@ Articulation D-028 : le [plan Scraping Engine](PLAN-SCRAPING-ENGINE.md) ajoute u
 collecte indépendante d'Apify, encore proposée. Filtres, matching, alertes et
 documents sont des chantiers communs ; ne pas créer de seconde implémentation.
 L'accord d'enregistrement de ces documents ne valide aucun des deux plans.
+Depuis, D-029 autorise et livre le seul lot 2 d'infrastructure Scraping ;
+[son rapport](reports/scraping-lot-2.md) attend validation. Le présent plan
+AI Job Agent n'est pas approuvé par cette continuation limitée.
 
 ## Cadre et correspondance avec les phases
 

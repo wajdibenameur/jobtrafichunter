@@ -374,3 +374,28 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Les lots communs aux deux plans (filtres, matching, notifications, documents)
   seront réalisés une seule fois après accord. D-012/D-015/D-023 conservées :
   local sans Docker, imports manuels préservés, Apify différé et accord C distinct.
+
+## D-029 — 2026-11-08 — Démarrage du lot 2 Scraping, infrastructure seulement
+
+- Après l'enregistrement du plan en huit lots, le propriétaire demande « contenue ».
+  Interprétation annoncée : démarrer le lot 2 d'infrastructure proposé, puis
+  s'arrêter à son rapport de validation. Aucun accord de collecte réelle déduit.
+- Étendre le contrat existant de façon additive (méthode paginée en complément
+  du fetch manuel), registre sans adaptateur fournisseur actif, transport HTTP
+  avec autorisation revérifiée et limites testées sur réponses simulées.
+- httpx/httpcore sont déjà installés côté développement : les déclarer explicitement
+  en runtime aux mêmes versions verrouillées. httpcore permet un backend réseau
+  qui épingle les IP validées en conservant Host/SNI et la vérification TLS.
+  Pas de monkeypatch du pool HTTPX ni d'URL IP qui désactive la validation TLS.
+- Documents officiels revus : https://www.encode.io/httpcore/network-backends/,
+  https://www.encode.io/httpcore/connection-pools/,
+  https://www.python-httpx.org/advanced/transports/ et /advanced/timeouts/.
+  Aucun framework/service nouveau ; beautifulsoup4 reporté au lot extraction,
+  puisqu'aucun HTML n'est analysé dans ce lot. Pas de migration.
+- La validation de phase 4 et les autres lots AI Job Agent restent indépendants.
+  LinkedIn sans scraping ; quatre parcours manuels préservés. Aucune source
+  PERMITTED, activation, extraction fournisseur, secret ou dépense autorisés ici.
+- Livraison : 50 nouveaux tests synthétiques, suite complète 181 réussis en
+  138,22 s, Ruff/format/mypy verts, Alembic sans écart et audit runtime sans
+  vulnérabilité connue. Rapport reports/scraping-lot-2.md ; attendre validation
+  avant lot 3. Quotas en mémoire, callback DB et intégration worker encore futurs.

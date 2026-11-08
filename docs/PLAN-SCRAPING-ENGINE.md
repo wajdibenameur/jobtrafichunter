@@ -1,7 +1,9 @@
 # Plan proposé — Scraping Engine indépendant d'Apify
 
-Date : 2026-11-08. Statut : PROPOSED / WAITING_FOR_OWNER_APPROVAL.
+Date : 2026-11-08. Statut : LOT_2_DELIVERED / WAITING_FOR_VALIDATION (D-029).
 D-028 autorise l'enregistrement des documents, pas leur implémentation.
+La continuation « contenue » autorise ensuite le lot 2 seulement (D-029).
+Livraison/limites : [rapport du lot 2](reports/scraping-lot-2.md).
 Voir [audit](reports/scraping-engine-audit.md), [revue des sources](sources/scraping-review.md)
 et [plan AI Job Agent](PLAN-AI-JOB-AGENT.md). Phase 4 toujours en attente de validation.
 
@@ -25,6 +27,8 @@ Constats, état des tests et preuves officielles dans les documents liés.
 Ordre d'implémentation encore proposé ; permission source indépendante de l'accord au plan.
 
 ## Lot 2 — Infrastructure des connecteurs
+
+Livré selon le [rapport](reports/scraping-lot-2.md) ; autres lots encore proposés.
 
 - Étendre sources/connectors/contracts.py et registry.py : requête typée avec
   limites/fenêtre/cursor, résultat paginé avec compteur/checkpoint et erreurs typées,
@@ -119,6 +123,7 @@ Ne pas revendiquer une collecte réelle réussie sur la seule base des fixtures.
 
 ## Validation attendue
 
-Accord sur ce plan et son articulation avec AI Job Agent ; validation de phase 4
-toujours séparée. Détails des contrats, migrations et dépendances à examiner avant
-chaque lot concerné. Ce chantier ne réactive pas Apify (D-023) et n'autorise aucune dépense.
+Lot 2 autorisé par D-029 ; attendre la validation de sa livraison avant lot 3.
+Autres lots et articulation avec AI Job Agent encore proposés ; validation de
+phase 4 séparée. Migrations/dépendances concrètes à examiner aux lots concernés.
+Ce chantier ne réactive pas Apify (D-023) et n'autorise aucune dépense.

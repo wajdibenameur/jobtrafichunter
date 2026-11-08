@@ -15,13 +15,14 @@ Voir [le suivi](docs/PROGRESS.md), [les décisions](docs/DECISIONS.md) et
 
 La nouvelle demande AI Job Agent a été auditée : [état réel et contrôles](docs/reports/ai-job-agent-audit.md),
 [plan proposé en sept lots](docs/PLAN-AI-JOB-AGENT.md). Matching, alertes, CV adaptés,
-lettres et dossiers restent à développer. L'accord courant porte uniquement sur
-la mise à jour documentaire ; il ne valide pas le plan ni la livraison de phase 4.
+lettres et dossiers restent à développer. L'accord D-027 portait uniquement sur
+la documentation ; le plan AI Job Agent et la livraison de phase 4 restent à valider.
 
 Scraping Engine indépendant d'Apify : [audit](docs/reports/scraping-engine-audit.md),
 [revue des sources](docs/sources/scraping-review.md) et
-[plan proposé en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Documentation enregistrée
-selon D-028 ; aucun collecteur développé ou activé. Les fonctionnalités communes
+[plan en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Infrastructure du lot 2 livrée
+selon D-029 : [livraison et limites](docs/reports/scraping-lot-2.md), à valider avant
+le lot 3. Aucun adaptateur fournisseur ou collecte activés. Les fonctionnalités communes
 avec AI Job Agent seront réalisées une seule fois après validation des plans.
 
 ## Installation locale — PowerShell

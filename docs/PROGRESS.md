@@ -1,8 +1,8 @@
 ﻿# Progress
 
-Last updated: 2026-11-08 by Codex / Scraping Engine documentation (D-028)
-Current task: AI Job Agent and Scraping audits recorded; both plans proposed
-Status: WAITING_FOR_OWNER_VALIDATION (documentation update authorized only)
+Last updated: 2026-11-08 by Codex / Scraping Engine infrastructure (D-029)
+Current task: Scraping lot 2 delivered; other implementation lots remain proposed
+Status: WAITING_FOR_LOT_2_VALIDATION
 
 ## Phase checklist
 
@@ -33,18 +33,19 @@ These lots do not replace historical phases. Tailored documents are a proposal,
 not a delivered capability of the original-CV vault. No code, migration, dependency,
 new module or plan approval follows from D-027.
 
-## Scraping Engine — documentation authorized, implementation not approved
+## Scraping Engine — lot 2 delivered, validation pending
 
 - [x] Audit recorded: reports/scraping-engine-audit.md (D-028).
 - [x] Source evidence recorded: sources/scraping-review.md; none made PERMITTED.
-- [x] Eight-lot plan saved: PLAN-SCRAPING-ENGINE.md, status PROPOSED.
-- [ ] Approve plan: extend sources/search/listings and existing worker only.
-- [ ] Infrastructure, permitted extraction, Angular page, queue integration.
+- [x] Eight-lot plan saved; continuation "contenue" approves lot 2 only (D-029).
+- [x] Lot 2 infrastructure delivered: reports/scraping-lot-2.md, awaiting validation.
+- [ ] Lot 3 extraction, lot 4 Angular, lot 5 worker integration; not started.
 - [ ] Shared matching/alerts/documents, then full validation; no duplicate engines.
 
 LinkedIn stays without scraping; Indeed/Tanitjobs manual pending permission.
 Keejob Markdown/RSS and enterprise APIs are candidates, not activated sources.
-D-028 authorizes saving documents only, not code, collection or phase 4 validation.
+D-028 was documentation only; D-029 later authorizes lot 2, not real collection
+or phase 4 validation. No automatic adapter registered or source made PERMITTED.
 
 ## Apify feature — explicit A/B/C workflow
 
@@ -58,6 +59,18 @@ D-028 authorizes saving documents only, not code, collection or phase 4 validati
 
 ## Last session / current evidence
 
+Continuation "contenue": implemented Scraping infrastructure lot 2 per D-029.
+Additive paged contract/registry, current authorization callback, bounded GET
+transport with public-IP pinning and original TLS host, safe redirects, quotas,
+retries, gzip limits and cancellation cleanup. No provider/UI/worker integration.
+50 new synthetic tests; full backend: 181 passed in 138.22s, no skips.
+Ruff/format passed (120 files), mypy passed (101), Alembic no drift, pip-audit
+runtime no known vulnerabilities. No frontend change or rerun, no real collection.
+Report: reports/scraping-lot-2.md. Await validation before lot 3.
+Documentation links, agent parity/length and immutable SPEC verified. Existing
+dependency versions preserved; only HTTP runtime declarations included in this lot.
+
+Historical documentation step (D-028):
 Owner requested Scraping audit, then "ouui ajouté au fichier": saved audit,
 eight-lot proposed plan and source-review links (D-028); synchronized README,
 AI Job Agent plan, agents, decisions, TODO and CHANGELOG, then this file last.
@@ -79,7 +92,7 @@ selected-version JSON export and confirmed document deletion. Existing worker
 recovers storage intents. Additive migrations 0007/0008 already applied.
 Report: reports/phase-4.md; foundation history: reports/cv-security-foundation.md.
 
-Latest audit checks (2026-11-08, before this documentation-only update):
+Earlier audit checks (2026-11-08, before the infrastructure changes):
 - Backend pytest with .env.test: 131 passed in 148.13s, no skips.
 - Ruff check/format passed (116 files); mypy passed (97 source files).
 - Alembic current/heads: 0008_candidate_profiles; check: no schema drift.
@@ -88,8 +101,8 @@ Latest audit checks (2026-11-08, before this documentation-only update):
   Synthetic CVs, disposable schemas and credentials cleaned up by the harness.
 Earlier phase 4 delivery: 131 passed in 132.99s / 24 Angular / 10 E2E;
 runtime audit reported no known vulnerabilities then (not rerun here).
-Documentation-only verification follows this update; application suites are not
-rerun merely to change prose. GitHub CI/PostgreSQL 16 remain unverified.
+The newer backend evidence is above; no newer frontend execution is claimed.
+GitHub CI/PostgreSQL 16 remain unverified.
 
 Audit corrections: publication defaults to all dates (0), not 24 h; unknown dates
 can remain with unknown_policy=include. Strict rules/radios are proposed only.
@@ -105,15 +118,15 @@ Matching, notifications, applications and documents modules are absent.
 - Earlier transient PostgreSQL timeouts followed by successful full reruns;
   fixture diagnostics hide connection parameters. No secret copied to docs.
 - Existing phase 4 application changes remain for a separate code commit;
-  this task commits documentation only. Preserve user angular.json and template
+  this task commits sources infrastructure and its docs only. Preserve angular.json/template
   changes. Do not describe the entire working tree as clean.
 - Python 3.11 and local PostgreSQL/Angular retained; no Docker/hosting (D-012).
 
 ## Next step / owner review
 
-Await validation of phase 4 delivery and both proposed plans/articulation.
-Scraping Engine remains proposed; source permissions require separate verification.
-Then resolve lot 2 defaults/boundaries/legacy compatibility before implementation;
+Await Scraping lot 2 validation before lot 3 extraction. Other lots/articulation
+and phase 4 delivery still need validation; source permissions remain separate.
+For the AI Job Agent filters, resolve defaults/boundaries/legacy compatibility;
 report checks and stop for owner validation after each implementation lot.
 Documents module, boundary changes, migrations and export/model dependencies
 remain proposals requiring concrete review. Never alter applied migrations or SPEC.

@@ -2,6 +2,8 @@
 
 Date : 2026-11-08. Statut : AUDIT_COMPLETED / IMPLEMENTATION_NOT_APPROVED.
 Enregistrement autorisé par « ouui ajouté au fichier » (D-028).
+État observé avant le développement D-029 : le [lot 2](scraping-lot-2.md) est
+désormais livré et attend validation ; l'inventaire ci-dessous reste historique.
 Voir le [plan proposé](../PLAN-SCRAPING-ENGINE.md) et les
 [preuves documentaires des sources](../sources/scraping-review.md).
 

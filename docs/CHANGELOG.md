@@ -1,5 +1,11 @@
 # Changelog
 
+- 2026-11-08 — D-029 / Scraping lot 2 livré : contrat paginé additif, registre
+  interne sans fournisseur actif, transport HTTP IP épinglée/TLS, permissions
+  revérifiées, quotas/retry/budgets et décompression bornée. 50 nouveaux tests,
+  181 backend réussis, Ruff/format/mypy/Alembic/audit runtime verts. Aucune
+  migration, UI, collecte réelle ou activation ; validation attendue avant lot 3.
+
 - 2026-11-08 — D-028 : audit Scraping Engine, revue officielle des sources et
   plan proposé en huit lots enregistrés ; README, plan AI Job Agent, consignes
   agents, décisions, TODO et PROGRESS raccordés. Documentation uniquement :

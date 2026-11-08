@@ -5,6 +5,7 @@ from pydantic import ValidationError
 from app.modules.sources.connectors.contracts import (
     Capabilities,
     ConnectorFailure,
+    ConnectorPage,
     ConnectorQuery,
     NormalizedListing,
 )
@@ -20,6 +21,9 @@ class ManualConnector:
         return "MANUAL_ONLY"
 
     async def fetch(self, query: ConnectorQuery) -> list[NormalizedListing]:
+        raise ConnectorFailure("MANUAL_ONLY", "Open the source and import the offer manually")
+
+    async def fetch_page(self, query: ConnectorQuery) -> ConnectorPage:
         raise ConnectorFailure("MANUAL_ONLY", "Open the source and import the offer manually")
 
     def normalize(self, raw: dict[str, object]) -> NormalizedListing:
