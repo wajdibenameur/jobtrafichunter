@@ -2,8 +2,12 @@
 
 ## Prochaine action
 
-- Priorité courante : phase 4 approuvée (D-024), coffre et isolation Windows.
-  Phase 3 validée ; continuer les lots du plan sans redemander cet accord.
+- Demande AI Job Agent auditée : `reports/ai-job-agent-audit.md` et
+  `PLAN-AI-JOB-AGENT.md`. Mise à jour documentaire autorisée (D-027), plan PROPOSED.
+  Attendre la validation de la livraison de phase 4 et du plan avant les nouveaux lots.
+- Priorité courante : valider la livraison de phase 4 (`reports/phase-4.md`, D-026),
+  puis faire approuver le détail du matching/calibration dans le lot 3 proposé.
+  Ne pas confondre les numéros des nouveaux lots et ceux des phases historiques.
   Le propriétaire choisit d’attendre CV et matching avant Apify (D-023).
 - Apify : plan A conservé dans `reports/apify-phase-a.md` (D-022), B reportée
   après CV/matching. Vérifier l’Actor/méthode avant reprise et obtenir l’accord
@@ -17,7 +21,19 @@
 
 ## Fonctionnalités à venir
 
-- CV privés, parsing isolé, DOC historique, validation des champs : phase 4.
+- Lots proposés : filtres 2 h/6 h et radios ; matching expliqué/calibré puis alertes ;
+  CV adapté ; lettre ; dossier ZIP et suivi ; validation globale. Rien de livré
+  pour ces nouvelles fonctionnalités du seul fait de leur inscription dans le plan.
+- Arbitrages avant code : défaut actuel toutes dates contre nouveau défaut 24 h,
+  dates inconnues exclues des fenêtres strictes, bornes 24 h, conservation des
+  profils/choix historiques 3 jours et toutes dates, présentation Paris/Tunis.
+- Module documents et nouvelles dépendances d'export/local IA : propositions
+  seulement ; faire approuver les frontières et vérifier licences/compatibilité.
+- Pas de découverte automatique de nouvelles offres avec les seules sources manuelles.
+  Toute surveillance fournisseur reste conditionnée à une source autorisée/activée.
+- CV privés PDF/DOCX, parsing Windows isolé et profil validé livrés en phase 4.
+  DOC historique et OCR non disponibles ; outils/chaîne isolée à prévoir séparément.
+  Qualité d’extraction non calibrée : obtenir le jeu propriétaire de dix CV anonymisés.
 - Matching explicable et extraction IA : constituer dix CV anonymisés avec
   résultats attendus, puis cinquante offres anonymisées labellisées par le
   propriétaire. Aucun label de calibration ou résultat réel ne doit être inventé.

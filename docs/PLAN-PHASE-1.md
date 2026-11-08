@@ -1,9 +1,11 @@
 # Plan proposé — Phase 1
 
-Date : 2026-11-07. Statut : APPROVED / IN_PROGRESS (« DONC COMMANCER »).
+Date : 2026-11-07. Statut : VALIDATED_LOCAL_SCOPE (D-013).
 Dérogations ultérieures : Python 3.11 et projet exclusivement local ; Docker
 retiré du périmètre par le propriétaire (D-012).
-Livraison backend : `reports/phase-1-backend.md`. Le frontend reste à réaliser.
+Livraison complète backend/frontend : [reports/phase-1.md](reports/phase-1.md).
+Le corps du plan conserve les étapes proposées à l'origine ; voir PROGRESS.md
+pour l'état actuel. Le frontend de cette phase est livré et validé.
 
 ## Périmètre
 

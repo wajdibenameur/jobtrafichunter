@@ -2,6 +2,8 @@
 
 2026-11-08. Lot technique en cours de phase 4 approuvée (D-024).
 Ce rapport ne constitue pas la livraison complète de la phase.
+Suite du lot initial : voir [phase-4.md](phase-4.md) pour les API, profils et UI
+livrés ensuite, et les derniers résultats de validation.
 
 ## Coffre des originaux
 

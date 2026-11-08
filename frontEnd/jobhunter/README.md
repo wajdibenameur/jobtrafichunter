@@ -1,11 +1,17 @@
 ﻿# JobHunter frontend
 
 Angular 22 standalone, TypeScript strict, RxJS, tests Karma/Jasmine et Playwright.
-Connexion propriétaire, compte, Sources, Profils, Recherche et Résultats reliés à FastAPI ; FR/EN.
+Connexion propriétaire, compte, Sources, Profils, Recherche, Résultats et Mes CV reliés à FastAPI ; FR/EN.
 Sources : LinkedIn, Indeed, Keejob et Tanitjobs, filtre tunisien, préférences,
 sites personnalisés, liens de recherche et import URL/CSV avec confirmation.
 Aucune collecte automatique. La recherche filtre les imports avec un worker local ;
-matching et CV restent pour les prochaines phases.
+matching et alertes restent à développer. Mes CV accepte PDF/DOCX, conserve les
+originaux privés et propose un profil éditable à valider puis activer. OCR/DOC
+historique indisponibles ; préparer le runtime Windows selon le README racine.
+La phase 4 attend sa validation ; le nouveau plan AI Job Agent est proposé,
+sans développement autorisé par la seule mise à jour documentaire D-027.
+Voir [l'audit](../../docs/reports/ai-job-agent-audit.md) et
+[le plan](../../docs/PLAN-AI-JOB-AGENT.md).
 
 ## Lancement CMD depuis frontEnd\jobhunter
 

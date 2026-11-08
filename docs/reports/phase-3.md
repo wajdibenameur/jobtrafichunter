@@ -1,7 +1,7 @@
 # Phase 3 — Recherche locale, profils et résultats
 
 Plan approuvé par « vasi » (D-019), lots 3.1–3.4 livrés.
-**En attente de validation du propriétaire avant la phase 4.**
+**Validée par le propriétaire le 2026-11-08 (« ok », D-024).**
 
 ## Comportement livré
 

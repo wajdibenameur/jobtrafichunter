@@ -1,61 +1,99 @@
-# Progress
+﻿# Progress
 
-Last updated: 2026-11-08 by Codex / CV security foundation
-Current task: Phase 4 approved - private CV storage and isolated parsing
-Status: IN_PROGRESS
+Last updated: 2026-11-08 by Codex / AI Job Agent documentation (D-027)
+Current task: Audit recorded; phase 4 delivered; new seven-lot plan proposed
+Status: WAITING_FOR_OWNER_VALIDATION (documentation update authorized only)
 
 ## Phase checklist
 
 - [x] 0 Documentation and original phase plans approved.
-- [x] 1 Local Python 3.11/auth/TLS/PostgreSQL/Angular foundation validated.
+- [x] 1 Local Python 3.11/auth/TLS/PostgreSQL/Angular foundation validated (D-013).
 - [x] 2 Manual sources and confirmed URL/CSV import validated (D-017).
-- [x] 3 Local scope delivered (D-021) and owner-validated (D-024).
-    - Profiles, provenance, conservative deduplication, queue and Angular results.
-- [ ] 4 Private CVs, parsing, editing and profile validation.
-    - Plan approved (D-024); storage and isolation foundations tested.
-    - Pending: format inspection, PostgreSQL/API, candidate profile and Angular.
-- [ ] 5 CV matching/calibration; no matching module implemented yet.
-- [ ] 6 Telegram, scheduling, history and logs.
+- [x] 3 Local search delivered (D-021) and owner-validated (D-024).
+- [x] 4 Private CVs, parsing, editing and profile validation delivered (D-026).
+    - Plan approved D-024; delivery still WAITING_FOR_VALIDATION.
+    - PDF/DOCX, encrypted originals, Windows isolation, candidate revisions and UI.
+- [ ] 5 CV matching/calibration; matching module remains absent.
+- [ ] 6 Telegram, scheduling and notification history.
 - [ ] 7 Applications, hardening, local backup/restore.
 
-## Apify feature - explicit A/B/C workflow
+## AI Job Agent extension — proposed lots, not approved implementation
 
-- [x] A Inspect existing modules/queue/UI and review official documents (D-022).
-- [x] A Propose additive integration, consent/budget and recovery design.
-- [x] A Recommend a separate LinkedIn - Apify card INSIDE Sources; no extra menu.
-- [x] Owner choice: wait for CV and matching, reject collection-only scope (D-023).
-- [ ] B Implementation deferred until CV/matching; revisit plan and approval then.
-- [ ] Source-specific Actor/method permission verified; currently UNVERIFIED.
+- [x] Lot 1 audit completed; report: reports/ai-job-agent-audit.md.
+- [x] Owner authorizes necessary documentation updates only (D-027).
+- [x] Plan saved: PLAN-AI-JOB-AGENT.md, status PROPOSED.
+- [ ] Lot 2: 2 h/6 h filters, accessible radios and temporal compatibility.
+- [ ] Lot 3: explained/calibrated matching, then priorities, scheduling and alerts.
+- [ ] Lot 4: tailored CV, editable preview, validation and DOCX/PDF export.
+- [ ] Lot 5: cover letter, language/style, versions and exports.
+- [ ] Lot 6: validated ZIP, real apply link and confirmed application tracker.
+- [ ] Lot 7: full validation, security, documentation and local operations.
+
+These lots do not replace historical phases. Tailored documents are a proposal,
+not a delivered capability of the original-CV vault. No code, migration, dependency,
+new module or plan approval follows from D-027.
+
+## Apify feature — explicit A/B/C workflow
+
+- [x] A Modules/queue/UI inspected and official documents reviewed (D-022).
+- [x] A Additive integration, consent/budget and recovery design proposed.
+- [x] A Separate LinkedIn - Apify card recommended INSIDE Sources, no extra menu.
+- [x] Owner chose to wait for CV and matching, not collection-only scope (D-023).
+- [ ] B Deferred until CV/matching; revisit plan and approval then.
+- [ ] Actor/method permission verified; currently UNVERIFIED, connector inactive.
 - [ ] C Separate explicit approval for a real 10-job run and concrete budget.
 
-## Last session
+## Last session / current evidence
 
-Owner "ok" validates phase 3 and PLAN-PHASE-4.md (D-024); no further plan gate.
-Added cv/vault.py: encrypted opaque original bytes/filename, bound owner/doc/version,
-fresh per-envelope derived key, atomic no-replace publication, bounded read/size,
-UUID-only paths, symlink/junction rejection and idempotent authorized purge primitive.
-Added native Windows AppContainer launcher with zero network capabilities,
-explicit inherited pipes, suspended launch, verified container token, Job Object
-memory/CPU/process bounds and kill-on-close. Python wrapper bounds output/time.
-Setup copies only Python runtime/stdlib into ignored .cache, grants package SID
-read/execute there only, and prepares the local Windows AppContainer profile.
-Actual synthetic probes deny private-canary read, runtime write, loopback network
-and child process; memory/output/deadline limits tested. No real CV read or parsed.
-Fixed minimal Windows environment setup and over-output pipe shutdown deadlock.
-Report: reports/cv-security-foundation.md. No HTTP upload/parser/profile/UI yet.
-Validation: 122 passed in 83.30s using .env.test; Ruff check/format passed;
-mypy passed (78 files). New targeted tests: 17 passed in 3.63s.
-Two native probes require Windows and prepared runtime; not Linux evidence.
-No dependency/migration/secret changed; SPEC/template/angular.json preserved.
-No authenticated Apify request, Actor run or paid execution. Matching remains phase 5.
-Historical frontend phase 3: 21 Angular / 9 E2E passed; not rerun for backend foundations.
-Docker/hosting remain out of scope (D-012).
+New request: audit AI Job Agent, filters, matching, alerts and application documents
+before code. Audit initially returned in chat only; owner then explicitly authorized
+all necessary documentation updates (D-027). Created audit and proposed seven-lot
+plan; synchronized README/frontend README, AGENTS/CLAUDE, DECISIONS, TODO, CHANGELOG
+and phase plan/report status headers. SPEC and historical entries preserved.
+No new feature implementation in this documentation task.
+
+Phase 4 delivered: encrypted immutable originals, isolated bounded PDF/DOCX
+inspection, encrypted extracted data, candidate evidence/taxonomy/revisions,
+editing, explicit validation and separate activation, authenticated downloads,
+selected-version JSON export and confirmed document deletion. Existing worker
+recovers storage intents. Additive migrations 0007/0008 already applied.
+Report: reports/phase-4.md; foundation history: reports/cv-security-foundation.md.
+
+Latest audit checks (2026-11-08, before this documentation-only update):
+- Backend pytest with .env.test: 131 passed in 148.13s, no skips.
+- Ruff check/format passed (116 files); mypy passed (97 source files).
+- Alembic current/heads: 0008_candidate_profiles; check: no schema drift.
+- Angular app/spec/E2E typecheck and production build passed; 24 Karma successes.
+- Playwright with real HTTPS API/worker/native parser: 10 passed in 30.2s.
+  Synthetic CVs, disposable schemas and credentials cleaned up by the harness.
+Earlier phase 4 delivery: 131 passed in 132.99s / 24 Angular / 10 E2E;
+runtime audit reported no known vulnerabilities then (not rerun here).
+Documentation-only verification follows this update; application suites are not
+rerun merely to change prose. GitHub CI/PostgreSQL 16 remain unverified.
+
+Audit corrections: publication defaults to all dates (0), not 24 h; unknown dates
+can remain with unknown_policy=include. Strict rules/radios are proposed only.
+Publication/first discovery/last observation are distinct already.
+Matching, notifications, applications and documents modules are absent.
+
+## Limits / preserved work
+
+- DOC/OCR unavailable; rule-based extraction is not semantic calibration.
+  Owner-labeled anonymized CV/job sets and agreed metrics still needed.
+- AppContainer probes validated on Windows only; no external LLM enabled.
+- Four manual sources retained; no automated discovery, Apify or paid call.
+- Earlier transient PostgreSQL timeouts followed by successful full reruns;
+  fixture diagnostics hide connection parameters. No secret copied to docs.
+- Existing phase 4 application changes remain for a separate code commit;
+  this task commits documentation only. Preserve user angular.json and template
+  changes. Do not describe the entire working tree as clean.
+- Python 3.11 and local PostgreSQL/Angular retained; no Docker/hosting (D-012).
 
 ## Next step / owner review
 
-Continue approved phase 4: review/pin PDF dependency, bounded isolated PDF/DOCX
-inspection and extraction, then CV persistence/API, profiles and Angular.
-DOC/OCR tools absent; expose unavailable capabilities honestly rather than fallback
-to unisolated parsing. No user labels invented; calibrated quality needs owner fixtures.
-After phase 4 delivery, seek validation before proposing phase 5 matching.
-Revisit Apify B after CV/matching, with source permission and separate approval C.
+Await validation of the phase 4 delivery and the proposed AI Job Agent plan.
+Then resolve lot 2 defaults/boundaries/legacy compatibility before implementation;
+report checks and stop for owner validation after each implementation lot.
+Documents module, boundary changes, migrations and export/model dependencies
+remain proposals requiring concrete review. Never alter applied migrations or SPEC.
+Revisit Apify B after matching/permission review, C separately before a real run.

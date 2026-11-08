@@ -48,7 +48,10 @@ From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.te
 
 ## Current kickoff deliverables
 See `docs/reports/phase-1.md` for delivered local scope, checks and known limits.
-Phase 1 is validated. Phase 2 manual scope is delivered; see docs/reports/phase-2.md.
-Phase 3 validated (D-024); phase 4 plan approved and in progress. See PROGRESS.md.
+Phases 1 and 2 manual scope validated (D-013/D-017); see docs/reports/phase-2.md.
+Phase 3 validated (D-024); phase 4 delivered (D-026), wait for validation before phase 5.
 Apify deferred until CV/matching (D-023); no paid run without separate C approval.
 Docker is not required; GitHub CI is not run. Keep unverified connectors inactive.
+AI Job Agent audit: docs/reports/ai-job-agent-audit.md; plan: docs/PLAN-AI-JOB-AGENT.md.
+D-027 authorizes documentation only; the seven-lot plan remains PROPOSED.
+Do not implement new lots or treat this update as phase 4 delivery approval.

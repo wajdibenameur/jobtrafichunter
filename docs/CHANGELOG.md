@@ -1,5 +1,18 @@
 # Changelog
 
+- 2026-11-08 — D-027 : audit AI Job Agent et plan en sept lots enregistrés ;
+  README, AGENTS/CLAUDE, décisions, TODO, rapports et PROGRESS synchronisés.
+  Accord documentaire uniquement, phase 4 en attente de validation et nouveau
+  plan PROPOSED. Audit : 131 backend, 24 Angular, 10 E2E, contrôles statiques,
+  build et Alembic réussis ; aucun nouveau code, migration ou appel payant.
+
+- 2026-11-08 — Phase 4 livrée (D-026) : CV PDF/DOCX chiffrés/versionnés, inspection
+  AppContainer, intentions/reprise et audit, profils candidats avec preuves,
+  brouillons/validation/activation et page Angular Mes CV FR/EN/mobile. Migrations
+  additives 0007–0008 appliquées, 131 tests backend, 24 Angular et 10 E2E réussis,
+  Ruff/mypy/build/Alembic/audit runtime vérifiés. DOC/OCR indisponibles, matching
+  en phase 5 ; Apify toujours reporté. Aucun CV réel ou secret ajouté au dépôt.
+
 - 2026-11-08 — Phase 3 et plan CV validés (D-024). Fondations CV : coffre
   AES-256-GCM/HKDF immuable et lanceur Windows AppContainer sans réseau avec
   limites Job Object, copie locale de Python sans secrets et sondes natives.

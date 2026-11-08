@@ -1,6 +1,6 @@
 # Plan proposé — Phase 2 : sources et connecteurs
 
-Date : 2026-11-07. Statut : DELIVERED / WAITING_FOR_VALIDATION (D-014, D-015).
+Date : 2026-11-07. Statut : VALIDATED_LOCAL_SCOPE (D-017).
 Livraison et contrôles réels : `reports/phase-2.md`.
 La continuation du propriétaire valide le socle local de phase 1 et ce plan.
 Python 3.11, Angular et PostgreSQL locaux ; aucun Docker ou hébergement.

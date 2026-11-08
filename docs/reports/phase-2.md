@@ -1,6 +1,8 @@
 # Phase 2 — Sources et import manuel
 
-Livrée le 2026-11-07, **en attente de validation du propriétaire**.
+Livrée le 2026-11-07, **validée par le propriétaire (D-017)**.
+Les étapes proposées en fin de rapport décrivent la situation lors de la livraison ;
+voir PROGRESS.md pour l'état actuel.
 Plan approuvé D-014 puis périmètre manuel choisi D-015 : LinkedIn, Indeed et
 sites tunisiens Keejob/Tanitjobs. Python 3.11, Angular et PostgreSQL locaux.
 

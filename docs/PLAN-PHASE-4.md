@@ -1,7 +1,9 @@
 # Plan proposé — Phase 4 : CV privés et profil candidat validé
 
-Date : 2026-11-08. Statut : **APPROVED / IN_PROGRESS — D-024**.
-Le propriétaire valide la phase 3 et ce plan par « ok ». Ce n’est pas une livraison.
+Date : 2026-11-08. Statut : **DELIVERED / WAITING_FOR_VALIDATION — D-026**.
+Livraison et limites : [rapport de phase 4](reports/phase-4.md).
+Le propriétaire a validé la phase 3 et ce plan par « ok » (D-024).
+Le code est désormais livré ; la validation de cette livraison reste attendue.
 Le propriétaire choisit d’attendre les modules CV et matching avant Apify (D-023).
 La phase 3 est validée : [rapport](reports/phase-3.md).
 
@@ -130,8 +132,8 @@ sera présenté avant implémentation, conformément à AGENTS.md.
 - Rapport de phase avec résultats effectivement exécutés, capacités manquantes
   et commandes ; validation du propriétaire avant le plan matching de phase 5.
 
-## Validation requise avant développement
+## Accord et clôture
 
-Valider la livraison de phase 3 et ce plan de phase 4, notamment le périmètre
-d’extraction locale et les jalons de sécurité pour Windows, DOC et OCR. Aucun
-développement CV/matching ni reprise d’Apify n’est autorisé par ce document seul.
+Le propriétaire a validé la phase 3 et ce plan par « ok » (D-024). La livraison
+de phase 4 attend maintenant sa validation ; matching en phase 5 et Apify ne sont
+pas autorisés implicitement. Les capacités DOC/OCR manquantes restent explicites.

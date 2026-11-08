@@ -279,3 +279,69 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   WindowsSandbox.exe, Tesseract, soffice ou antiword trouvé dans PATH. Cela ne
   prouve pas l’impossibilité d’AppContainer, ni l’existence d’une sandbox prête.
   Aucune extraction de document non fiable dans un subprocess ordinaire.
+
+## D-025 — 2026-11-08 — Extraction locale PDF/DOCX bornée
+
+- Dans le plan CV approuvé, utiliser pypdf 7.x pour les PDF textuels, uniquement
+  dans le runtime AppContainer testé. Bibliothèque Python pure, BSD-3-Clause,
+  Python >=3.10 (compatible 3.11), sans nouveau service. Dépendance verrouillée
+  avec hashes. Références officielles : https://pypi.org/project/pypdf/,
+  https://github.com/py-pdf/pypdf/blob/main/LICENSE et
+  https://pypdf.readthedocs.io/en/stable/user/extract-text.html.
+- La documentation avertit de consommations mémoire importantes et de l’absence
+  d’OCR ; garder les limites Job Object, pages/texte et durée. Pas de PDF chiffré,
+  JavaScript/actions actives, pièces jointes ou exécutables acceptés.
+- DOCX : lecture ZIP/XML bornée dans le même environnement isolé, sans Word,
+  macro, conversion ou téléchargement de liens. Validation structurelle requise.
+- DOC historique et OCR : outils non présents ; capacité indisponible visible,
+  pas de parsing hors sandbox ni prétention de support complet.
+
+## D-026 — 2026-11-08 — Livraison locale de phase 4
+
+- Lots CV/profil du plan D-024 livrés avec migrations additives 0007 et 0008,
+  sans altérer les tables/migrations antérieures. Python 3.11 et le worker unique
+  conservés ; sa maintenance reprend les intentions de stockage, pas une seconde
+  infrastructure. UI Mes CV dans le shell Velson existant, FR/EN/mobile.
+- Upload binaire avec en-tête de nom UTF-8 encodé, plutôt qu’ajouter multipart ;
+  signature/structure inspectées dans AppContainer avant publication. Original,
+  nom, texte et profil chiffrés, preuves séparées des corrections/préférences.
+- Installation/runtime Windows AppContainer vérifiés par sondes réelles ; limites
+  Job Object, refus d’écriture dans le runtime et dans son dossier de profil.
+  Compilation et ACL de cette ressource dédiée approuvées par l’exécution locale
+  des outils ; aucun changement de droits du Python original, de service ou de réseau global.
+- Les données de formation/expérience restent des sections à relire, pas une
+  interprétation sémantique calibrée de dates/années. Matching et modes CV/hybride
+  de recherche restent indisponibles en attendant la phase 5. Aucun LLM externe.
+- Validation courante : 131 tests backend, 24 Angular, 10 E2E, Ruff/mypy/build,
+  migrations sans drift et audit runtime sans vulnérabilité connue. Rapport phase-4.md.
+  Aucun CV réel/label propriétaire ou permission fournisseur fabriqué.
+- La phase 4 attend sa validation avant le plan matching. D-023 reste en vigueur :
+  ne pas reprendre Apify sur la seule disponibilité des CV ; matching et permission
+  d’Actor restent nécessaires, puis l’autorisation C distincte avant tout run réel.
+
+## D-027 — 2026-11-08 — Audit AI Job Agent et mise à jour documentaire seulement
+
+- Demande : auditer l'extension recherche récente, matching, alertes, CV adapté,
+  lettre et dossier de candidature avant tout développement. L'audit a été rendu
+  dans la conversation sans modifier le code ni les documents.
+- Après clarification, le propriétaire demande « ouii ffaire mise ajour de toute
+  document necessaiee ». Autorisation acquise pour enregistrer l'audit, le plan
+  proposé et synchroniser les documents nécessaires, dont AGENTS/CLAUDE/PROGRESS.
+- Cet accord documentaire ne valide ni la livraison de phase 4 ni le nouveau
+  plan d'implémentation. Aucun nouveau lot, module, migration, dépendance ou
+  connecteur n'est autorisé par cette seule mise à jour.
+- Évidence de l'audit : 131 tests backend en 148,13 s, 24 Angular, 10 E2E en
+  30,2 s, Ruff/format/mypy/typecheck/build réussis, Alembic à 0008 sans drift.
+- Constats : matching/notifications/applications/documents absents ; les CV
+  originaux et profils validés existent. Publication par défaut toutes dates,
+  inconnus inclus selon préférence ; ne pas présenter les nouveaux filtres stricts
+  ou le défaut 24 h comme déjà implémentés. Les dates importées ne prouvent pas
+  une vérification indépendante de publication auprès d'un fournisseur.
+- Proposition conservée dans PLAN-AI-JOB-AGENT.md : sept lots sur le monolithe
+  et le worker existants, migrations additives seulement si nécessaires,
+  module documents proposé et frontières à approuver, IA payante non obligatoire.
+  Alternative écartée au stade du plan : reconstruire ou dupliquer les moteurs.
+- D-012/D-015/D-023 restent applicables : local sans Docker, quatre sites manuels,
+  Apify différé après CV/matching, permission vérifiée et accord C distinct.
+- SPEC conservé intact. Historique préservé ; correction des états documentaires
+  obsolètes plutôt que création de PHASE1.md/PHASE2.md en doublon.

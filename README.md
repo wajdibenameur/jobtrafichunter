@@ -3,7 +3,8 @@
 Plateforme de recherche d'emploi configurable pour un propriétaire unique.
 Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
-État : phase 3 locale livrée, en attente de validation. Python **3.11** selon
+État : phase 3 validée ; phase 4 CV/profil candidat livrée, en attente de validation.
+Python **3.11** selon
 instruction du propriétaire. Le projet reste entièrement local, sans Docker.
 Connexion, compte, Sources, Profils, Recherche et Résultats sont reliés à FastAPI. LinkedIn,
 Indeed, Keejob et Tanitjobs proposent des liens de recherche et l’import manuel
@@ -11,6 +12,11 @@ d’offres, avec aperçu CSV et confirmation. Les recherches filtrent ces import
 avec queue PostgreSQL et déduplication conservatrice. Voir [le rapport](docs/reports/phase-3.md).
 Voir [le suivi](docs/PROGRESS.md), [les décisions](docs/DECISIONS.md) et
 [le cahier des charges](docs/SPEC.md).
+
+La nouvelle demande AI Job Agent a été auditée : [état réel et contrôles](docs/reports/ai-job-agent-audit.md),
+[plan proposé en sept lots](docs/PLAN-AI-JOB-AGENT.md). Matching, alertes, CV adaptés,
+lettres et dossiers restent à développer. L'accord courant porte uniquement sur
+la mise à jour documentaire ; il ne valide pas le plan ni la livraison de phase 4.
 
 ## Installation locale — PowerShell
 
@@ -113,6 +119,49 @@ exécute Chrome sans interface puis nettoie ses données. Captures et logs reste
 locaux dans `.cache/frontend-e2e`. Le template commercial est conservé intact et
 hors Git ; seule son illustration est copiée localement. Poppins est fourni sous OFL.
 
+## CV privés et profil candidat
+
+La page **Mes CV** accepte les PDF textuels et DOCX (5 Mio maximum), conserve
+les originaux chiffrés et immuables, et affiche un aperçu textuel sûr. Les PDF
+sans texte exploitable sont signalés ; OCR et conversion des DOC historiques
+restent indisponibles. Les fichiers protégés, actifs ou dépassant les bornes
+de traitement sont refusés. L’extraction par règles doit être relue ; elle
+ne calcule pas des années d’expérience ou un besoin de visa à votre place.
+
+Depuis `backend`, avec Python 3.11 et les dépendances verrouillées installées,
+arrêter l’API avant de préparer ou mettre à jour son runtime d’analyse :
+
+```cmd
+.venv\Scripts\python.exe scripts\setup_cv_sandbox.py
+.venv\Scripts\python.exe -m alembic upgrade head
+```
+
+La préparation Windows compile un petit lanceur avec le compilateur .NET présent,
+copie Python et pypdf dans `.cache/cv-sandbox`, crée un profil AppContainer local
+au compte Windows et limite les permissions de ce profil. Aucun service,
+conteneur, clé de chiffrement ou paramètre réseau global n’est ajouté/modifié.
+Exécuter la préparation et l’API avec le même compte Windows. L’analyse refuse
+de démarrer si son isolation effective n’est pas vérifiée. Les chemins peuvent
+être configurés via `CV_STORAGE_PATH` et `CV_SANDBOX_PATH` ; aucun fichier CV ne
+doit être placé dans les assets ou un répertoire servi par HTTP. Ne pas changer
+la clé existante : elle protège aussi les profils et textes extraits en base.
+
+Redémarrer ensuite l’API HTTPS et le worker avec les commandes ci-dessus, puis
+ouvrir **Mes CV**. Choisir « Nouveau document » ou le document à versionner,
+envoyer le fichier, préparer le profil, corriger les faits et enregistrer un
+brouillon. La validation avec relecture et l’activation sont deux actions séparées.
+Une correction crée une révision ; elle ne remplace pas le profil validé actif.
+Les préférences sont distinctes des mentions du document et les preuves sont
+consultables. L’export contient la version sélectionnée et ses profils, avec
+l’original en base64 ; ce n’est pas un export de tout le compte.
+
+Le worker reprend les intentions de stockage interrompues après cinq minutes.
+Un original non publié est signalé comme échec si le fichier manque, jamais
+comme succès. La suppression confirmée retire toutes les versions du document,
+leurs profils et fichiers ; l’audit ne garde que les identifiants/actions.
+Matching, scores et recherche CV restent pour la phase 5. Apify reste reporté.
+Rapport et limites : [phase 4](docs/reports/phase-4.md).
+
 ## Vérifications
 
 Depuis `backend` :
@@ -153,7 +202,8 @@ dans `__init__.py`. Les tests AST contrôlent frontières et dépendances autori
 Les migrations sont transactionnelles et protégées contre les courses par un
 verrou PostgreSQL ; une migration appliquée ne doit plus être modifiée.
 
-Aucun connecteur automatisé fournisseur, parsing CV, matching ou Telegram livré.
+Aucun connecteur automatisé fournisseur, matching ou Telegram livré.
+Parsing CV local Windows et profil candidat validé : voir la section CV ci-dessus.
 Le dashboard affiche les vrais imports et la dernière exécution locale. La queue
 traite les imports avec heartbeat, reprise, annulation et snapshots de résultats.
 Les regroupements ne suppriment aucun import original ; les ambiguïtés restent
