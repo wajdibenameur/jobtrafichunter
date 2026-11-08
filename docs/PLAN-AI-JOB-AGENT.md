@@ -5,6 +5,11 @@ D-027 autorise uniquement l'enregistrement documentaire de ce plan et de
 [l'audit](reports/ai-job-agent-audit.md). Aucun nouveau lot de code approuvé.
 La livraison de phase 4 attend aussi sa validation ; ne pas la déduire de cet accord.
 
+Articulation D-028 : le [plan Scraping Engine](PLAN-SCRAPING-ENGINE.md) ajoute une
+collecte indépendante d'Apify, encore proposée. Filtres, matching, alertes et
+documents sont des chantiers communs ; ne pas créer de seconde implémentation.
+L'accord d'enregistrement de ces documents ne valide aucun des deux plans.
+
 ## Cadre et correspondance avec les phases
 
 Extension du backend FastAPI Python 3.11, PostgreSQL et Angular standalone/Velson.

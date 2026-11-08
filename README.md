@@ -18,6 +18,12 @@ La nouvelle demande AI Job Agent a été auditée : [état réel et contrôles](
 lettres et dossiers restent à développer. L'accord courant porte uniquement sur
 la mise à jour documentaire ; il ne valide pas le plan ni la livraison de phase 4.
 
+Scraping Engine indépendant d'Apify : [audit](docs/reports/scraping-engine-audit.md),
+[revue des sources](docs/sources/scraping-review.md) et
+[plan proposé en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Documentation enregistrée
+selon D-028 ; aucun collecteur développé ou activé. Les fonctionnalités communes
+avec AI Job Agent seront réalisées une seule fois après validation des plans.
+
 ## Installation locale — PowerShell
 
 Depuis la racine :

@@ -1,7 +1,7 @@
 ﻿# Progress
 
-Last updated: 2026-11-08 by Codex / AI Job Agent documentation (D-027)
-Current task: Audit recorded; phase 4 delivered; new seven-lot plan proposed
+Last updated: 2026-11-08 by Codex / Scraping Engine documentation (D-028)
+Current task: AI Job Agent and Scraping audits recorded; both plans proposed
 Status: WAITING_FOR_OWNER_VALIDATION (documentation update authorized only)
 
 ## Phase checklist
@@ -33,6 +33,19 @@ These lots do not replace historical phases. Tailored documents are a proposal,
 not a delivered capability of the original-CV vault. No code, migration, dependency,
 new module or plan approval follows from D-027.
 
+## Scraping Engine — documentation authorized, implementation not approved
+
+- [x] Audit recorded: reports/scraping-engine-audit.md (D-028).
+- [x] Source evidence recorded: sources/scraping-review.md; none made PERMITTED.
+- [x] Eight-lot plan saved: PLAN-SCRAPING-ENGINE.md, status PROPOSED.
+- [ ] Approve plan: extend sources/search/listings and existing worker only.
+- [ ] Infrastructure, permitted extraction, Angular page, queue integration.
+- [ ] Shared matching/alerts/documents, then full validation; no duplicate engines.
+
+LinkedIn stays without scraping; Indeed/Tanitjobs manual pending permission.
+Keejob Markdown/RSS and enterprise APIs are candidates, not activated sources.
+D-028 authorizes saving documents only, not code, collection or phase 4 validation.
+
 ## Apify feature — explicit A/B/C workflow
 
 - [x] A Modules/queue/UI inspected and official documents reviewed (D-022).
@@ -44,6 +57,13 @@ new module or plan approval follows from D-027.
 - [ ] C Separate explicit approval for a real 10-job run and concrete budget.
 
 ## Last session / current evidence
+
+Owner requested Scraping audit, then "ouui ajouté au fichier": saved audit,
+eight-lot proposed plan and source-review links (D-028); synchronized README,
+AI Job Agent plan, agents, decisions, TODO and CHANGELOG, then this file last.
+Scraping audit collected 131 tests in 1.05s; Ruff/mypy passed (97 source files).
+This is not a new full test run; complete-suite evidence below remains historical.
+No application code, migration, dependency, connector or permission changed.
 
 New request: audit AI Job Agent, filters, matching, alerts and application documents
 before code. Audit initially returned in chat only; owner then explicitly authorized
@@ -91,7 +111,8 @@ Matching, notifications, applications and documents modules are absent.
 
 ## Next step / owner review
 
-Await validation of the phase 4 delivery and the proposed AI Job Agent plan.
+Await validation of phase 4 delivery and both proposed plans/articulation.
+Scraping Engine remains proposed; source permissions require separate verification.
 Then resolve lot 2 defaults/boundaries/legacy compatibility before implementation;
 report checks and stop for owner validation after each implementation lot.
 Documents module, boundary changes, migrations and export/model dependencies

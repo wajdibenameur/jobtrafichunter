@@ -55,3 +55,5 @@ Docker is not required; GitHub CI is not run. Keep unverified connectors inactiv
 AI Job Agent audit: docs/reports/ai-job-agent-audit.md; plan: docs/PLAN-AI-JOB-AGENT.md.
 D-027 authorizes documentation only; the seven-lot plan remains PROPOSED.
 Do not implement new lots or treat this update as phase 4 delivery approval.
+Scraping: docs/PLAN-SCRAPING-ENGINE.md and docs/reports/scraping-engine-audit.md.
+D-028 records documents only; no collection/code approval or PERMITTED source.

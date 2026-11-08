@@ -2,6 +2,10 @@
 
 ## Prochaine action
 
+- Scraping Engine : audit `reports/scraping-engine-audit.md`, preuves
+  `sources/scraping-review.md`, plan `PLAN-SCRAPING-ENGINE.md`, statut PROPOSED.
+  D-028 autorise leur enregistrement uniquement. Valider l'articulation avec
+  AI Job Agent avant code : un seul chantier filtres/matching/alertes/documents.
 - Demande AI Job Agent auditée : `reports/ai-job-agent-audit.md` et
   `PLAN-AI-JOB-AGENT.md`. Mise à jour documentaire autorisée (D-027), plan PROPOSED.
   Attendre la validation de la livraison de phase 4 et du plan avant les nouveaux lots.
@@ -57,6 +61,13 @@
 
 ## Sources automatisées éventuelles
 
+- Revue Scraping du 2026-11-08 : aucun PERMITTED attribué. LinkedIn reste sans
+  scraping ; Indeed/Tanitjobs manuels faute de permission établie pour cet usage.
+  Keejob publie un guide Markdown/RSS ; clarifier droits, stockage, attribution et
+  fréquence. Greenhouse/Lever : étudier des boards d'entreprises précis.
+- Avant transport HTTP : contrôles DNS/IP effectives/redirections, limites de
+  téléchargement/décompression et quota, fixtures JSON-LD, précision des dates.
+  La validation syntaxique actuelle des liens ne suffit pas contre les SSRF.
 - Aucun fournisseur automatisé livré ou activé. Les candidats documentaires
   Remotive, Arbeitnow, JobTech, Jobicy/Himalayas n’accordent aucun accès implicite.
 - Si le propriétaire redemande une collecte automatique : vérifier documents,

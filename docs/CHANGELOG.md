@@ -1,5 +1,10 @@
 # Changelog
 
+- 2026-11-08 — D-028 : audit Scraping Engine, revue officielle des sources et
+  plan proposé en huit lots enregistrés ; README, plan AI Job Agent, consignes
+  agents, décisions, TODO et PROGRESS raccordés. Documentation uniquement :
+  aucun collecteur, migration, dépendance, source PERMITTED ou run réel ajouté.
+
 - 2026-11-08 — D-027 : audit AI Job Agent et plan en sept lots enregistrés ;
   README, AGENTS/CLAUDE, décisions, TODO, rapports et PROGRESS synchronisés.
   Accord documentaire uniquement, phase 4 en attente de validation et nouveau

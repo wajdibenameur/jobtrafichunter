@@ -345,3 +345,32 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   Apify différé après CV/matching, permission vérifiée et accord C distinct.
 - SPEC conservé intact. Historique préservé ; correction des états documentaires
   obsolètes plutôt que création de PHASE1.md/PHASE2.md en doublon.
+
+## D-028 — 2026-11-08 — Scraping Engine : audit enregistré, code non approuvé
+
+- Nouvelle demande : audit préalable d'un moteur Python indépendant d'Apify,
+  page Scraping, connecteurs extensibles, collecte permise puis matching/alertes.
+  Rapport d'audit et proposition en huit lots rendus dans la conversation.
+- Après le rapport, le propriétaire demande « ouui ajouté au fichier ».
+  Interprétation limitée à l'ajout de l'audit/plan et aux mises à jour de suivi ;
+  aucun accord d'implémentation, de dépendance, de migration ou de collecte réelle.
+  La livraison de phase 4 reste en attente de validation.
+- Fichiers : reports/scraping-engine-audit.md, PLAN-SCRAPING-ENGINE.md et
+  sources/scraping-review.md ; liens/suivi synchronisés. SPEC immuable.
+- Architecture proposée : étendre les contrats et le registre sources, la queue
+  search et le worker existants. Alternative écartée dans le plan : second moteur,
+  second worker ou Protocol concurrent. Contrats précis à approuver avant code.
+- Évidence : 131 tests collectés en 1,05 s, Ruff et mypy (97 fichiers) réussis
+  pendant l'audit ; les dernières suites complètes restent celles de D-027.
+  Ne pas confondre collecte de tests et exécution. Aucun test réel de collecteur absent.
+- Revue officielle détaillée dans sources/scraping-review.md : LinkedIn interdit
+  le scraping sans autorisation ; portée Indeed à vérifier ; Keejob documente
+  Markdown/RSS sans établir tous les droits de réutilisation ; Tanitjobs ne permet
+  pas d'établir une permission complète de collecte périodique. Robots Tanitjobs
+  inaccessible via l'outil. Aucun statut PERMITTED attribué ni source activée.
+- Greenhouse/Lever : candidats techniques par board, pas permission universelle.
+  Pas de cookies privés, identifiants LinkedIn, contournement ou visite automatisée
+  d'annonces sous prétexte de tester une source non approuvée.
+- Les lots communs aux deux plans (filtres, matching, notifications, documents)
+  seront réalisés une seule fois après accord. D-012/D-015/D-023 conservées :
+  local sans Docker, imports manuels préservés, Apify différé et accord C distinct.
