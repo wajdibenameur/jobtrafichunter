@@ -1,8 +1,11 @@
 # Changelog
 
 - 2026-11-09 — D-035 : diagnostic de l'échec CI avant les tests ; cluster PostgreSQL
-  CI renommé sans tiret pour systemd et contrôle pg_isready ajouté. Validation sur
-  runner GitHub à suivre ; aucune modification applicative ou base personnelle.
+  CI renommé sans tiret pour systemd et contrôle pg_isready ajouté. Linux backend
+  vérifié (267 réussis / 5 natifs Windows exclus, couverture 90,02 %) et 37 Angular.
+  Job Windows natif ajouté pour conserver le vrai parcours CV ; refus sécurisé
+  testé sur Linux et attentes de navigation E2E explicites. Validation finale sur
+  les deux runners à suivre ; aucune modification applicative ou base personnelle.
 
 - 2026-11-09 — D-034 : dépôt GitHub public choisi par le propriétaire, origin
   configuré ; base CV versionnée dans 2b34645 pour débloquer la chaîne Alembic.

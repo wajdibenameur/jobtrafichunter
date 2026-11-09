@@ -12,6 +12,7 @@ mkdirSync(screenshots, { recursive: true });
 test('private CV original, reviewed candidate versions, activation and deletion', async ({
   page,
 }) => {
+  test.skip(process.platform !== 'win32', 'Native AppContainer parsing is verified on Windows CI.');
   test.setTimeout(60000);
   await page.goto('/auth/signin');
   await page.getByLabel('Adresse e-mail', { exact: true }).fill(config.email);
@@ -74,4 +75,29 @@ test('private CV original, reviewed candidate versions, activation and deletion'
     async () => (await fetch('/api/candidate-profiles/active')).status,
   );
   expect(status).toBe(409);
+});
+
+test('unsupported platform refuses CV parsing and keeps upload disabled', async ({ page }) => {
+  test.skip(process.platform === 'win32', 'The native Windows parsing flow is tested separately.');
+  await page.goto('/auth/signin');
+  await page.getByLabel('Adresse e-mail', { exact: true }).fill(config.email);
+  await page.getByLabel('Mot de passe', { exact: true }).fill(config.password);
+  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await page.getByRole('link', { name: 'Mes CV', exact: true }).click();
+  await expect(page.getByTestId('cv-upload')).toBeDisabled();
+  await expect(page.getByRole('status')).toContainText('Analyse locale non configurée');
+  const capabilities = await page.request.get('/api/cvs/capabilities');
+  expect(capabilities.ok()).toBe(true);
+  expect((await capabilities.json()).ready).toBe(false);
+  const upload = await page.request.post('/api/cvs', {
+    headers: {
+      'Content-Type': 'application/pdf',
+      'X-CV-Filename': 'synthetic-cv.pdf',
+      Origin: new URL(page.url()).origin,
+    },
+    data: readFileSync(config.cvFixturePath),
+  });
+  expect(upload.status()).toBe(503);
+  expect((await upload.json()).error.code).toBe('CV_SANDBOX_UNAVAILABLE');
 });

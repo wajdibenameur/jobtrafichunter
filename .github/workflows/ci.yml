@@ -73,4 +73,57 @@ jobs:
         working-directory: frontEnd/jobhunter
         run: npm audit --omit=dev
 
+  windows-native:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    env:
+      JOBHUNTER_TEST_ENV: .env.test.local
+      JOBHUNTER_TEMPLATE_OPTIONAL: "1"
+    defaults:
+      run:
+        working-directory: backend
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.lock
+      - name: Install locked dependencies
+        run: python -m pip install --require-hashes -r requirements-dev.lock
+      - name: Prepare isolated PostgreSQL from runner binaries
+        run: |
+          $env:PG_BIN = $env:PGBIN
+          if (-not (Test-Path -LiteralPath (Join-Path $env:PG_BIN 'initdb.exe'))) {
+            throw 'PostgreSQL binaries unavailable on runner'
+          }
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "PG_BIN=$env:PG_BIN"
+          python scripts/local_postgres.py start
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -c "import os; from dotenv import dotenv_values; value=dotenv_values('.env.test.local')['DATABASE_URL']; print('::add-mask::'+value); open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8').write('TEST_DATABASE_URL='+value+'\n')"
+      - name: Prepare real Windows AppContainer parser
+        run: python scripts/setup_cv_sandbox.py
+      - name: Native Windows and PostgreSQL tests
+        run: python -m pytest -q
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22.22.3"
+          cache: npm
+          cache-dependency-path: frontEnd/jobhunter/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: frontEnd/jobhunter
+        run: npm ci
+      - name: Check frontend types and production build
+        working-directory: frontEnd/jobhunter
+        run: |
+          npm run typecheck
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run build
+      - name: Complete browser flow including native CV parsing
+        run: python scripts/frontend_e2e.py
+      - name: Stop isolated PostgreSQL fixture
+        if: always()
+        run: python scripts/local_postgres.py stop
+
 # Local-only project: Docker builds and hosting are out of scope by owner request.

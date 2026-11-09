@@ -110,6 +110,7 @@ test('scraping page saves real filters, keeps collection disabled and reuses loc
     await page
       .getByRole('link', { name: 'Rechercher dans mes offres importées', exact: true })
       .click();
+    await expect(page).toHaveURL(/\/search$/);
     await page
       .getByRole('combobox', { name: 'Profil à utiliser', exact: true })
       .selectOption(ids.profileId);

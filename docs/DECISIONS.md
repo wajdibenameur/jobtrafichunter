@@ -540,3 +540,16 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Publier la correction afin de vérifier le vrai runner Ubuntu ; ne pas présenter
   les tests Windows locaux comme une réussite CI. Pas de merge des PR Dependabot
   pendant ce correctif, dépendances et phases fonctionnelles inchangées.
+- Premier correctif a7e4c55 : PostgreSQL démarre ; Linux obtient 267 tests réussis,
+  5 tests Windows exclus explicitement, couverture 90,02 %, audits backend et
+  37 tests Angular réussis. Deux erreurs E2E : CV natif attendu à tort sous Linux,
+  action sur un profil avant la fin de la navigation Scraping → Recherche.
+- Conserver la couverture Linux et ajouter un job windows-2025 avec le vrai
+  AppContainer, Python 3.11 et le cluster PostgreSQL isolé du helper existant.
+  L'image officielle fournit PGBIN/PostgreSQL 17 ; aucun service système démarré :
+  https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md.
+  Masquer l'URL aléatoire de la base avant de la transmettre à GITHUB_ENV.
+- Parcours natif CV uniquement sur Windows ; sous Linux, ajouter un vrai test
+  d'indisponibilité sécurisée (upload désactivé et API refusée 503), sans faux parser.
+  Attendre explicitement /search avant de sélectionner le profil dans les E2E.
+  Aucun retrait des assertions d'import, de déduplication ou de sécurité.

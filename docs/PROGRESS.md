@@ -1,7 +1,7 @@
 # Progress
 
 Last updated: 2026-11-09 by Codex / GitHub CI correction (D-035)
-Current task: fix published GitHub CI PostgreSQL startup and verify actual runner
+Current task: verify corrected Linux CI and native Windows job, no new functional phase
 Status: CI_FIX_IN_VERIFICATION / FUNCTIONAL_VALIDATIONS_PENDING
 
 ## Historical phases
@@ -106,7 +106,12 @@ local secrets/CVs/TLS keys/cache/tools/template excluded. Lint/typing rechecked.
 Push main succeeded; remote SHA equals local SHA 56ba4f9da79ed8cb855c15b4e7d8096ec26f2ee2.
 Report: reports/github-publication.md. CI main a68de8a failed at PostgreSQL startup
 before tests; lint/format/mypy passed. D-035 renames the CI cluster jobhunter_ci
-(systemd-incompatible dash removed), adds pg_isready, awaits real runner verification.
+(systemd-incompatible dash removed), adds pg_isready. Run a7e4c55 proves PostgreSQL 16,
+267 Linux tests / 5 native Windows exclusions, 90.02% coverage and 37 Angular pass.
+Remaining E2E issues: native CV unavailable on Linux and a route transition race.
+Add Windows native CI using existing isolated PostgreSQL/AppContainer helpers; Linux
+asserts fail-closed CV refusal instead. Await /search explicitly in browser tests.
+Final Linux/Windows CI verification pending; no feature approval inferred.
 No real collection, paid call or hosting; publication does not validate phase delivery.
 
 No migration applied to the personal DB. After reviewing the versioned migrations,

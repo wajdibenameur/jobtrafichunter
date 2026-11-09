@@ -83,6 +83,7 @@ test('profiles, real worker, grouped results, preserved snapshots and mobile', a
   await page
     .getByRole('link', { name: 'Rechercher dans mes offres importées', exact: true })
     .click();
+  await expect(page).toHaveURL(/\/search$/);
   await page
     .getByLabel('Profil à utiliser', { exact: true })
     .selectOption({ label: 'Phase 3 E2E' });
