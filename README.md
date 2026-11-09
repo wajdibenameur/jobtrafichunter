@@ -21,6 +21,11 @@ La nouvelle demande AI Job Agent a été auditée : [état réel et contrôles](
 lettres et dossiers restent à développer. L'accord D-027 portait uniquement sur
 la documentation ; le plan AI Job Agent et la livraison de phase 4 restent à valider.
 
+Prochaine proposition : [matching phase 5](docs/PLAN-MATCHING-PHASE-5.md), D-036.
+Premier périmètre envisagé : aperçu local avec scores explicitement provisoires,
+puis calibration sur annotations du propriétaire avant seuils/alertes/recherche CV.
+Ce plan et les livraisons préalables attendent un accord ; matching non implémenté.
+
 Scraping Engine indépendant d'Apify : [audit](docs/reports/scraping-engine-audit.md),
 [revue des sources](docs/sources/scraping-review.md) et
 [plan en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Infrastructure du lot 2 livrée

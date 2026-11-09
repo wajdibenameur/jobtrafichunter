@@ -2,6 +2,12 @@
 
 ## Prochaine action
 
+- Matching commun : faire approuver `PLAN-MATCHING-PHASE-5.md` (D-036), après
+  confirmation des livraisons CV phase 4 et Scraping lot 5. Premier périmètre 5A :
+  aperçu local expérimental, chiffrement compatible, quatre tables/deux migrations,
+  aucun score prétendu calibré ni seuil/alerte activé. Code non commencé.
+  Préparer ensuite les données privées annotées par le propriétaire pour 5B ;
+  aucun CV réel, corpus personnel ou label propriétaire dans le dépôt public.
 - Scraping Engine : audit `reports/scraping-engine-audit.md`, preuves
   `sources/scraping-review.md`, plan `PLAN-SCRAPING-ENGINE.md`.
   D-029 : lot 2 livré, 181 tests backend réussis ; rapport `reports/scraping-lot-2.md`.

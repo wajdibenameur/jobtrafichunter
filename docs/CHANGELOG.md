@@ -1,5 +1,11 @@
 # Changelog
 
+- 2026-11-09 — D-036 : audit des interfaces et plan détaillé du matching phase 5
+  enregistré : 5A aperçu local provisoire, preuves/cache/chiffrement/queue, quatre
+  tables et deux migrations proposées ; 5B calibration privée sur labels propriétaire,
+  puis 5C recherche CV. Accord des livraisons préalables et du plan attendu avant code.
+  Aucun nouveau code applicatif, score réel, test de matching, migration ou appel LLM.
+
 - 2026-11-09 — D-035 : diagnostic de l'échec CI avant les tests ; cluster PostgreSQL
   CI renommé sans tiret pour systemd et contrôle pg_isready ajouté. Linux backend
   vérifié (267 réussis / 5 natifs Windows exclus, couverture 90,02 %) et 37 Angular.

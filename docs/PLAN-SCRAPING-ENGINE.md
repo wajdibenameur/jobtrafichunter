@@ -111,6 +111,10 @@ Aucune collecte réelle. Base CV versionnée séparément dans 2b34645 pour publ
 
 ## Lot 6 — Matching, alertes et Early Applicant
 
+Matching commun détaillé dans [PLAN-MATCHING-PHASE-5.md](PLAN-MATCHING-PHASE-5.md),
+proposé D-036. Il ne vaut pas validation du lot 5 ou de la phase 4 CV ; aperçu,
+calibration puis recherche CV sont séparés des alertes/ordonnancement futurs.
+
 - Réaliser les modules communs prévus dans le lot 3 AI Job Agent, pas les dupliquer.
   Profil validé obligatoire, score expliqué/versionné/calibré, confiance et cache.
 - Planification dans le worker existant : 15/30/60 minutes ou 24 h, défaut proposé

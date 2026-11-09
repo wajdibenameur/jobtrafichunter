@@ -1,8 +1,8 @@
 # Progress
 
-Last updated: 2026-11-09 by Codex / verified GitHub CI (D-035)
-Current task: Linux and native Windows CI verified; await functional delivery validation
-Status: CI_VERIFIED_LINUX_AND_WINDOWS / FUNCTIONAL_VALIDATIONS_PENDING
+Last updated: 2026-11-09 by Codex / matching phase 5 proposal (D-036)
+Current task: detailed common matching plan prepared; prerequisite deliveries need approval
+Status: WAITING_FOR_MATCHING_PLAN_AND_PREREQUISITE_APPROVAL
 
 ## Historical phases
 
@@ -21,6 +21,7 @@ Status: CI_VERIFIED_LINUX_AND_WINDOWS / FUNCTIONAL_VALIDATIONS_PENDING
 - [x] Audit reports/ai-job-agent-audit.md; documentation authorized D-027.
 - [x] PLAN-AI-JOB-AGENT.md; shared filters via Scraping lot 4 D-031/D-032.
 - [x] Strict 2/6/24 h radios and legacy compatibility delivered and validated.
+- [x] Detailed matching plan proposed D-036: PLAN-MATCHING-PHASE-5.md, not approved for code.
 - [ ] Explained/calibrated matching, scheduling, priorities and alerts.
 - [ ] Tailored CV, preview/validation and DOCX/PDF export.
 - [ ] Cover letter, languages/styles/versions/exports.
@@ -55,6 +56,15 @@ and career APIs are candidates only. Four manual workflows remain available.
 - [ ] C separate explicit approval for a real 10-job run and concrete budget.
 
 ## Last session / implementation
+
+After CI success the owner continued: D-036 prepares the next common matching plan.
+Only documentation changed. Plan 5A proposes local provisional previews, evidence,
+versioned scoring/cache, compatible shared encryption, four tables/two migrations.
+5B needs real owner annotations/calibration, 5C adds full CV search; alerts later.
+Validate CV phase 4 and Scraping lot 5 deliveries, then approve plan 5A before code.
+Application suites not rerun for this docs-only task; no matching/calibration claimed.
+Doc checks passed: local links, weights total 100, identical agent files, progress
+length, diff whitespace and unchanged SPEC hash. Docs-only commit uses [skip ci].
 
 Owner continued after the detailed lot 5 proposal: approved D-033 on 2026-11-08.
 Local delivery/checks completed 2026-11-09. Same SearchQueue/worker, explicit
@@ -125,5 +135,6 @@ results may not yet exist. Known listing content is not enriched from observatio
 Retention policy future; conservative crash reservations may reduce useful volume.
 No matching/calibration/notifications/generated documents, scheduler, source activation,
 Docker or hosting. Source permission and any paid run remain separately gated.
-Await lot 5 validation before common matching/alerts work with
-phase 4 CV prerequisite and owner-labelled datasets. Do not infer their approval.
+Next: explicit approval of CV phase 4 and Scraping lot 5 deliveries plus
+PLAN-MATCHING-PHASE-5.md scope 5A before code. Owner-labelled datasets are required
+for real calibration 5B, never fabricated or committed to the public repository.

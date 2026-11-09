@@ -66,6 +66,10 @@ avec choix avancé conservant les anciens profils. Le détail ci-dessous est le 
 
 ## Lot 3 — Matching expliqué, puis alertes
 
+[Plan détaillé phase 5](PLAN-MATCHING-PHASE-5.md), D-036 : 5A aperçu local provisoire,
+5B calibration propriétaire, 5C recherche CV. Proposition à approuver, pas de code
+commencé. Les alertes et l'ordonnanceur restent un lot commun ultérieur séparé.
+
 - Créer modules/matching/ : models, schemas, service, scoring, calibration,
   api, exports __init__ et tests. Étendre ai/ avec l'analyse structurée des offres
   et un contrat de fournisseur configurable ; réutiliser la taxonomie existante.

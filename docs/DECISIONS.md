@@ -560,3 +560,27 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Rapport reports/ci-validation.md. Dernier commit uniquement documentaire avec
   [skip ci], aucune modification de source/workflow/tests après le run validé.
   Les validations fonctionnelles de phase 4 et lot 5 restent à obtenir séparément.
+
+## D-036 — 2026-11-09 — Proposition du prochain chantier matching
+
+- Après le rapport CI verte Linux/Windows, le propriétaire demande « contenue ».
+  Préparer le plan détaillé du matching commun, sans présumer la validation des
+  livraisons CV phase 4 et Scraping lot 5 ni commencer une nouvelle phase de code.
+- Audit des interfaces profile/ai/listings/search et de la queue actuelle ;
+  plan concret : [PLAN-MATCHING-PHASE-5.md](PLAN-MATCHING-PHASE-5.md).
+- Recommandation soumise à accord : 5A aperçu local explicitement provisoire avec
+  candidat validé actif, poids/plafonds versionnés, preuves, inconnus et confiance
+  faible ; pas de seuil de pertinence ou alerte sans calibration propriétaire 5B.
+  La recherche CV/HYBRID complète et choix de CV secondaire restent une étape 5C.
+- Réutiliser la queue et les snapshots, quatre nouvelles tables / deux migrations,
+  interfaces additives et scope de recalcul sans collecte. Aucun second worker.
+  Respecter matching → profile/ai ; search transmet les offres par DTO indépendants.
+- Chiffrement proposé : primitive partagée core, façade PrivateCvData compatible
+  sans modifier les données historiques. Les explications privées ne vont pas en
+  clair dans SearchResult ou le SSE. Ce changement attend l'accord au plan.
+- Alternatives écartées : scores présentés comme calibrés avec des labels fictifs,
+  appel LLM externe implicite, chiffrement dupliqué ou imports privés intermodules.
+  SPEC reste immuable ; aucune nouvelle dépendance/collecte/migration exécutée.
+- Session documentaire seulement ; accord explicite attendu sur les deux livraisons
+  préalables et le périmètre 5A avant code. Tests applicatifs inchangés, pas de nouvelle
+  réussite de matching/calibration revendiquée.
