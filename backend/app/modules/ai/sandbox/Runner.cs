@@ -47,6 +47,8 @@ internal static class Runner {
         IntPtr capabilities, uint count, out IntPtr sid);
     [DllImport("userenv.dll", CharSet=CharSet.Unicode)]
     static extern int DeriveAppContainerSidFromAppContainerName(string name, out IntPtr sid);
+    [DllImport("userenv.dll", CharSet=CharSet.Unicode)]
+    static extern int GetAppContainerFolderPath(string sid, out IntPtr path);
     [DllImport("advapi32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
     static extern bool ConvertSidToStringSid(IntPtr sid, out IntPtr text);
     [DllImport("advapi32.dll", SetLastError=true)]
@@ -93,6 +95,7 @@ internal static class Runner {
             handles=IntPtr.Zero, job=IntPtr.Zero;
         ProcessInfo pi=new ProcessInfo();
         try {
+            Console.OutputEncoding = new UTF8Encoding(false);
             if (args.Length != 2 && args.Length != 3) return 90;
             string profile=args[0];
             int hr;
@@ -110,6 +113,17 @@ internal static class Runner {
                 Check(ConvertSidToStringSid(sid, out value));
                 try { Console.WriteLine(Marshal.PtrToStringUni(value)); }
                 finally { LocalFree(value); }
+                return 0;
+            }
+            if (args[1] == "--folder") {
+                IntPtr value, path;
+                Check(ConvertSidToStringSid(sid, out value));
+                try {
+                    if (GetAppContainerFolderPath(Marshal.PtrToStringUni(value), out path) < 0)
+                        return 91;
+                    try { Console.WriteLine(Marshal.PtrToStringUni(path)); }
+                    finally { Marshal.FreeCoTaskMem(path); }
+                } finally { LocalFree(value); }
                 return 0;
             }
             if (args.Length != 3) return 90;

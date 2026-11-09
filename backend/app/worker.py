@@ -12,6 +12,7 @@ from app.core.db import Runtime, make_runtime
 from app.core.logging import configure_logging
 from app.core.settings import Settings
 from app.modules.auth import AuthService
+from app.modules.cv import CvMaintenance
 from app.modules.search import SearchQueue
 from app.modules.sources import SourceService
 
@@ -25,7 +26,9 @@ logger = logging.getLogger("jobhunter.worker")
 async def run_worker(runtime: Runtime, stop: asyncio.Event, *, once: bool = False) -> None:
     try:
         while not stop.is_set():
+            recovered = await CvMaintenance(runtime).run_once()
             processed = await SearchQueue(runtime).run_once()
+            processed = processed or recovered
             logger.info("worker_cycle_completed" if processed else "worker_idle")
             if once:
                 return

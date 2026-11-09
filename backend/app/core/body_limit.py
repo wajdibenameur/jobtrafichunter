@@ -1,3 +1,5 @@
+import re
+
 from starlette.responses import JSONResponse
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
@@ -12,9 +14,13 @@ class BodyLimitMiddleware:
         if scope["type"] != "http" or scope["method"] in {"GET", "HEAD", "OPTIONS"}:
             await self.app(scope, receive, send)
             return
-        # CV uploads will get their own validated limit in phase 4.
         limit = (
-            1024 * 1024
+            5 * 1024 * 1024
+            if scope["method"] == "POST"
+            and re.fullmatch(r"/api/cvs(?:/[0-9a-fA-F-]{36}/versions)?", scope["path"])
+            else 128 * 1024
+            if scope["path"].startswith("/api/candidate-profiles/")
+            else 1024 * 1024
             if scope["path"] in {"/api/jobs/import", "/api/jobs/import/preview"}
             else 16 * 1024
         )

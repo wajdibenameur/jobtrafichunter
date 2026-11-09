@@ -5,6 +5,7 @@ No document parsing is performed by this setup command.
 """
 
 import hashlib
+import importlib.util
 import json
 import os
 import shutil
@@ -42,6 +43,16 @@ def main() -> None:
                 archive.write(source, relative.as_posix())
     (RUNTIME / "python311._pth").write_text("python311.zip\nDLLs\n.\n", encoding="ascii")
     shutil.copy2(SOURCE / "probe.py", RUNTIME / "probe.py")
+    shutil.copy2(SOURCE / "extract.py", RUNTIME / "extract.py")
+    spec = importlib.util.find_spec("pypdf")
+    if spec is None or not spec.submodule_search_locations:
+        raise SystemExit("Install locked backend dependencies before sandbox setup")
+    shutil.copytree(
+        Path(next(iter(spec.submodule_search_locations))),
+        RUNTIME / "pypdf",
+        dirs_exist_ok=True,
+        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
+    )
     profile = "JobHunter.CvParser." + hashlib.sha256(str(PROJECT).encode()).hexdigest()[:16]
     system = Path(os.environ.get("SYSTEMROOT", "C:/Windows"))
     build_temp = PROJECT / ".cache" / "cv-build"
@@ -104,7 +115,44 @@ def main() -> None:
     )
     if result.returncode:
         raise SystemExit("Sandbox runtime ACL preparation failed")
-    (RUNTIME / "runtime.json").write_text(json.dumps({"profile": profile}), encoding="ascii")
+    result = subprocess.run(
+        [str(runner), profile, "--folder"],
+        env=environment,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        timeout=15,
+        creationflags=subprocess.CREATE_NO_WINDOW,
+    )
+    folder = Path(result.stdout.decode("utf-8", errors="strict").strip())
+    if folder.name.casefold() == "ac":
+        folder = folder.parent
+    packages = Path(os.environ["LOCALAPPDATA"]) / "Packages"
+    if (
+        result.returncode
+        or not folder.resolve().is_relative_to(packages.resolve())
+        or (folder.name.casefold() not in {profile.casefold(), sid.casefold()})
+    ):
+        raise SystemExit("AppContainer data path could not be verified")
+    result = subprocess.run(
+        [
+            str(system / "System32/icacls.exe"),
+            str(folder),
+            "/deny",
+            f"*{sid}:(OI)(CI)(W,D,DC,WDAC,WO)",
+            "/T",
+            "/Q",
+        ],
+        env=environment,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        timeout=30,
+        creationflags=subprocess.CREATE_NO_WINDOW,
+    )
+    if result.returncode:
+        raise SystemExit("AppContainer data write restriction failed")
+    (RUNTIME / "runtime.json").write_text(
+        json.dumps({"profile": profile, "container_folder": str(folder)}), encoding="ascii"
+    )
     print("Secret-free runtime prepared. Isolation probes still required before document parsing.")
 
 

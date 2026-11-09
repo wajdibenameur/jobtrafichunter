@@ -22,6 +22,14 @@ elif request.get("mode") == "memory":
         print(json.dumps({"memory_limited": True}))
     raise SystemExit(0)
 result = {"secret_in_env": "JOBHUNTER_PROBE_SECRET" in os.environ}
+config = json.loads(Path(__file__).with_name("runtime.json").read_text(encoding="ascii"))
+try:
+    probe = Path(config["container_folder"]) / ".jobhunter-synthetic-write-probe"
+    probe.write_bytes(b"synthetic")
+    probe.unlink()
+    result["container_storage_write"] = True
+except OSError:
+    result["container_storage_write"] = False
 try:
     Path(request["canary"]).read_bytes()
     result["private_file_read"] = True

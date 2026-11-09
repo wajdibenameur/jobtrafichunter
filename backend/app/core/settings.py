@@ -1,4 +1,5 @@
 import base64
+from pathlib import Path
 from typing import Literal, Self
 from urllib.parse import urlsplit
 
@@ -14,6 +15,12 @@ class Settings(BaseSettings):
     database_schema: str = Field(default="public", pattern=r"^[a-z][a-z0-9_]{0,62}$")
     jwt_secret: SecretStr
     cv_encryption_key: SecretStr
+    cv_storage_path: Path = Field(
+        default_factory=lambda: Path(__file__).resolve().parents[3] / "local-data" / "cvs"
+    )
+    cv_sandbox_path: Path = Field(
+        default_factory=lambda: Path(__file__).resolve().parents[3] / ".cache" / "cv-sandbox"
+    )
     allowed_origins: list[str] = Field(default_factory=lambda: ["https://localhost:8443"])
     environment: Literal["development", "production", "test"] = "development"
     access_minutes: int = Field(default=15, ge=1, le=15)

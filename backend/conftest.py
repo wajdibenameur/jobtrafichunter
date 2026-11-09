@@ -48,13 +48,19 @@ async def database(settings: Settings) -> AsyncIterator[Runtime]:
     created = False
     runtime = None
     try:
+        connection_error = None
         try:
             async with admin.engine.begin() as connection:
                 await connection.execute(text(f'CREATE SCHEMA "{schema}"'))
             created = True
         except Exception as exc:
+            connection_error = type(exc).__name__
+        if connection_error:
+            # Raise outside the active driver exception: pytest may otherwise
+            # display asyncpg call arguments, including credentials, in its chain.
             pytest.fail(
-                f"Dedicated PostgreSQL unavailable ({type(exc).__name__}); credentials hidden"
+                f"Dedicated PostgreSQL unavailable ({connection_error}); credentials hidden",
+                pytrace=False,
             )
         data["database_schema"] = schema
         scoped_settings = Settings(_env_file=None, **data)
@@ -80,10 +86,18 @@ async def database(settings: Settings) -> AsyncIterator[Runtime]:
         runtime = make_runtime(scoped_settings)
         yield runtime
     finally:
+        cleanup_error = None
         if runtime:
             await runtime.engine.dispose()
         if created:
             # Drop ONLY the random schema created by this fixture, never an existing schema.
-            async with admin.engine.begin() as connection:
-                await connection.execute(text(f'DROP SCHEMA "{schema}" CASCADE'))
+            try:
+                async with admin.engine.begin() as connection:
+                    await connection.execute(text(f'DROP SCHEMA "{schema}" CASCADE'))
+            except Exception as error:
+                cleanup_error = type(error).__name__
         await admin.engine.dispose()
+        if cleanup_error:
+            pytest.fail(
+                f"Test schema cleanup failed ({cleanup_error}); credentials hidden", pytrace=False
+            )

@@ -29,6 +29,7 @@ async def test_actual_appcontainer_blocks_private_file_network_write_and_childre
         )
         assert json.loads(output) == {
             "secret_in_env": False,
+            "container_storage_write": False,
             "private_file_read": False,
             "runtime_write": False,
             "network": False,

@@ -24,9 +24,12 @@ from app.core.db import get_runtime, make_runtime
 from app.core.errors import AppError
 from app.core.logging import configure_logging, correlation_id
 from app.core.settings import Settings
+from app.modules.ai import LocalDocumentInspector
 from app.modules.auth import OwnerView, require_owner
 from app.modules.auth import router as auth_router
+from app.modules.cv import router as cv_router
 from app.modules.listings import router as listings_router
+from app.modules.profile import router as profile_router
 from app.modules.search import router as search_router
 from app.modules.sources import SourceService
 from app.modules.sources import router as source_router
@@ -62,6 +65,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         redoc_url=None,
     )
     app.state.runtime = runtime
+    app.state.cv_inspector = LocalDocumentInspector(runtime.settings.cv_sandbox_path)
+    app.state.cv_probe = app.state.cv_inspector.verify
 
     async def source_lookup(user_id: UUID, source_id: UUID) -> SourceReference:
         async with runtime.sessions() as session:
@@ -73,7 +78,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_origins=runtime.settings.allowed_origins,
         allow_credentials=True,
         allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
-        allow_headers=["Content-Type", "X-Correlation-ID"],
+        allow_headers=["Content-Type", "X-Correlation-ID", "X-CV-Filename"],
         expose_headers=["X-Correlation-ID"],
     )
     app.add_middleware(BodyLimitMiddleware)
@@ -179,6 +184,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app.include_router(auth_router, prefix="/api")
     app.include_router(source_router, prefix="/api", dependencies=[Depends(require_owner)])
+    app.include_router(cv_router, prefix="/api", dependencies=[Depends(require_owner)])
+    app.include_router(profile_router, prefix="/api", dependencies=[Depends(require_owner)])
     app.include_router(listings_router, prefix="/api", dependencies=[Depends(require_owner)])
     app.include_router(search_router, prefix="/api", dependencies=[Depends(require_owner)])
     return app

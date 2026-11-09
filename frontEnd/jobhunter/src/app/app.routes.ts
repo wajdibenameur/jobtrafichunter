@@ -16,6 +16,7 @@ export const routes: Routes = [
         path: 'scraping',
         loadComponent: () => import('./pages/scraping/scraping').then((m) => m.Scraping),
       },
+      { path: 'cvs', loadComponent: () => import('./pages/cvs/cvs').then((m) => m.Cvs) },
       {
         path: 'search',
         loadComponent: () => import('./pages/search/search').then((m) => m.Search),

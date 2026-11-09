@@ -1,0 +1,297 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">{{ i18n.t('workspace') }}</p>
+    <h1>{{ i18n.t('cvs') }}</h1>
+    <p>{{ t('subtitle') }}</p>
+  </div>
+</div>
+<p class="privacy-note">{{ t('privacy') }}</p>
+@if (error(); as key) {
+  <div class="alert alert-danger" role="alert">
+    {{ t(key) }}
+    <button class="btn" (click)="load()" [disabled]="busy()">{{ i18n.t('retry') }}</button>
+  </div>
+}
+<section class="card upload-card">
+  <h2>{{ t('upload') }}</h2>
+  <p>{{ t('formats') }}</p>
+  @if (!ready() && !loading()) {
+    <p class="notice" role="status">{{ t('setup') }}</p>
+  }
+  <div class="upload-controls">
+    <label
+      >{{ t('replace')
+      }}<select [formControl]="replacement">
+        <option value="">{{ t('newDocument') }}</option>
+        @for (doc of documents(); track doc.document_id) {
+          <option [value]="doc.document_id">{{ doc.filename }}</option>
+        }
+      </select></label
+    >
+    <label
+      >{{ t('upload')
+      }}<input
+        data-testid="cv-upload"
+        type="file"
+        accept=".pdf,.docx"
+        [disabled]="busy() || !ready()"
+        (change)="upload($event)"
+    /></label>
+  </div>
+  @if (uploading()) {
+    <p role="status">{{ t('uploading') }}</p>
+    <progress max="100" [value]="progress()" [attr.aria-label]="t('uploading')"></progress>
+  }
+</section>
+@if (loading() || detailsLoading()) {
+  <p role="status">{{ i18n.t('loading') }}</p>
+}
+<div class="cv-layout">
+  <section class="card cv-library">
+    <h2>{{ t('versions') }}</h2>
+    @if (!versions().length && !loading()) {
+      <p>{{ t('empty') }}</p>
+    }
+    @for (version of versions(); track version.id) {
+      <button
+        class="version-item"
+        [class.chosen]="selected()?.id === version.id"
+        [disabled]="busy() || version.state === 'PUBLISHING'"
+        [attr.aria-pressed]="selected()?.id === version.id"
+        (click)="select(version)"
+      >
+        <strong>{{ version.filename }}</strong
+        ><span
+          >{{ t('version') }} {{ version.number }} ·
+          {{ version.created_at | date: 'yyyy-MM-dd HH:mm' }}</span
+        >
+        @if (version.active) {
+          <span class="badge">{{ t('active') }}</span>
+        }
+        @if (version.state !== 'READY') {
+          <span>{{ t(version.state === 'FAILED' ? 'failed' : 'pending') }}</span>
+        }
+      </button>
+    }
+  </section>
+  @if (selected(); as version) {
+    <div class="cv-workspace">
+      <section class="card">
+        <h2>{{ version.filename }}</h2>
+        <div class="actions">
+          <button class="btn" (click)="download()" [disabled]="busy() || version.state !== 'READY'">
+            {{ t('download') }}
+          </button>
+          <button
+            class="btn"
+            (click)="download(true)"
+            [disabled]="busy() || version.state !== 'READY'"
+          >
+            {{ t('export') }}
+          </button>
+          <button class="btn danger" (click)="deleting.set(true)" [disabled]="busy()">
+            {{ t('remove') }}
+          </button>
+        </div>
+        @if (deleting()) {
+          <div class="delete-confirm" role="alert">
+            <p>{{ t('deleteConfirm') }}</p>
+            <button
+              class="btn danger"
+              data-testid="cv-confirm-delete"
+              (click)="remove()"
+              [disabled]="busy()"
+            >
+              {{ t('confirm') }}
+            </button>
+            <button class="btn" (click)="deleting.set(false)" [disabled]="busy()">
+              {{ t('cancel') }}
+            </button>
+          </div>
+        }
+      </section>
+      <section class="card">
+        <h2>{{ t('text') }}</h2>
+        @if (inspection(); as text) {
+          @if (text.status === 'NEEDS_OCR') {
+            <p class="notice">{{ t('noText') }}</p>
+          }
+          <details>
+            <summary>{{ t('text') }} · {{ text.pages.length }} {{ t('page') }}</summary>
+            @for (page of text.pages; track page.number) {
+              <h3>{{ t('page') }} {{ page.number }}</h3>
+              <pre>{{ page.text }}</pre>
+            }
+          </details>
+        }
+        <button
+          class="btn btn-primary"
+          data-testid="cv-generate"
+          (click)="generate(!!profile())"
+          [disabled]="busy() || dirty() || version.state !== 'READY'"
+        >
+          {{ t(profile() ? 'regenerate' : 'prepare') }}
+        </button>
+      </section>
+      @if (profile(); as candidate) {
+        <section class="card candidate-card">
+          <h2>
+            {{ t('candidate') }}
+            <span class="badge">{{
+              t(candidate.status === 'VALIDATED' ? 'validated' : 'draft')
+            }}</span>
+            @if (candidate.active) {
+              <span class="badge">{{ t('active') }}</span>
+            }
+          </h2>
+          <p class="notice">{{ t('review') }}</p>
+          <div class="history" [attr.aria-label]="t('history')">
+            @for (revision of profiles(); track revision.id) {
+              <button
+                class="btn"
+                [class.chosen]="candidate.id === revision.id"
+                [disabled]="busy()"
+                (click)="chooseProfile(revision)"
+              >
+                {{ t('revision') }} {{ revision.revision }} ·
+                {{ t(revision.status === 'VALIDATED' ? 'validated' : 'draft') }}
+              </button>
+            }
+          </div>
+          <form [formGroup]="editor" (ngSubmit)="save()">
+            <fieldset [disabled]="busy()">
+              <div class="form-pair">
+                <label
+                  >{{ t('professional_title')
+                  }}<input formControlName="professional_title" maxlength="200" /></label
+                ><label
+                  >{{ t('years_experience')
+                  }}<input
+                    type="number"
+                    formControlName="years_experience"
+                    min="0"
+                    max="60"
+                    step="0.5"
+                /></label>
+              </div>
+              <label
+                >{{ t('summary')
+                }}<textarea formControlName="summary" rows="3" maxlength="3000"></textarea>
+              </label>
+              <p class="hint">{{ t('lineHint') }}</p>
+              <div class="records">
+                @for (field of records; track field) {
+                  <label
+                    >{{ label(field)
+                    }}<textarea [formControlName]="field" rows="3" maxlength="30000"></textarea>
+                  </label>
+                }
+              </div>
+              <h3>{{ t('skills') }}</h3>
+              <p class="hint">{{ t('skillHint') }}</p>
+              <div [formGroup]="skillForm" class="skills-grid">
+                @for (category of skillCategories(); track category) {
+                  <label
+                    >{{ label('skills.' + category)
+                    }}<input [formControlName]="category" maxlength="10000"
+                  /></label>
+                }
+              </div>
+              <h3>{{ t('preferences') }}</h3>
+              <div class="form-pair">
+                <label
+                  >{{ t('locations') }}<input formControlName="locations" maxlength="3000" /></label
+                ><label
+                  >{{ t('domains') }}<input formControlName="domains" maxlength="3000" /></label
+                ><label
+                  >{{ t('target_levels')
+                  }}<input formControlName="target_levels" maxlength="1000" /></label
+                ><label
+                  >{{ t('visa_needed')
+                  }}<select formControlName="visa_needed">
+                    <option value="">{{ t('unknown') }}</option>
+                    <option value="true">{{ t('yes') }}</option>
+                    <option value="false">{{ t('no') }}</option>
+                  </select></label
+                >
+              </div>
+              <button
+                class="btn btn-primary"
+                data-testid="cv-save"
+                type="submit"
+                [disabled]="editor.invalid || !dirty()"
+              >
+                {{ t('save') }}
+              </button>
+            </fieldset>
+          </form>
+          @if (dirty()) {
+            <p role="status">{{ t('unsaved') }}</p>
+          }
+          <label class="review-check"
+            ><input type="checkbox" [formControl]="reviewed" />{{ t('reviewed') }}</label
+          >
+          <div class="actions">
+            <button
+              class="btn btn-primary"
+              data-testid="cv-validate"
+              (click)="validate()"
+              [disabled]="busy() || dirty() || !reviewed.value || candidate.status === 'VALIDATED'"
+            >
+              {{ t('validate') }}</button
+            ><button
+              class="btn"
+              data-testid="cv-activate"
+              (click)="activate()"
+              [disabled]="busy() || dirty() || candidate.status !== 'VALIDATED' || candidate.active"
+            >
+              {{ t('activate') }}
+            </button>
+          </div>
+          <h3>{{ t('unknownFields') }}</h3>
+          <ul>
+            @for (field of candidate.unknown_fields; track field) {
+              <li>{{ label(field) }}</li>
+            }
+          </ul>
+          @if (candidate.parent_id) {
+            <h3>{{ t('changes') }}</h3>
+            <ul>
+              @for (field of candidate.changed_fields; track field) {
+                <li>{{ label(field) }}</li>
+              }
+            </ul>
+          }
+          <details>
+            <summary>{{ t('proofs') }}</summary>
+            <ul>
+              @for (origin of origins(); track origin.field) {
+                <li>
+                  {{ label(origin.field) }} :
+                  {{
+                    t(
+                      origin.origin === 'USER_EDITED'
+                        ? 'manual'
+                        : origin.origin === 'USER_PREFERENCE'
+                          ? 'preference'
+                          : 'extracted'
+                    )
+                  }}
+                </li>
+              }
+            </ul>
+            @for (proof of proofs(); track proof.field) {
+              <h4>{{ label(proof.field) }}</h4>
+              @for (value of proof.values; track $index) {
+                <blockquote>
+                  {{ value.quote }} <small>· {{ t('page') }} {{ value.page }}</small>
+                </blockquote>
+              }
+            }
+          </details>
+        </section>
+      }
+      <p class="notice">{{ t('later') }}</p>
+    </div>
+  }
+</div>

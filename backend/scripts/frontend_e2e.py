@@ -30,6 +30,7 @@ from app.core.db import make_runtime  # noqa: E402
 from app.core.settings import Settings  # noqa: E402
 from app.modules.auth import AuthService  # noqa: E402
 from app.setup import create_tls  # noqa: E402
+from tests.document_fixtures import pdf_fixture  # noqa: E402
 
 ROOT = BACKEND.parent
 ARTIFACTS = ROOT / ".cache" / "frontend-e2e"
@@ -54,6 +55,7 @@ def settings_for_test(schema: str, origin: str) -> Settings:
         jwt_secret=secrets.token_urlsafe(64),
         cv_encryption_key=base64.b64encode(secrets.token_bytes(32)).decode(),
         allowed_origins=[origin],
+        cv_storage_path=ROOT / ".cache" / "frontend-e2e" / "cv-storage" / schema,
     )
 
 
@@ -101,6 +103,8 @@ def run() -> int:
         CV_ENCRYPTION_KEY=settings.cv_encryption_key.get_secret_value(),
         ALLOWED_ORIGINS=json.dumps([origin]),
         ENVIRONMENT="test",
+        CV_STORAGE_PATH=str(settings.cv_storage_path),
+        CV_SANDBOX_PATH=str(settings.cv_sandbox_path),
         NG_CLI_ANALYTICS="false",
         npm_config_offline="false",
         npm_config_cache=str(ROOT / ".cache" / "npm"),
@@ -125,6 +129,8 @@ def run() -> int:
     worker_process = None
     worker_log = None
     config_path = ARTIFACTS / "session.json"
+    cv_fixture = ARTIFACTS / "synthetic-cv.pdf"
+    cv_fixture.write_bytes(pdf_fixture())
     try:
         asyncio.run(create_schema(settings))
         created = True
@@ -158,7 +164,15 @@ def run() -> int:
         )
         # Only throwaway owner credentials, never the PostgreSQL URL.
         config_path.write_text(
-            json.dumps({"baseURL": origin, "email": email, "password": password}), encoding="utf-8"
+            json.dumps(
+                {
+                    "baseURL": origin,
+                    "email": email,
+                    "password": password,
+                    "cvFixturePath": str(cv_fixture),
+                }
+            ),
+            encoding="utf-8",
         )
         config_path.chmod(0o600)
         with (ARTIFACTS / "backend.log").open("w", encoding="utf-8") as log:
@@ -227,6 +241,7 @@ def run() -> int:
             return result.returncode
     finally:
         config_path.unlink(missing_ok=True)
+        cv_fixture.unlink(missing_ok=True)
         if worker_process is not None:
             worker_process.terminate()
             try:
@@ -246,6 +261,12 @@ def run() -> int:
         if created:
             asyncio.run(remove_schema(settings))
             print("E2E fixture schema and credentials cleaned up.")
+        cv_folder = settings.cv_storage_path.resolve()
+        if cv_folder.exists():
+            expected = (ARTIFACTS / "cv-storage").resolve()
+            if not cv_folder.is_relative_to(expected) or cv_folder.name != settings.database_schema:
+                raise RuntimeError("Refusing unsafe CV fixture cleanup")
+            shutil.rmtree(cv_folder)
 
 
 if __name__ == "__main__":

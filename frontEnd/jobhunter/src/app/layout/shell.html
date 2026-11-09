@@ -61,6 +61,14 @@
       (click)="closeMenu(false)"
       ><jh-icon name="briefcase" />{{ i18n.t('results') }}</a
     >
+    <a
+      class="nav-item"
+      routerLink="/cvs"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="closeMenu(false)"
+      ><jh-icon name="file" />{{ i18n.t('cvs') }}</a
+    >
     @for (item of futureNav; track item.key) {
       <span
         class="nav-item unavailable"

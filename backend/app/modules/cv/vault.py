@@ -7,6 +7,7 @@ ingestion must first enforce the separate format-validation/isolation contract.
 import base64
 import json
 import os
+import re
 import stat
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -188,6 +189,22 @@ class CvVault:
             raise AppError(
                 "CV_INTEGRITY_FAILED", "CV original integrity check failed", 409
             ) from None
+        except OSError:
+            raise AppError(
+                "CV_STORAGE_UNAVAILABLE", "Private CV storage is unavailable", 503
+            ) from None
+
+    def purge_pending(self, identity: VaultIdentity) -> None:
+        """Only during durable document deletion, with no publishing version."""
+        try:
+            folder = self._directory(identity, create=False)
+            for path in folder.iterdir():
+                if re.fullmatch(r"\.pending-[0-9a-f]{32}", path.name):
+                    self._regular(path)
+                    path.unlink()
+        except AppError as error:
+            if error.code != "CV_FILE_NOT_FOUND":
+                raise
         except OSError:
             raise AppError(
                 "CV_STORAGE_UNAVAILABLE", "Private CV storage is unavailable", 503
