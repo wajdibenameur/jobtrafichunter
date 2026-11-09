@@ -1,8 +1,9 @@
 # Scraping Engine — plan détaillé du lot 5
 
-Date : 2026-11-08. Statut : PROPOSED / WAITING_FOR_OWNER_APPROVAL (D-032).
-Le propriétaire a validé le lot 4 par « contenue ». Cette étape prépare le plan
-d'intégration annoncé ; elle n'autorise pas encore son code ou ses migrations.
+Plan : 2026-11-08. Livraison : 2026-11-09. Statut : LOCAL_DELIVERED / WAITING_FOR_VALIDATION.
+Le propriétaire a approuvé ce plan par continuation après sa présentation,
+interfaces additives et migrations comprises. Réalisation et vérifications :
+[rapport du lot 5](reports/scraping-lot-5.md). Sources réelles toujours inactives.
 [Plan général](PLAN-SCRAPING-ENGINE.md), [lot 4 validé](reports/scraping-lot-4.md).
 
 ## Périmètre et résultat attendu
@@ -232,9 +233,10 @@ Vérifications à exécuter après code, jamais présentées comme déjà réuss
 - Ruff, format, mypy, pytest complet, Alembic check, frontières de modules,
   typage/build/Karma et Playwright. Aucun appel réel ni payant dans les tests.
 
-## Accord attendu
+## Accord enregistré et validation de livraison
 
-Valider les interfaces additives, les sept tables annexes et les trois migrations
-proposées, la transaction partagée et le périmètre simulé du lot 5 avant code.
-Cet accord n'attribue aucune permission de source et n'approuve pas les autres lots,
-la phase 4 CV ou un test réel. Le rapport de livraison sera un nouvel arrêt de phase.
+Interfaces additives, sept tables annexes, trois migrations, transaction partagée
+et périmètre simulé approuvés D-033. Cet accord n'attribue aucune permission de source
+et n'approuve pas les autres lots, la phase 4 CV ou un test réel. Le rapport est un
+nouvel arrêt de phase. La base CV 0007/0008 est versionnée séparément dans 2b34645
+pour publication GitHub D-034 ; aucune validation fonctionnelle supplémentaire déduite.

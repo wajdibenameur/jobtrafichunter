@@ -7,7 +7,8 @@ autorisés et réalisés dans le lot 4 Scraping D-031 ; les autres lots restent 
 La livraison de phase 4 attend aussi sa validation ; ne pas la déduire de cet accord.
 
 Articulation D-028 : le [plan Scraping Engine](PLAN-SCRAPING-ENGINE.md) ajoute une
-collecte indépendante d'Apify, encore proposée. Filtres, matching, alertes et
+collecte indépendante d'Apify. Son lot 5 est approuvé D-033 et réalisé localement
+sur fournisseurs simulés : [rapport](reports/scraping-lot-5.md). Filtres, matching, alertes et
 documents sont des chantiers communs ; ne pas créer de seconde implémentation.
 L'accord d'enregistrement de ces documents ne valide aucun des deux plans.
 Depuis, le lot 2 d'infrastructure Scraping est livré D-029 puis validé D-030.

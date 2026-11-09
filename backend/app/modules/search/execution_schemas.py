@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.modules.listings import ListingFact, ListingGroupView
 from app.modules.search.schemas import SearchCriteria
@@ -11,6 +11,14 @@ from app.modules.search.schemas import SearchCriteria
 class ExecutionInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     profile_id: UUID
+    scope: Literal["IMPORTED_OFFERS", "COLLECTED_OFFERS"] = "IMPORTED_OFFERS"
+    max_results: int | None = Field(default=None, ge=1, le=500)
+
+    @model_validator(mode="after")
+    def collection_options(self) -> "ExecutionInput":
+        if self.scope == "IMPORTED_OFFERS" and self.max_results is not None:
+            raise ValueError("Collection options require collection scope")
+        return self
 
 
 class SourceLogView(BaseModel):
@@ -19,13 +27,14 @@ class SourceLogView(BaseModel):
     source_name: str
     status: str
     reason: str
+    counts: dict[str, int] | None = None
 
 
 class ExecutionView(BaseModel):
     id: UUID
     profile_id: UUID
     profile_name: str
-    scope: Literal["IMPORTED_OFFERS"] = "IMPORTED_OFFERS"
+    scope: Literal["IMPORTED_OFFERS", "COLLECTED_OFFERS"] = "IMPORTED_OFFERS"
     status: str
     criteria: SearchCriteria
     cancel_requested: bool

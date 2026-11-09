@@ -120,9 +120,13 @@ class CollectionHttpClient:
         *,
         transport: httpx.AsyncBaseTransport | None = None,
         sleep: Sleeper = asyncio.sleep,
+        reserve: Callable[[], Awaitable[UUID]] | None = None,
+        settle: Callable[[UUID, int, int], Awaitable[None]] | None = None,
+        defer: Callable[[float], Awaitable[None]] | None = None,
     ) -> None:
         self._authorization, self._coordinator, self._sleep = authorization, coordinator, sleep
         self.limits, self.budget = limits, CollectionBudget(limits)
+        self._reserve, self._settle, self._defer = reserve, settle, defer
         self._identity: tuple[UUID, UUID] | None = None
         self._target: ContextVar[httpx.URL | None] = ContextVar("collection_target", default=None)
         self._transport = transport or PinnedTransport(PublicNetworkBackend(self._guard_host))
@@ -164,9 +168,13 @@ class CollectionHttpClient:
                 )
                 _, url = await self._authorize(str(url))
                 self.budget.reserve_request()
+                reservation = await self._reserve() if self._reserve else None
+                wire_before, body_before = self.budget.wire_bytes, self.budget.body_bytes
+                known_response = True
                 try:
                     outcome = await self._request(url)
                 except (httpx.NetworkError, httpcore.NetworkError, OSError):
+                    known_response = False
                     outcome = ("retry", None)
                 except (httpx.ProtocolError, httpcore.ProtocolError, httpx.DecodingError):
                     raise ConnectorFailure(
@@ -174,6 +182,14 @@ class CollectionHttpClient:
                     ) from None
                 if isinstance(outcome, tuple) and isinstance(outcome[1], float):
                     self._coordinator.defer(auth.source_id, outcome[1])
+                    if self._defer:
+                        await self._defer(outcome[1])
+                if reservation is not None and self._settle and known_response:
+                    await self._settle(
+                        reservation,
+                        self.budget.wire_bytes - wire_before,
+                        self.budget.body_bytes - body_before,
+                    )
             if isinstance(outcome, CollectedResponse):
                 return outcome
             action, detail = outcome

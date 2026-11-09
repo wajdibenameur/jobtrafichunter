@@ -70,9 +70,23 @@ export interface ImportResult {
   existing_count: number;
 }
 
+export interface CollectionAvailability {
+  source_id: string;
+  name: string;
+  eligible: boolean;
+  reason: string;
+  limits: { max_results: number; max_pages: number; duration_seconds: number };
+}
+
 @Injectable({ providedIn: 'root' })
 export class SourceApi {
   private readonly http = inject(HttpClient);
+  collection(id: string): Observable<CollectionAvailability> {
+    return this.http.get<CollectionAvailability>(`/api/sources/${id}/collection`);
+  }
+  testCollection(id: string): Observable<CollectionAvailability> {
+    return this.http.post<CollectionAvailability>(`/api/sources/${id}/collection/test`, {});
+  }
   sources(): Observable<JobSource[]> {
     return this.http.get<JobSource[]>('/api/sources');
   }

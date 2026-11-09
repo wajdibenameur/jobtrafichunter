@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { defaultCriteria, SearchProfile } from '../../core/search-api';
 import { I18n } from '../../core/i18n';
 import { Scraping } from './scraping';
@@ -43,6 +43,15 @@ describe('Scraping preparation', () => {
         last_successful_sync: null,
       },
     ]);
+    http
+      .expectOne('/api/sources/source/collection')
+      .flush({
+        source_id: 'source',
+        name: 'Synthetic',
+        eligible: false,
+        reason: 'AUTOMATION_NOT_CONFIGURED',
+        limits: { max_results: 10 },
+      });
     http.expectOne('/api/search/executions').flush([]);
     await fixture.whenStable();
     element = fixture.nativeElement;
@@ -53,6 +62,89 @@ describe('Scraping preparation', () => {
       (b) => b.textContent?.trim() === text,
     )!;
   }
+  async function ready(history: unknown[] = []): Promise<void> {
+    button('Actualiser les statuts').click();
+    http.expectOne('/api/search/profiles').flush([profile]);
+    http
+      .expectOne('/api/sources')
+      .flush([{ id: 'source', name: 'Fixture', manual_import_supported: false }]);
+    http
+      .expectOne('/api/sources/source/collection')
+      .flush({
+        source_id: 'source',
+        name: 'Fixture',
+        eligible: true,
+        reason: 'READY',
+        limits: { max_results: 10 },
+      });
+    http.expectOne('/api/search/executions').flush(history);
+    await fixture.whenStable();
+  }
+  it('starts only with eligible saved sources and opens the existing progress page', async () => {
+    await ready();
+    const navigate = spyOn(TestBed.inject(Router), 'navigate').and.resolveTo(true);
+    const maximum = element.querySelector<HTMLInputElement>('input[type=number][max="500"]')!;
+    maximum.value = '12';
+    maximum.dispatchEvent(new Event('input'));
+    button('Lancer la recherche').click();
+    const request = http.expectOne('/api/search/executions');
+    expect(request.request.body).toEqual({
+      profile_id: profile.id,
+      scope: 'COLLECTED_OFFERS',
+      max_results: 12,
+    });
+    request.flush({ id: 'collection-run' });
+    await fixture.whenStable();
+    expect(navigate).toHaveBeenCalledWith(['/search'], {
+      queryParams: { execution: 'collection-run' },
+    });
+  });
+  it('does not send unsaved criteria or invalid limits to collection', async () => {
+    await ready();
+    element.querySelector<HTMLInputElement>('input[type=radio][value="120"]')!.click();
+    button('Lancer la recherche').click();
+    await fixture.whenStable();
+    http.expectNone((r) => r.method === 'POST');
+    expect(element.querySelector('[role=alert]')?.textContent).toContain(
+      'Enregistrez vos critères',
+    );
+  });
+  it('tests an eligible source and persists refusal in its visible capabilities', async () => {
+    await ready();
+    button('Tester la source').click();
+    http
+      .expectOne('/api/sources/source/collection/test')
+      .flush({
+        source_id: 'source',
+        name: 'Fixture',
+        eligible: false,
+        reason: 'REVIEW_REQUIRED',
+        limits: { max_results: 10 },
+      });
+    await fixture.whenStable();
+    expect(button('Lancer la recherche').disabled).toBeTrue();
+    expect(element.textContent).toContain('REVIEW_REQUIRED');
+  });
+  it('restores a collected run from history and requests cancellation', async () => {
+    const execution = {
+      id: 'active-run',
+      profile_id: profile.id,
+      profile_name: profile.name,
+      scope: 'COLLECTED_OFFERS',
+      status: 'RUNNING',
+      counts: { collected: 2 },
+      sources: [],
+      created_at: profile.created_at,
+    };
+    await ready([execution]);
+    button('Arrêter').click();
+    const request = http.expectOne('/api/search/executions/active-run/cancel');
+    expect(request.request.method).toBe('POST');
+    request.flush({ ...execution, status: 'CANCELLED', cancel_requested: true });
+    await fixture.whenStable();
+    expect(button('Arrêter').disabled).toBeTrue();
+    expect(element.textContent).toContain('Collecte puis filtrage');
+  });
   it('shows actual manual capabilities and never launches unavailable collection actions', () => {
     expect(button('Lancer la recherche').disabled).toBeTrue();
     expect(button('Arrêter').disabled).toBeTrue();

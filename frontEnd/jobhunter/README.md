@@ -18,10 +18,16 @@ La page `/scraping` permet de choisir un profil, enregistrer ses critères et ou
 ses résultats/historiques locaux. Radios partagées 2 h/6 h/24 h/7 j/30 j ; nouveau
 profil à 24 h, préférences enregistrées conservées via Dates avancées si nécessaire.
 Les fenêtres horaires excluent les dates inconnues/futures. Redémarrer l'API pour
-charger le nouveau champ `publication_minutes`. Aucune migration pour ce lot.
-Les actions de collecte et volume/fréquence sont désactivés avec leur explication.
+charger le nouveau champ `publication_minutes` livré sans migration au lot 4.
+Lot 5 : contrats de collecte raccordés aux capacités réelles, maximum par exécution,
+lancement vers le suivi SSE existant dans Recherche, annulation et scopes distincts.
+Aucun adaptateur fournisseur enregistré : actions/volume indisponibles en installation
+normale ; fréquence désactivée. Les cas éligibles sont simulés uniquement en tests.
+Cette version API exige les migrations 0009–0011 après sa base CV 0007/0008,
+versionnée séparément dans 2b34645 : voir la dépendance et les contrôles du
+[rapport lot 5](../../docs/reports/scraping-lot-5.md) avant mise en service.
 Voir [la livraison du lot 4](../../docs/reports/scraping-lot-4.md), validée D-032,
-et [le plan du lot 5](../../docs/PLAN-SCRAPING-LOT-5.md), proposé avant code.
+et [le plan du lot 5](../../docs/PLAN-SCRAPING-LOT-5.md), approuvé D-033.
 
 ## Lancement CMD depuis frontEnd\jobhunter
 

@@ -7,7 +7,11 @@
     </div>
     <a class="btn btn-primary" routerLink="/search">{{ i18n.t('localSearch') }}</a>
   </div>
-  <p class="scope-note">{{ i18n.t('localSearchHelp') }}</p>
+  <p class="scope-note">
+    {{
+      i18n.t(currentExecution()?.scope === 'COLLECTED_OFFERS' ? 'collectionRun' : 'localSearchHelp')
+    }}
+  </p>
   @if (currentExecution()?.status === 'PARTIAL') {
     <p class="warning-note">{{ i18n.t('localLimit') }}</p>
   }

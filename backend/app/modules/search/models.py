@@ -103,3 +103,46 @@ class SearchResult(Base):
     group_id: Mapped[UUID] = mapped_column(primary_key=True)
     position: Mapped[int] = mapped_column()
     payload: Mapped[dict[str, object]] = mapped_column(JSONB)
+
+
+class CollectionPlan(Base):
+    __tablename__ = "search_collection_plans"
+    __table_args__ = (CheckConstraint("max_results BETWEEN 1 AND 500", name="ck_collection_max"),)
+    execution_id: Mapped[UUID] = mapped_column(
+        ForeignKey("search_executions.id", ondelete="CASCADE"), primary_key=True
+    )
+    version: Mapped[int] = mapped_column(default=1)
+    max_results: Mapped[int] = mapped_column(default=10)
+    sources: Mapped[dict[str, object]] = mapped_column(JSONB)
+    deadline: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class CollectionCheckpoint(Base):
+    __tablename__ = "search_collection_checkpoints"
+    __table_args__ = (
+        UniqueConstraint("execution_id", "source_id", name="uq_collection_checkpoint"),
+        CheckConstraint("page_index >= 0 AND collected >= 0", name="ck_collection_progress"),
+        CheckConstraint(
+            "created >= 0 AND existing >= 0 AND invalid >= 0", name="ck_collection_counts"
+        ),
+        CheckConstraint(
+            "state IN ('PENDING','RUNNING','PARTIAL','SUCCEEDED')",
+            name="ck_collection_source_state",
+        ),
+    )
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    execution_id: Mapped[UUID] = mapped_column(
+        ForeignKey("search_executions.id", ondelete="CASCADE"), index=True
+    )
+    source_id: Mapped[UUID] = mapped_column(ForeignKey("job_sources.id"))
+    state: Mapped[str] = mapped_column(String(20), default="PENDING")
+    cursor: Mapped[str | None] = mapped_column(String(2048))
+    seen_cursors: Mapped[list[str]] = mapped_column(JSONB, default=list)
+    page_index: Mapped[int] = mapped_column(default=0)
+    collected: Mapped[int] = mapped_column(default=0)
+    created: Mapped[int] = mapped_column(default=0)
+    existing: Mapped[int] = mapped_column(default=0)
+    invalid: Mapped[int] = mapped_column(default=0)
+    source_deadline: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    query_hash: Mapped[str] = mapped_column(String(64))
+    reason: Mapped[str | None] = mapped_column(String(100))

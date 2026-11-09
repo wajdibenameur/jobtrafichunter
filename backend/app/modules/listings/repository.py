@@ -25,7 +25,7 @@ class ListingRepository:
         self.session = session
 
     async def import_one(
-        self, user_id: UUID, source: SourceReference, job: ImportJob
+        self, user_id: UUID, source: SourceReference, job: ImportJob, *, enrich: bool = True
     ) -> tuple[JobListing, bool]:
         url = canonical_url(job.original_url)
         values = job.model_dump(exclude_none=True)
@@ -66,6 +66,9 @@ class ListingRepository:
                 "IMPORT_CONFLICT", "Offer identifiers conflict; review the imported data", 409
             )
         listing = rows[0]
+        if not enrich:
+            listing.last_seen_at = utcnow()
+            return listing, False
         editable = {
             "title",
             "company",

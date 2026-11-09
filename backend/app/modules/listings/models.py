@@ -109,3 +109,37 @@ class ListingRelation(Base):
     right_id: Mapped[UUID] = mapped_column(ForeignKey("job_listings.id", ondelete="CASCADE"))
     kind: Mapped[str] = mapped_column(String(20))
     policy_version: Mapped[str] = mapped_column(String(50))
+
+
+class CollectionPage(Base):
+    __tablename__ = "listing_collection_pages"
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id", "execution_id", "source_id", "request_key", name="uq_collection_page"
+        ),
+    )
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    user_id: Mapped[UUID] = mapped_column(ForeignKey("app_users.id"), index=True)
+    source_id: Mapped[UUID] = mapped_column(ForeignKey("job_sources.id"))
+    execution_id: Mapped[UUID] = mapped_column(index=True)
+    checkpoint_id: Mapped[UUID]
+    request_key: Mapped[str] = mapped_column(String(64))
+    query_hash: Mapped[str] = mapped_column(String(64))
+    payload_hash: Mapped[str] = mapped_column(String(64))
+    receipt: Mapped[dict[str, object]] = mapped_column(JSONB)
+    observed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class CollectionObservation(Base):
+    __tablename__ = "listing_collection_observations"
+    __table_args__ = (
+        UniqueConstraint("page_id", "position", name="uq_collection_observation"),
+        CheckConstraint("position >= 0", name="ck_collection_observation_position"),
+    )
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    page_id: Mapped[UUID] = mapped_column(
+        ForeignKey("listing_collection_pages.id", ondelete="CASCADE"), index=True
+    )
+    position: Mapped[int]
+    listing_id: Mapped[UUID] = mapped_column(ForeignKey("job_listings.id"), index=True)
+    payload: Mapped[dict[str, object]] = mapped_column(JSONB)

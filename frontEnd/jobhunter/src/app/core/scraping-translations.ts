@@ -1,4 +1,12 @@
 export const scrapingFr = {
+  collectionReady: 'Collecte disponible',
+  collectionReadyHelp:
+    'La recherche utilise le profil enregistré. Le suivi en direct s’ouvre dans Recherche.',
+  collectionActionError: 'Action refusée ou indisponible. Actualisez les statuts et réessayez.',
+  saveBeforeCollection:
+    'Enregistrez vos critères et choisissez un maximum entre 1 et 500 avant de lancer.',
+  executionHistory: 'Historique des recherches',
+  collectionRun: 'Collecte puis filtrage',
   scraping: 'Scraping',
   scrapingSubtitle: 'Préparez vos critères et consultez les capacités de vos sources.',
   collectionNotConfigured: 'Aucune collecte automatique configurée',
@@ -14,7 +22,7 @@ export const scrapingFr = {
   lastCollection: 'Dernière collecte',
   collectionSettings: 'Paramètres de collecte',
   collectionSettingsHelp:
-    'Disponibles avec une source de collecte configurée. Ces paramètres ne sont pas encore enregistrables.',
+    'Le maximum limite les offres lues avant filtrage, doublons compris. Il s’applique à cette exécution. La fréquence reste indisponible.',
   maxCollectedJobs: 'Nombre maximal d’offres',
   collectionFrequency: 'Fréquence de recherche',
   every15Minutes: 'Toutes les 15 minutes',
@@ -32,7 +40,7 @@ export const scrapingFr = {
   noSavedProfiles: 'Créez d’abord un profil de recherche.',
   localHistory: 'Historique des recherches locales',
   localHistoryHelp:
-    'Ces exécutions traitent uniquement les offres déjà importées. Elles ne sont pas des collectes externes.',
+    'Les recherches locales traitent les offres déjà importées. Les collectes externes sont identifiées séparément.',
   noLocalHistory: 'Aucune recherche locale pour ce profil dans les 50 dernières exécutions.',
   localResults: 'Voir les résultats locaux',
   seeHistory: 'Voir l’historique',
@@ -51,6 +59,12 @@ export const scrapingFr = {
 } as const;
 
 export const scrapingEn: Record<keyof typeof scrapingFr, string> = {
+  collectionReady: 'Collection available',
+  collectionReadyHelp: 'The search uses your saved profile. Live progress opens in Search.',
+  collectionActionError: 'Action refused or unavailable. Refresh source status and try again.',
+  saveBeforeCollection: 'Save your criteria and choose a maximum from 1 to 500 before starting.',
+  executionHistory: 'Search history',
+  collectionRun: 'Collect then filter',
   scraping: 'Scraping',
   scrapingSubtitle: 'Prepare your criteria and review your sources’ capabilities.',
   collectionNotConfigured: 'No automatic collection configured',
@@ -66,7 +80,7 @@ export const scrapingEn: Record<keyof typeof scrapingFr, string> = {
   lastCollection: 'Last collection',
   collectionSettings: 'Collection settings',
   collectionSettingsHelp:
-    'Available with a configured collection source. These settings cannot be saved yet.',
+    'The maximum limits items read before filtering, including duplicates, for this run. Scheduling remains unavailable.',
   maxCollectedJobs: 'Maximum number of jobs',
   collectionFrequency: 'Search frequency',
   every15Minutes: 'Every 15 minutes',
@@ -84,7 +98,7 @@ export const scrapingEn: Record<keyof typeof scrapingFr, string> = {
   noSavedProfiles: 'Create a search profile first.',
   localHistory: 'Local search history',
   localHistoryHelp:
-    'These executions only process imported jobs. They are not external collection runs.',
+    'Local searches process imported jobs. They are not external collection runs. Collection runs are labelled separately.',
   noLocalHistory: 'No local search for this profile among the last 50 executions.',
   localResults: 'View local results',
   seeHistory: 'View history',

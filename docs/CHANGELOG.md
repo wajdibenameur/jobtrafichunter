@@ -1,5 +1,19 @@
 # Changelog
 
+- 2026-11-09 — D-034 : dépôt GitHub public choisi par le propriétaire, origin
+  configuré ; base CV versionnée dans 2b34645 pour débloquer la chaîne Alembic.
+  Préparation du lot 5 et de la documentation pour publication, historique conservé.
+  Contrôle des secrets/fichiers privés et revalidation lint/format/typage réussis.
+  Aucune validation fonctionnelle de phase supplémentaire déduite de cet envoi Git.
+
+- 2026-11-09 — D-033 : lot 5 Scraping livré localement : scope additif, même queue,
+  checkpoints et ingestion/reçu atomiques, observations préservant le manuel,
+  quotas/créneaux durables, API/capacités et UI raccordées sur fournisseurs simulés.
+  272 backend, 37 Angular et 12 E2E réussis ; Ruff/format/mypy/build/typage verts,
+  Alembic aller-retour sans dérive et captures inspectées. Trois migrations/sept
+  tables nouvelles. Aucune activation/collecte réelle ; commit différé car la base
+  CV 0007/0008 est encore non versionnée. Rapport reports/scraping-lot-5.md.
+
 - 2026-11-08 — D-032 : lot 4 validé par continuation ; plan détaillé Scraping lot 5
   enregistré (interfaces, sept tables annexes/trois migrations, transaction atomique,
   budgets durables et tests simulés). Proposition seulement, accord attendu avant

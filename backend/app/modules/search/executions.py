@@ -1,3 +1,5 @@
+import hashlib
+from datetime import timedelta
 from uuid import UUID
 
 from sqlalchemy import func, select
@@ -6,22 +8,33 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import AppError
 from app.modules.search.execution_schemas import (
+    ExecutionInput,
     ExecutionView,
     ResultsPage,
     ResultView,
     SourceLogView,
 )
-from app.modules.search.models import SearchExecution, SearchResult, SearchTask, SourceExecutionLog
+from app.modules.search.models import (
+    CollectionCheckpoint,
+    CollectionPlan,
+    SearchExecution,
+    SearchResult,
+    SearchTask,
+    SourceExecutionLog,
+)
 from app.modules.search.schemas import SearchCriteria
 from app.modules.search.service import SearchService
+from app.modules.sources import CollectionService
+from app.shared.clock import utcnow
 from app.shared.source_reference import SourceLookup
 
 ACTIVE = {"PENDING", "RUNNING"}
 
 
 class ExecutionService:
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: AsyncSession, collection: CollectionService | None = None) -> None:
         self.session = session
+        self.collection = collection
 
     async def _row(
         self, user_id: UUID, execution_id: UUID, *, lock: bool = False
@@ -47,10 +60,38 @@ class ExecutionService:
                 .order_by(SourceExecutionLog.source_name)
             )
         ).all()
+        checkpoints = {
+            c.source_id: c
+            for c in (
+                await self.session.scalars(
+                    select(CollectionCheckpoint).where(CollectionCheckpoint.execution_id == row.id)
+                )
+            ).all()
+        }
+        source_views = []
+        for log in logs:
+            view = SourceLogView.model_validate(log)
+            if cp := checkpoints.get(log.source_id):
+                interrupted = row.status not in ACTIVE and cp.state in ACTIVE
+                view = view.model_copy(
+                    update={
+                        "status": row.status if interrupted else cp.state,
+                        "reason": (row.reason if interrupted else cp.reason) or "READY",
+                        "counts": {
+                            "pages": cp.page_index,
+                            "collected": cp.collected,
+                            "created": cp.created,
+                            "existing": cp.existing,
+                            "invalid": cp.invalid,
+                        },
+                    }
+                )
+            source_views.append(view)
         return ExecutionView(
             id=row.id,
             profile_id=row.profile_id,
             profile_name=row.profile_name,
+            scope=row.scope,
             status=row.status,
             criteria=SearchCriteria.model_validate(row.criteria),
             cancel_requested=row.cancel_requested,
@@ -63,10 +104,17 @@ class ExecutionService:
             cursor=task.cursor,
             attempt=task.attempt,
             heartbeat_at=task.heartbeat_at,
-            sources=[SourceLogView.model_validate(log) for log in logs],
+            sources=source_views,
         )
 
-    async def request(self, user_id: UUID, profile_id: UUID, lookup: SourceLookup) -> ExecutionView:
+    async def request(
+        self,
+        user_id: UUID,
+        profile_id: UUID,
+        lookup: SourceLookup,
+        options: ExecutionInput | None = None,
+    ) -> ExecutionView:
+        options = options or ExecutionInput(profile_id=profile_id)
         try:
             async with self.session.begin():
                 profile = await SearchService(self.session).get(user_id, profile_id)
@@ -87,7 +135,22 @@ class ExecutionService:
                         "SOURCES_REQUIRED", "Choose at least one imported-offer source", 422
                     )
                 sources = [await lookup(user_id, identifier) for identifier in criteria.source_ids]
-                if any(not source.manual_import_supported for source in sources):
+                collection_sources: dict[str, object] = {}
+                if options.scope == "COLLECTED_OFFERS":
+                    if self.collection is None:
+                        raise AppError(
+                            "COLLECTION_UNAVAILABLE", "Collection is not configured", 409
+                        )
+                    for source in sources:
+                        available = await self.collection.describe(user_id, source.id)
+                        if not available.eligible:
+                            raise AppError(
+                                available.reason, "Selected source cannot be collected", 409
+                            )
+                        collection_sources[str(source.id)] = available.limits.model_dump(
+                            mode="json"
+                        )
+                elif any(not source.manual_import_supported for source in sources):
                     raise AppError(
                         "SOURCE_UNAVAILABLE",
                         "Only manual imported-offer sources are available",
@@ -98,11 +161,35 @@ class ExecutionService:
                     profile_id=profile.id,
                     profile_name=profile.name,
                     criteria=criteria.model_dump(mode="json"),
+                    scope=options.scope,
                     counts={"scanned": 0, "duplicates": 0, "processed": 0, "results": 0},
                 )
                 self.session.add(row)
                 await self.session.flush()
-                self.session.add(SearchTask(execution_id=row.id))
+                self.session.add(
+                    SearchTask(
+                        execution_id=row.id, stage="COLLECT" if collection_sources else "SCAN"
+                    )
+                )
+                if collection_sources:
+                    self.session.add(
+                        CollectionPlan(
+                            execution_id=row.id,
+                            sources=collection_sources,
+                            max_results=options.max_results or 10,
+                            deadline=utcnow() + timedelta(minutes=15),
+                        )
+                    )
+                    for source in sources:
+                        self.session.add(
+                            CollectionCheckpoint(
+                                execution_id=row.id,
+                                source_id=source.id,
+                                query_hash=hashlib.sha256(
+                                    criteria.model_dump_json().encode()
+                                ).hexdigest(),
+                            )
+                        )
                 for source in sources:
                     self.session.add(
                         SourceExecutionLog(

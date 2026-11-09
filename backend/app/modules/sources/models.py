@@ -51,3 +51,44 @@ class SourcePreference(Base):
     enabled: Mapped[bool] = mapped_column(default=False)
     display_name: Mapped[str | None] = mapped_column(String(100))
     settings: Mapped[dict[str, object]] = mapped_column(JSONB, default=dict)
+
+
+class CollectionConfig(Base):
+    __tablename__ = "source_collection_configs"
+    __table_args__ = (CheckConstraint("version > 0", name="ck_collection_config_version"),)
+    source_id: Mapped[UUID] = mapped_column(ForeignKey("job_sources.id"), primary_key=True)
+    adapter_key: Mapped[str] = mapped_column(String(100))
+    version: Mapped[int] = mapped_column(default=1)
+    enabled: Mapped[bool] = mapped_column(default=False)
+    routes: Mapped[list[dict[str, str]]] = mapped_column(JSONB, default=list)
+    limits: Mapped[dict[str, object]] = mapped_column(JSONB, default=dict)
+
+
+class CollectionRuntime(Base):
+    __tablename__ = "source_collection_runtime"
+    __table_args__ = (CheckConstraint("failures >= 0", name="ck_collection_failures"),)
+    source_id: Mapped[UUID] = mapped_column(ForeignKey("job_sources.id"), primary_key=True)
+    next_request_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    deferred_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    active_reservation_id: Mapped[UUID | None]
+    failures: Mapped[int] = mapped_column(default=0)
+    disabled_reason: Mapped[str | None] = mapped_column(String(100))
+
+
+class CollectionReservation(Base):
+    __tablename__ = "source_collection_reservations"
+    __table_args__ = (
+        UniqueConstraint("execution_id", "source_id", "ordinal", name="uq_collection_http_attempt"),
+        CheckConstraint("wire_bytes >= 0 AND body_bytes >= 0", name="ck_collection_http_bytes"),
+        CheckConstraint("ordinal >= 0", name="ck_collection_http_ordinal"),
+    )
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    source_id: Mapped[UUID] = mapped_column(ForeignKey("job_sources.id"), index=True)
+    execution_id: Mapped[UUID] = mapped_column(index=True)
+    checkpoint_id: Mapped[UUID] = mapped_column()
+    request_key: Mapped[str] = mapped_column(String(64))
+    ordinal: Mapped[int]
+    wire_bytes: Mapped[int]
+    body_bytes: Mapped[int]
+    settled: Mapped[bool] = mapped_column(default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

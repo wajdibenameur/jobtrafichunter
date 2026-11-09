@@ -19,6 +19,7 @@ from app.modules.search.execution_schemas import (
 from app.modules.search.executions import ACTIVE, ExecutionService
 from app.modules.search.schemas import DuplicateInput, ProfileInput, ProfileView
 from app.modules.search.service import SearchService
+from app.modules.sources import CollectionService
 from app.shared.identity import Principal
 from app.shared.source_reference import SourceLookup
 
@@ -80,8 +81,8 @@ async def duplicate(
 async def start_execution(
     body: ExecutionInput, request: Request, owner: Owner, session: Session
 ) -> ExecutionView:
-    return await ExecutionService(session).request(
-        owner.user_id, body.profile_id, cast(SourceLookup, request.app.state.source_lookup)
+    return await ExecutionService(session, CollectionService(get_runtime(request))).request(
+        owner.user_id, body.profile_id, cast(SourceLookup, request.app.state.source_lookup), body
     )
 
 

@@ -12,10 +12,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db import Runtime
 from app.core.errors import AppError
 from app.modules.listings import ListingCatalog, ListingGroupView, ListingScan
+from app.modules.search.collection import CollectionStopped, Collector
 from app.modules.search.execution_schemas import ResultView
 from app.modules.search.filters import filter_fact
 from app.modules.search.models import SearchExecution, SearchResult, SearchTask
 from app.modules.search.schemas import SearchCriteria
+from app.modules.sources import CollectionAdapters, CollectionService
 from app.shared.clock import utcnow
 
 
@@ -32,9 +34,16 @@ class TaskLease:
 
 
 class SearchQueue:
-    def __init__(self, runtime: Runtime, worker_id: str | None = None) -> None:
+    def __init__(
+        self,
+        runtime: Runtime,
+        worker_id: str | None = None,
+        *,
+        adapters: CollectionAdapters | None = None,
+    ) -> None:
         self.runtime = runtime
         self.worker_id = worker_id or str(uuid4())
+        self.collection = CollectionService(runtime, adapters)
 
     async def claim(self) -> TaskLease | None:
         now = utcnow()
@@ -122,7 +131,10 @@ class SearchQueue:
                 SearchCriteria.model_validate(execution.criteria),
                 task.snapshot,
                 task.cursor,
-                min(180, (execution.created_at + timedelta(minutes=15) - utcnow()).total_seconds()),
+                min(
+                    900 if execution.scope == "COLLECTED_OFFERS" else 180,
+                    (execution.created_at + timedelta(minutes=15) - utcnow()).total_seconds(),
+                ),
             )
 
     async def _save_snapshot(self, lease: TaskLease, scan: ListingScan) -> None:
@@ -204,11 +216,14 @@ class SearchQueue:
                 "results": execution.counts.get("results", 0) + retained,
             }
             if final:
+                collection_reason = (
+                    execution.reason if execution.scope == "COLLECTED_OFFERS" else None
+                )
                 self._finish(
                     task,
                     execution,
-                    "PARTIAL" if truncated else "SUCCEEDED",
-                    "LOCAL_SCAN_LIMIT" if truncated else None,
+                    "PARTIAL" if truncated or collection_reason else "SUCCEEDED",
+                    "LOCAL_SCAN_LIMIT" if truncated else collection_reason,
                 )
             return True
 
@@ -245,6 +260,7 @@ class SearchQueue:
         snapshot: dict[str, object] | None,
         cursor: int,
     ) -> None:
+        await Collector(self.runtime, self.collection, self._fence).run(lease, criteria)
         if not await self._batch(lease, [], cursor, criteria, False, False):
             return
         if snapshot is None:
@@ -282,6 +298,8 @@ class SearchQueue:
             )
         except LeaseLost:
             pass
+        except CollectionStopped:
+            await self._report_failure(lease, "COLLECTION_STOPPED")
         except TimeoutError:
             await self._report_failure(lease, "TASK_DEADLINE")
         except DBAPIError as exc:

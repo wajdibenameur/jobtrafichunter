@@ -2,12 +2,18 @@
   <div class="page-heading">
     <div>
       <p class="eyebrow">{{ i18n.t('search') }}</p>
-      <h1>{{ i18n.t('localSearch') }}</h1>
-      <p>{{ i18n.t('localScope') }}</p>
+      <h1>
+        {{ i18n.t(current()?.scope === 'COLLECTED_OFFERS' ? 'collectionRun' : 'localSearch') }}
+      </h1>
+      <p>{{ i18n.t(current()?.scope === 'COLLECTED_OFFERS' ? 'collectionRun' : 'localScope') }}</p>
     </div>
     <a routerLink="/search-profiles" class="btn btn-primary">{{ i18n.t('manageProfiles') }}</a>
   </div>
-  <p class="scope-note">{{ i18n.t('localSearchHelp') }}</p>
+  <p class="scope-note">
+    {{
+      i18n.t(current()?.scope === 'COLLECTED_OFFERS' ? 'collectionReadyHelp' : 'localSearchHelp')
+    }}
+  </p>
   @if (error(); as error) {
     <p class="alert alert-danger" role="alert">{{ i18n.t(error) }}</p>
   }
@@ -15,14 +21,12 @@
     <p role="status">{{ i18n.t('loading') }}</p>
   }
   <section class="card">
-    <label
-      >{{ i18n.t('chooseProfile')
-      }}<select [formControl]="selection">
-        @for (profile of profiles(); track profile.id) {
-          <option [value]="profile.id">{{ profile.name }}</option>
-        }
-      </select></label
-    >
+    <label for="local-search-profile-choice">{{ i18n.t('chooseProfile') }}</label>
+    <select id="local-search-profile-choice" [formControl]="selection">
+      @for (profile of profiles(); track profile.id) {
+        <option [value]="profile.id">{{ profile.name }}</option>
+      }
+    </select>
     @if (chosen(); as profile) {
       <p class="muted">
         {{ i18n.t('profileSources') }} : {{ profile.criteria.source_ids.length }} ·
@@ -49,10 +53,17 @@
         <span class="badge">{{ i18n.t(statusKey(execution.status)) }}</span>
       </div>
       <p class="muted">
-        {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }} · {{ i18n.t('localScope') }} ·
+        {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }} ·
+        {{ i18n.t(current()?.scope === 'COLLECTED_OFFERS' ? 'collectionRun' : 'localScope') }} ·
         {{ i18n.t('attemptLabel') }} {{ execution.attempt }}
       </p>
       <div class="search-metrics">
+        @if (execution.scope === 'COLLECTED_OFFERS') {
+          <div>
+            <strong>{{ execution.counts['collected'] ?? 0 }}</strong
+            ><span>{{ i18n.t('discoveredJobs') }}</span>
+          </div>
+        }
         <div>
           <strong>{{ execution.counts['scanned'] || 0 }}</strong
           ><span>{{ i18n.t('scannedJobs') }}</span>
@@ -74,7 +85,9 @@
         <p class="warning-note">{{ i18n.t('workerHelp') }}</p>
       }
       @if (execution.status === 'PARTIAL') {
-        <p class="warning-note">{{ i18n.t('localLimit') }}</p>
+        <p class="warning-note">
+          {{ execution.scope === 'COLLECTED_OFFERS' ? execution.reason : i18n.t('localLimit') }}
+        </p>
       }
       @if (execution.status === 'FAILED' || execution.status === 'TIMED_OUT') {
         <p role="alert">
@@ -86,7 +99,17 @@
       }
       <ul>
         @for (source of execution.sources; track source.source_id) {
-          <li>{{ source.source_name }} — {{ i18n.t('manualCollectionSkipped') }}</li>
+          <li>
+            {{ source.source_name }} —
+            @if (execution.scope === 'COLLECTED_OFFERS') {
+              {{ i18n.t(statusKey(source.status)) }} · {{ source.reason }}
+              @if (source.counts) {
+                · {{ i18n.t('discoveredJobs') }} : {{ source.counts['collected'] ?? 0 }}
+              }
+            } @else {
+              {{ i18n.t('manualCollectionSkipped') }}
+            }
+          </li>
         }
       </ul>
       <div class="search-actions">
@@ -115,6 +138,9 @@
       <div class="execution-row">
         <div>
           <strong>{{ execution.profile_name }}</strong>
+          <span class="badge">{{
+            i18n.t(execution.scope === 'COLLECTED_OFFERS' ? 'collectionRun' : 'localSearch')
+          }}</span>
           <p class="muted">
             {{ execution.created_at | date: 'yyyy-MM-dd HH:mm' }} ·
             {{ i18n.t(statusKey(execution.status)) }}

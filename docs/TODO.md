@@ -6,9 +6,12 @@
   `sources/scraping-review.md`, plan `PLAN-SCRAPING-ENGINE.md`.
   D-029 : lot 2 livré, 181 tests backend réussis ; rapport `reports/scraping-lot-2.md`.
   Lot 4 page/filtres validé D-032 ; rapport `reports/scraping-lot-4.md`.
-  Faire approuver `PLAN-SCRAPING-LOT-5.md` avant code : interfaces additives,
-  sept tables annexes/trois migrations et intégration sur fournisseurs simulés.
-  Aucun fournisseur activé ; collecte, fréquence et volume indisponibles dans l'UI.
+  Plan `PLAN-SCRAPING-LOT-5.md` approuvé D-033 ; réalisation locale et contrôles
+  dans `reports/scraping-lot-5.md`. Valider la livraison avant le lot suivant.
+  Base CV 0007/0008 versionnée séparément dans 2b34645 pour publication D-034 ;
+  sa validation fonctionnelle de phase 4 reste distincte de cette opération Git.
+  Aucun fournisseur activé. Actions/volume conditionnés aux capacités réelles ;
+  fréquence, matching et alertes toujours indisponibles.
   Articulation AI Job Agent : un seul chantier filtres/matching/alertes/documents.
 - Demande AI Job Agent auditée : `reports/ai-job-agent-audit.md` et
   `PLAN-AI-JOB-AGENT.md`. Mise à jour documentaire autorisée (D-027), plan PROPOSED.
@@ -56,7 +59,7 @@
 
 ## Vérifications et exploitation
 
-- GitHub CI préparée, non exécutée ; PostgreSQL 16 non testé. Vérifications locales
+- Consulter les résultats de GitHub CI après publication ; PostgreSQL 16 non testé localement. Vérifications locales
   réalisées avec PostgreSQL, Python 3.11 et le Node portable du projet.
 - Configuration locale .env dans le schéma applicatif jobhunter_app, secrets privés.
   Conserver la séparation avec la base .env.test et les schémas jetables des tests.

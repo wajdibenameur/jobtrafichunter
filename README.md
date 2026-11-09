@@ -3,6 +3,8 @@
 Plateforme de recherche d'emploi configurable pour un propriétaire unique.
 Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
+Dépôt public : [wajdibenameur/jobtrafichunter](https://github.com/wajdibenameur/jobtrafichunter).
+
 État : phase 3 validée ; phase 4 CV/profil candidat livrée, en attente de validation.
 Python **3.11** selon
 instruction du propriétaire. Le projet reste entièrement local, sans Docker.
@@ -27,9 +29,15 @@ L'extraction JSON-LD du lot 3 est validée D-031. La [page Scraping du lot 4](do
 est validée D-032 : profils/critères enregistrables, radios 2 h/6 h/24 h/7 j/30 j et
 historique local réutilisé. Les anciens profils conservent leurs règles ; nouveau
 profil Angular à 24 h par défaut. Redémarrer l'API pour charger publication_minutes.
-Lancer/Arrêter/Tester et volume/fréquence restent indisponibles tant que la collecte
-n'est pas intégrée. Le [plan détaillé du lot 5](docs/PLAN-SCRAPING-LOT-5.md)
-propose l'intégration queue/worker et ses migrations ; accord attendu avant code.
+Le [plan détaillé du lot 5](docs/PLAN-SCRAPING-LOT-5.md) est approuvé D-033 :
+[queue/worker, checkpoints, budgets et ingestion atomique](docs/reports/scraping-lot-5.md)
+implémentés dans l'arbre local et vérifiés sur connecteurs simulés. Actions/volume
+conditionnés aux capacités serveur ; aucune source réelle éligible/enregistrée,
+donc ils restent indisponibles dans l'installation normale. Fréquence hors périmètre.
+Les migrations 0009–0011 suivent la base CV 0007/0008, versionnée séparément dans
+2b34645 pour publication D-034. Les validations fonctionnelles restent distinctes.
+Aucune migration de ce lot appliquée à la base personnelle ; après revue des
+migrations, appliquer `alembic upgrade head` avant de redémarrer API et worker.
 Aucun adaptateur fournisseur ou collecte activés. Les fonctionnalités communes
 restantes avec AI Job Agent seront réalisées une seule fois après validation des plans.
 

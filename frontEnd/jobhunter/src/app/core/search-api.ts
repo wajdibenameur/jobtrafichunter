@@ -65,7 +65,7 @@ export interface Execution {
   id: string;
   profile_id: string;
   profile_name: string;
-  scope: 'IMPORTED_OFFERS';
+  scope: 'IMPORTED_OFFERS' | 'COLLECTED_OFFERS';
   status: string;
   criteria: SearchCriteria;
   cancel_requested: boolean;
@@ -78,7 +78,13 @@ export interface Execution {
   cursor: number;
   attempt: number;
   heartbeat_at: string | null;
-  sources: { source_id: string; source_name: string; status: string; reason: string }[];
+  sources: {
+    source_id: string;
+    source_name: string;
+    status: string;
+    reason: string;
+    counts?: Record<string, number> | null;
+  }[];
 }
 export interface Fact extends ManualJob {
   id: string;
@@ -159,8 +165,11 @@ export class SearchApi {
   examples(): Observable<SearchProfile[]> {
     return this.http.post<SearchProfile[]>('/api/search/profiles/examples', {});
   }
-  start(profile_id: string): Observable<Execution> {
-    return this.http.post<Execution>('/api/search/executions', { profile_id });
+  start(profile_id: string, collection?: { max_results: number }): Observable<Execution> {
+    return this.http.post<Execution>('/api/search/executions', {
+      profile_id,
+      ...(collection ? { scope: 'COLLECTED_OFFERS', ...collection } : {}),
+    });
   }
   history(): Observable<Execution[]> {
     return this.http.get<Execution[]>('/api/search/executions');

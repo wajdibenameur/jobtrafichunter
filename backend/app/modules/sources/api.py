@@ -1,11 +1,12 @@
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.db import get_business_session
+from app.core.db import get_business_session, get_runtime
 from app.core.identity import require_identity
+from app.modules.sources.collection import CollectionAvailability, CollectionService
 from app.modules.sources.schemas import (
     SearchLinkRequest,
     SearchLinkView,
@@ -19,6 +20,20 @@ from app.shared.identity import Principal
 router = APIRouter(prefix="/sources", tags=["sources"])
 Owner = Annotated[Principal, Depends(require_identity)]
 Session = Annotated[AsyncSession, Depends(get_business_session)]
+
+
+@router.get("/{source_id}/collection", response_model=CollectionAvailability)
+async def collection_status(
+    source_id: UUID, owner: Owner, request: Request
+) -> CollectionAvailability:
+    return await CollectionService(get_runtime(request)).describe(owner.user_id, source_id)
+
+
+@router.post("/{source_id}/collection/test", response_model=CollectionAvailability)
+async def collection_test(
+    source_id: UUID, owner: Owner, request: Request
+) -> CollectionAvailability:
+    return await CollectionService(get_runtime(request)).test(owner.user_id, source_id)
 
 
 @router.get("", response_model=list[SourceView])

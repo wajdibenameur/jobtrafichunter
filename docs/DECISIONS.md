@@ -477,3 +477,47 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Livrable de cette session documentaire seulement : pas de code, migration exécutée,
   collecte réelle, test payant ou nouvelle dépendance. Contrôles documentaires à
   enregistrer dans PROGRESS ; suites applicatives non relancées sans changement code.
+
+## D-033 — 2026-11-08 — Plan Scraping lot 5 approuvé
+
+- Le propriétaire répond « contenue » à la demande de validation du plan détaillé
+  (commit 5b7201a). Interfaces additives, sept tables annexes et trois migrations
+  append-only approuvées, intégration sur connecteurs simulés seulement.
+- Réutiliser la queue/worker et les frontières publiques ; transaction atomique
+  ingestion/reçu/checkpoint, réservations HTTP durables par tentative et reprise.
+  Les champs métier confirmés manuellement ne sont pas écrasés par la collecte.
+- Aucun fournisseur réel enregistré ou activé, aucun test réseau réel/facturable.
+  Permissions source, phase 4 CV et autres lots restent indépendants. Les travaux
+  CV préexistants et migrations 0007/0008 ne font pas partie de ce lot.
+- Livraison locale le 2026-11-09 : 272 tests backend en 259,13 s, 24 ciblés finaux
+  en 107,95 s, 37 Angular et 12 E2E en 40,9 s. Ruff/format/mypy/typage/build verts ;
+  migrations aller-retour/check sur schéma jetable réussis, captures inspectées.
+- Le test de concurrence a révélé une réservation trop en avance sur l'envoi réel :
+  créneau source occupé pendant la tentative bornée, identifiant actif et délai
+  après réponse. Un règlement tardif ne libère pas une réservation plus récente.
+  Ajout interne à la nouvelle table runtime de ce lot ; aucune table historique modifiée.
+- Les migrations 0009–0011 dépendent de 0008 CV locale/non versionnée. Ne pas produire
+  un commit autonome dont la chaîne Alembic serait incomplète ; livraison conservée
+  dans l'arbre, commit différé jusqu'au versionnement explicite de sa base. Pas de
+  commit CV ou validation de phase 4 déduits de l'autorisation du lot 5.
+- Rapport reports/scraping-lot-5.md ; attendre validation de livraison avant lot 6.
+
+## D-034 — 2026-11-09 — Publication du projet sur GitHub
+
+- Le propriétaire fournit https://github.com/wajdibenameur/jobtrafichunter.git
+  après avoir annoncé préparer un dépôt pour le projet. Dépôt vide et accessible.
+  Vérification de visibilité : public ; choix explicite « Garder le dépôt public ».
+- Cette demande autorise le versionnement et l'envoi du projet existant, y compris
+  la base CV jusque-là locale, sans valider de phase fonctionnelle supplémentaire.
+  Base CV versionnée séparément dans 2b34645, puis lot 5 à sa suite : parent 0008
+  disponible, chaîne Alembic complète. Ne pas réécrire l'historique existant.
+- Contrôle avant publication : 267 fichiers de travail et 535 blobs historiques,
+  motifs de secrets et comparaison en mémoire avec les secrets locaux ; aucun
+  secret détecté après exclusion d'une valeur explicitement CHANGE_ME d'une ancienne
+  sauvegarde d'environnement. Pas de fichier privé/template commercial dans l'historique.
+  Analyse ciblée, pas une garantie d'absence de tout secret imaginable.
+- .env, bases/CV locaux, clés TLS, caches, outils, dépendances et template Velson
+  restent exclus. Aucun contenu personnel ou secret ajouté aux commits.
+- Contrôles Ruff/format/mypy et typage Angular relancés avec succès ; suites
+  272 backend / 37 Angular / 12 E2E déjà réussies sur ce code, non relancées
+  pour la seule préparation Git. Aucun nouveau code applicatif ou collecteur.
