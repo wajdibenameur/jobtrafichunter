@@ -11,8 +11,7 @@ originaux privés et propose un profil éditable à valider puis activer. OCR/DO
 historique indisponibles ; préparer le runtime Windows selon le README racine.
 La phase 4 attend sa validation ; le nouveau plan AI Job Agent est proposé,
 sans développement autorisé par la seule mise à jour documentaire D-027.
-Voir [l'audit](../../docs/reports/ai-job-agent-audit.md) et
-[le plan](../../docs/PLAN-AI-JOB-AGENT.md).
+Les plans et rapports de travail restent dans le dossier local `docs/`, non publié sur GitHub.
 
 La page `/scraping` permet de choisir un profil, enregistrer ses critères et ouvrir
 ses résultats/historiques locaux. Radios partagées 2 h/6 h/24 h/7 j/30 j ; nouveau
@@ -24,10 +23,8 @@ lancement vers le suivi SSE existant dans Recherche, annulation et scopes distin
 Aucun adaptateur fournisseur enregistré : actions/volume indisponibles en installation
 normale ; fréquence désactivée. Les cas éligibles sont simulés uniquement en tests.
 Cette version API exige les migrations 0009–0011 après sa base CV 0007/0008,
-versionnée séparément dans 2b34645 : voir la dépendance et les contrôles du
-[rapport lot 5](../../docs/reports/scraping-lot-5.md) avant mise en service.
-Voir [la livraison du lot 4](../../docs/reports/scraping-lot-4.md), validée D-032,
-et [le plan du lot 5](../../docs/PLAN-SCRAPING-LOT-5.md), approuvé D-033.
+versionnée séparément dans 2b34645. Appliquer les migrations avant de redémarrer
+API et worker. Les rapports de validation sont conservés uniquement en local.
 
 ## Lancement CMD depuis frontEnd\jobhunter
 
@@ -98,13 +95,13 @@ cd backend
 .venv\Scripts\python.exe scripts/frontend_e2e.py
 ```
 
-Les neuf parcours incluent session/connexion/mobile, sources/import et recherche.
+Les parcours incluent session/connexion/mobile, sources/import, recherche et CV selon la plateforme.
 Le helper lance également un worker jetable avec la même configuration que l’API.
 Le helper
 crée un schéma, un compte et une API HTTPS jetables, exécute Chrome puis nettoie
 ses données. Captures/logs dans .cache/frontend-e2e hors Git ; le PostgreSQL système
 est conservé. TEST_DATABASE_URL peut fournir la connexion en CI, sans artefact DB
-transmis au navigateur. Résultats réels dans docs/reports/phase-3.md à la racine.
+transmis au navigateur. Les résultats de CI sont consultables sur GitHub Actions.
 
 Pour examiner le build : .\scripts\frontend.ps1 preview depuis la racine avec
 TLS/API configurés ; arrêter par Ctrl+C. Ce preview reste local.

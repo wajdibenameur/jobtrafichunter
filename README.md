@@ -5,46 +5,29 @@ Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
 Dépôt public : [wajdibenameur/jobtrafichunter](https://github.com/wajdibenameur/jobtrafichunter).
 
-État : phase 3 validée ; phase 4 CV/profil candidat livrée, en attente de validation.
-Python **3.11** selon
-instruction du propriétaire. Le projet reste entièrement local, sans Docker.
-Connexion, compte, Sources, Profils, Recherche, Résultats et préparation Scraping
-sont reliés à FastAPI. LinkedIn,
-Indeed, Keejob et Tanitjobs proposent des liens de recherche et l’import manuel
-d’offres, avec aperçu CSV et confirmation. Les recherches filtrent ces imports,
-avec queue PostgreSQL et déduplication conservatrice. Voir [le rapport](docs/reports/phase-3.md).
-Voir [le suivi](docs/PROGRESS.md), [les décisions](docs/DECISIONS.md) et
-[le cahier des charges](docs/SPEC.md).
+État : recherche locale opérationnelle ; gestion des CV/profils et infrastructure
+de collecte livrées, validations fonctionnelles en attente. Matching, alertes,
+CV adaptés et lettres restent à développer.
 
-La nouvelle demande AI Job Agent a été auditée : [état réel et contrôles](docs/reports/ai-job-agent-audit.md),
-[plan proposé en sept lots](docs/PLAN-AI-JOB-AGENT.md). Matching, alertes, CV adaptés,
-lettres et dossiers restent à développer. L'accord D-027 portait uniquement sur
-la documentation ; le plan AI Job Agent et la livraison de phase 4 restent à valider.
+Python **3.11**, PostgreSQL local et Angular standalone ; sans Docker ni hébergement.
+Connexion, compte, Sources, Profils, Recherche, Résultats, Mes CV et préparation
+Scraping sont reliés à FastAPI. LinkedIn, Indeed, Keejob et Tanitjobs proposent
+liens de recherche et import manuel d’offres, avec aperçu CSV et confirmation.
+Les recherches filtrent ces imports avec queue PostgreSQL, déduplication,
+reprise, annulation et conservation des snapshots.
 
-Prochaine proposition : [matching phase 5](docs/PLAN-MATCHING-PHASE-5.md), D-036.
-Premier périmètre envisagé : aperçu local avec scores explicitement provisoires,
-puis calibration sur annotations du propriétaire avant seuils/alertes/recherche CV.
-Ce plan et les livraisons préalables attendent un accord ; matching non implémenté.
+La page Scraping enregistre les profils et critères, avec filtres temporels
+2 h/6 h/24 h/7 j/30 j et historique. Les actions de collecte dépendent des capacités
+serveur : aucun adaptateur fournisseur automatique n’est enregistré ou activé.
+La collecte est vérifiée sur connecteurs simulés ; fréquence et matching indisponibles.
 
-Scraping Engine indépendant d'Apify : [audit](docs/reports/scraping-engine-audit.md),
-[revue des sources](docs/sources/scraping-review.md) et
-[plan en huit lots](docs/PLAN-SCRAPING-ENGINE.md). Infrastructure du lot 2 livrée
-selon D-029 : [livraison et limites](docs/reports/scraping-lot-2.md), validée D-030.
-L'extraction JSON-LD du lot 3 est validée D-031. La [page Scraping du lot 4](docs/reports/scraping-lot-4.md)
-est validée D-032 : profils/critères enregistrables, radios 2 h/6 h/24 h/7 j/30 j et
-historique local réutilisé. Les anciens profils conservent leurs règles ; nouveau
-profil Angular à 24 h par défaut. Redémarrer l'API pour charger publication_minutes.
-Le [plan détaillé du lot 5](docs/PLAN-SCRAPING-LOT-5.md) est approuvé D-033 :
-[queue/worker, checkpoints, budgets et ingestion atomique](docs/reports/scraping-lot-5.md)
-implémentés dans l'arbre local et vérifiés sur connecteurs simulés. Actions/volume
-conditionnés aux capacités serveur ; aucune source réelle éligible/enregistrée,
-donc ils restent indisponibles dans l'installation normale. Fréquence hors périmètre.
-Les migrations 0009–0011 suivent la base CV 0007/0008, versionnée séparément dans
-2b34645 pour publication D-034. Les validations fonctionnelles restent distinctes.
-Aucune migration de ce lot appliquée à la base personnelle ; après revue des
-migrations, appliquer `alembic upgrade head` avant de redémarrer API et worker.
-Aucun adaptateur fournisseur ou collecte activés. Les fonctionnalités communes
-restantes avec AI Job Agent seront réalisées une seule fois après validation des plans.
+Les spécifications, plans, décisions et rapports sont conservés **uniquement en local**
+dans `docs/`, exclu de Git. Le dossier n’est pas fourni lors d’un clone GitHub.
+Les fichiers C# du parseur sécurisé restent dans le dépôt et servent à son installation.
+
+Les migrations 0007–0011 sont versionnées. Après revue des migrations, appliquer
+`alembic upgrade head` avant de redémarrer API et worker. La publication GitHub
+n’applique aucune migration à la base personnelle.
 
 ## Installation locale — PowerShell
 
@@ -57,8 +40,7 @@ $env:JOBHUNTER_TEMPLATE_OPTIONAL = '1'
 ```
 
 Le template commercial n'est pas distribué. Cette variable permet au frontend
-d'utiliser l'illustration CSS de remplacement. Voir aussi le
-[rapport de publication](docs/reports/github-publication.md).
+d'utiliser l'illustration CSS de remplacement.
 
 Depuis la racine du projet :
 
@@ -200,7 +182,7 @@ Un original non publié est signalé comme échec si le fichier manque, jamais
 comme succès. La suppression confirmée retire toutes les versions du document,
 leurs profils et fichiers ; l’audit ne garde que les identifiants/actions.
 Matching, scores et recherche CV restent pour la phase 5. Apify reste reporté.
-Rapport et limites : [phase 4](docs/reports/phase-4.md).
+Les rapports de suivi sont privés et conservés uniquement dans le dossier local `docs/`.
 
 ## Vérifications
 
@@ -232,8 +214,7 @@ Ce helper crée son propre cluster dans `.cache/postgres-tests`, son port local
 et `.env.test.local`, sans toucher au serveur PostgreSQL système ni à `.env.test`.
 `PG_BIN` permet de choisir le dossier des binaires ; par défaut il utilise le
 PostgreSQL 17 installé localement. La CI vérifie PostgreSQL 16 sur Ubuntu et le
-parseur AppContainer réel avec PostgreSQL 17 sur Windows ; voir le
-[rapport de validation CI](docs/reports/ci-validation.md).
+parseur AppContainer réel avec PostgreSQL 17 sur Windows.
 Les résultats de CI distante sont consultables dans
 [GitHub Actions](https://github.com/wajdibenameur/jobtrafichunter/actions) ; les
 vérifications locales ne sont pas présentées comme une réussite CI distante.

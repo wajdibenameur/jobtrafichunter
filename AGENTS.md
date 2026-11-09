@@ -1,8 +1,8 @@
 # JobHunter AI - agent instructions
 
-Read `docs/PROGRESS.md` first, update it last.
-Then read `docs/DECISIONS.md`, `docs/TODO.md` and the relevant sections of
-`docs/SPEC.md`. The specification is immutable; propose changes to the owner.
+Read local `docs/PROGRESS.md` first, update it last; docs/ is private and Git-ignored.
+Then read local docs/DECISIONS.md, docs/TODO.md and relevant docs/SPEC.md sections.
+Never add/push docs/. If absent, use README and ask for owner constraints. SPEC is immutable.
 
 ## Stack and modules
 FastAPI (Python 3.11 owner override), Angular and local PostgreSQL; local-only app.

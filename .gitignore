@@ -21,6 +21,8 @@
 **/dist/
 **/.angular/
 local-data/
+# Owner's private specifications, plans and progress: keep on this computer only.
+/docs/
 # Preserve reference template as a local, independent repository.
 frontEnd/velson_template/
 
