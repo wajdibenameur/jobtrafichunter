@@ -1,8 +1,8 @@
 # Progress
 
-Last updated: 2026-11-09 by Codex / GitHub publication preparation (D-034)
-Current task: version complete tested project and publish to owner GitHub repository
-Status: PREPARED_FOR_GITHUB_PUSH / FUNCTIONAL_VALIDATIONS_PENDING
+Last updated: 2026-11-09 by Codex / GitHub publication (D-034)
+Current task: project published to owner public GitHub; await functional lot validation
+Status: PUBLISHED_TO_GITHUB / FUNCTIONAL_VALIDATIONS_PENDING
 
 ## Historical phases
 
@@ -100,10 +100,12 @@ Report: reports/scraping-lot-5.md. Local delivery needs owner validation before 
 Owner supplied https://github.com/wajdibenameur/jobtrafichunter.git and explicitly
 chose to keep it public. Remote empty/access verified; origin configured. D-034
 authorizes versioning/publication, not functional phase acceptance. CV base 0007/0008
-committed separately in 2b34645, so lot 5 can follow with a complete Alembic chain.
+committed separately in 2b34645; lot 5 committed in 56ba4f9, complete Alembic chain.
 Prepublish scan: 267 worktree files / 535 historical blobs, no secrets detected;
 local secrets/CVs/TLS keys/cache/tools/template excluded. Lint/typing rechecked.
-Push and remote-head verification remain to do; no real collection or paid call.
+Push main succeeded; remote SHA equals local SHA 56ba4f9da79ed8cb855c15b4e7d8096ec26f2ee2.
+Report: reports/github-publication.md. CI started, not yet claimed successful.
+No real collection, paid call or hosting; publication does not validate phase delivery.
 
 No migration applied to the personal DB. After reviewing the versioned migrations,
 apply alembic upgrade head before API/worker restart; old schemas lack annex tables.
@@ -112,5 +114,5 @@ results may not yet exist. Known listing content is not enriched from observatio
 Retention policy future; conservative crash reservations may reduce useful volume.
 No matching/calibration/notifications/generated documents, scheduler, source activation,
 Docker or hosting. Source permission and any paid run remain separately gated.
-Finish GitHub push, then await lot 5 validation before common matching/alerts work with
+Await lot 5 validation before common matching/alerts work with
 phase 4 CV prerequisite and owner-labelled datasets. Do not infer their approval.

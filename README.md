@@ -43,7 +43,19 @@ restantes avec AI Job Agent seront réalisées une seule fois après validation 
 
 ## Installation locale — PowerShell
 
-Depuis la racine :
+Pour récupérer le dépôt :
+
+```powershell
+git clone https://github.com/wajdibenameur/jobtrafichunter.git
+cd jobtrafichunter
+$env:JOBHUNTER_TEMPLATE_OPTIONAL = '1'
+```
+
+Le template commercial n'est pas distribué. Cette variable permet au frontend
+d'utiliser l'illustration CSS de remplacement. Voir aussi le
+[rapport de publication](docs/reports/github-publication.md).
+
+Depuis la racine du projet :
 
 ```powershell
 cd backend
@@ -215,7 +227,9 @@ Ce helper crée son propre cluster dans `.cache/postgres-tests`, son port local
 et `.env.test.local`, sans toucher au serveur PostgreSQL système ni à `.env.test`.
 `PG_BIN` permet de choisir le dossier des binaires ; par défaut il utilise le
 PostgreSQL 17 installé localement. La CI prévoit une vérification PostgreSQL 16.
-La configuration CI n'a pas encore été exécutée sur GitHub.
+Les résultats de CI distante sont consultables dans
+[GitHub Actions](https://github.com/wajdibenameur/jobtrafichunter/actions) ; les
+vérifications locales ne sont pas présentées comme une réussite CI distante.
 
 ## Architecture et limites
 

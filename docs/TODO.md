@@ -10,6 +10,7 @@
   dans `reports/scraping-lot-5.md`. Valider la livraison avant le lot suivant.
   Base CV 0007/0008 versionnée séparément dans 2b34645 pour publication D-034 ;
   sa validation fonctionnelle de phase 4 reste distincte de cette opération Git.
+  Lot 5 versionné dans 56ba4f9 et envoyé sur GitHub ; voir `reports/github-publication.md`.
   Aucun fournisseur activé. Actions/volume conditionnés aux capacités réelles ;
   fréquence, matching et alertes toujours indisponibles.
   Articulation AI Job Agent : un seul chantier filtres/matching/alertes/documents.

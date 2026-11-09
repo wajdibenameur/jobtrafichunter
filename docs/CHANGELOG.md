@@ -2,9 +2,10 @@
 
 - 2026-11-09 — D-034 : dépôt GitHub public choisi par le propriétaire, origin
   configuré ; base CV versionnée dans 2b34645 pour débloquer la chaîne Alembic.
-  Préparation du lot 5 et de la documentation pour publication, historique conservé.
+  Lot 5 versionné dans 56ba4f9 ; push main réussi et SHA distant vérifié, historique conservé.
   Contrôle des secrets/fichiers privés et revalidation lint/format/typage réussis.
   Aucune validation fonctionnelle de phase supplémentaire déduite de cet envoi Git.
+  Rapport reports/github-publication.md ; résultats CI distante à consulter sur GitHub.
 
 - 2026-11-09 — D-033 : lot 5 Scraping livré localement : scope additif, même queue,
   checkpoints et ingestion/reçu atomiques, observations préservant le manuel,

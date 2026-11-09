@@ -521,3 +521,6 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Contrôles Ruff/format/mypy et typage Angular relancés avec succès ; suites
   272 backend / 37 Angular / 12 E2E déjà réussies sur ce code, non relancées
   pour la seule préparation Git. Aucun nouveau code applicatif ou collecteur.
+- Lot 5 versionné dans 56ba4f9, push main réussi ; hash distant identique au hash
+  local vérifié. GitHub Actions déclenché, résultats en cours lors de la consultation.
+  Rapport reports/github-publication.md ; publication de code, aucun hébergement.
