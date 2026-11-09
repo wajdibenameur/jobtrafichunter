@@ -57,3 +57,4 @@ AI Job Agent shared filters validated D-032; its other lots remain PROPOSED.
 Do not exceed approved lot scope or infer phase 4 delivery approval.
 Scraping: docs/PLAN-SCRAPING-ENGINE.md and docs/reports/scraping-engine-audit.md.
 D-033 approves lot 5; see docs/reports/scraping-lot-5.md. Validate delivery; sources inactive.
+CI verified on Linux and native Windows D-035; see docs/reports/ci-validation.md.

@@ -553,3 +553,10 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
   d'indisponibilité sécurisée (upload désactivé et API refusée 503), sans faux parser.
   Attendre explicitement /search avant de sélectionner le profil dans les E2E.
   Aucun retrait des assertions d'import, de déduplication ou de sécurité.
+- Vérification réelle du commit 73bd53a : run 42611520631 SUCCESS, jobs Ubuntu
+  et Windows SUCCESS. Linux 267 passed / 5 natifs exclus, couverture 90,04 %, 37
+  Angular, audits Python/npm verts et 12 E2E / 1 exclusion native. Windows 272
+  passed, AppContainer réel et 12 E2E / 1 exclusion Linux. Rapports et nettoyage réussis.
+- Rapport reports/ci-validation.md. Dernier commit uniquement documentaire avec
+  [skip ci], aucune modification de source/workflow/tests après le run validé.
+  Les validations fonctionnelles de phase 4 et lot 5 restent à obtenir séparément.

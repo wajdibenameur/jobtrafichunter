@@ -60,7 +60,8 @@
 
 ## Vérifications et exploitation
 
-- Consulter les résultats de GitHub CI après publication ; PostgreSQL 16 non testé localement. Vérifications locales
+- CI vérifiée D-035 : `reports/ci-validation.md`, Linux/PostgreSQL 16 et Windows
+  natif/PostgreSQL 17 réussis. PostgreSQL 16 non testé sur la machine Windows locale. Vérifications locales
   réalisées avec PostgreSQL, Python 3.11 et le Node portable du projet.
 - Configuration locale .env dans le schéma applicatif jobhunter_app, secrets privés.
   Conserver la séparation avec la base .env.test et les schémas jetables des tests.

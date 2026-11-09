@@ -226,7 +226,9 @@ $env:JOBHUNTER_TEST_ENV = '.env.test.local'
 Ce helper crée son propre cluster dans `.cache/postgres-tests`, son port local
 et `.env.test.local`, sans toucher au serveur PostgreSQL système ni à `.env.test`.
 `PG_BIN` permet de choisir le dossier des binaires ; par défaut il utilise le
-PostgreSQL 17 installé localement. La CI prévoit une vérification PostgreSQL 16.
+PostgreSQL 17 installé localement. La CI vérifie PostgreSQL 16 sur Ubuntu et le
+parseur AppContainer réel avec PostgreSQL 17 sur Windows ; voir le
+[rapport de validation CI](docs/reports/ci-validation.md).
 Les résultats de CI distante sont consultables dans
 [GitHub Actions](https://github.com/wajdibenameur/jobtrafichunter/actions) ; les
 vérifications locales ne sont pas présentées comme une réussite CI distante.

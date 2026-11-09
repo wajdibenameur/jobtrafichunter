@@ -4,8 +4,11 @@
   CI renommé sans tiret pour systemd et contrôle pg_isready ajouté. Linux backend
   vérifié (267 réussis / 5 natifs Windows exclus, couverture 90,02 %) et 37 Angular.
   Job Windows natif ajouté pour conserver le vrai parcours CV ; refus sécurisé
-  testé sur Linux et attentes de navigation E2E explicites. Validation finale sur
-  les deux runners à suivre ; aucune modification applicative ou base personnelle.
+  testé sur Linux et attentes de navigation E2E explicites. Run 42611520631 vert
+  sur les deux runners : Linux 267 tests / 5 natifs exclus, couverture 90,04 %, 37
+  Angular ; Windows 272 tests. 12 parcours navigateur par plateforme, 1 exclusion
+  de plateforme explicite chacune. Audits verts, rapport reports/ci-validation.md.
+  Aucune modification applicative, dépendance ou base personnelle.
 
 - 2026-11-09 — D-034 : dépôt GitHub public choisi par le propriétaire, origin
   configuré ; base CV versionnée dans 2b34645 pour débloquer la chaîne Alembic.

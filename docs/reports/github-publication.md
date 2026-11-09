@@ -40,6 +40,10 @@ Des exécutions GitHub Actions ont démarré au premier push. Lors de la consult
 elles étaient en cours ; aucune réussite CI distante n'est revendiquée.
 [Résultats actuels](https://github.com/wajdibenameur/jobtrafichunter/actions).
 
+Suite D-035 : échecs de configuration diagnostiqués et corrigés ;
+[CI vérifiée sur Linux et Windows](ci-validation.md), run 42611520631 réussi
+sur le commit 73bd53a. Ce résultat remplace l'attente initiale pour ce code.
+
 L'application reste locale : le push n'héberge pas FastAPI ou Angular. Pour un
 nouveau clone, suivre les README, créer ses propres secrets/base/TLS et appliquer
 les migrations. Sans copie privée du template, utiliser JOBHUNTER_TEMPLATE_OPTIONAL=1

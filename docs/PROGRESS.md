@@ -1,8 +1,8 @@
 # Progress
 
-Last updated: 2026-11-09 by Codex / GitHub CI correction (D-035)
-Current task: verify corrected Linux CI and native Windows job, no new functional phase
-Status: CI_FIX_IN_VERIFICATION / FUNCTIONAL_VALIDATIONS_PENDING
+Last updated: 2026-11-09 by Codex / verified GitHub CI (D-035)
+Current task: Linux and native Windows CI verified; await functional delivery validation
+Status: CI_VERIFIED_LINUX_AND_WINDOWS / FUNCTIONAL_VALIDATIONS_PENDING
 
 ## Historical phases
 
@@ -103,15 +103,19 @@ authorizes versioning/publication, not functional phase acceptance. CV base 0007
 committed separately in 2b34645; lot 5 committed in 56ba4f9, complete Alembic chain.
 Prepublish scan: 267 worktree files / 535 historical blobs, no secrets detected;
 local secrets/CVs/TLS keys/cache/tools/template excluded. Lint/typing rechecked.
-Push main succeeded; remote SHA equals local SHA 56ba4f9da79ed8cb855c15b4e7d8096ec26f2ee2.
-Report: reports/github-publication.md. CI main a68de8a failed at PostgreSQL startup
-before tests; lint/format/mypy passed. D-035 renames the CI cluster jobhunter_ci
-(systemd-incompatible dash removed), adds pg_isready. Run a7e4c55 proves PostgreSQL 16,
-267 Linux tests / 5 native Windows exclusions, 90.02% coverage and 37 Angular pass.
-Remaining E2E issues: native CV unavailable on Linux and a route transition race.
-Add Windows native CI using existing isolated PostgreSQL/AppContainer helpers; Linux
-asserts fail-closed CV refusal instead. Await /search explicitly in browser tests.
-Final Linux/Windows CI verification pending; no feature approval inferred.
+Initial push main succeeded; initial remote SHA verified against local 56ba4f9.
+Report: reports/github-publication.md; CI report: reports/ci-validation.md.
+D-035 fixed the systemd cluster name and added real native Windows CI alongside Linux.
+Native CV parsing runs on Windows; Linux tests its fail-closed refusal. Browser
+navigation waits for /search before profile selection, with original assertions kept.
+Run 42611520631 on code/workflow/test commit 73bd53a: BOTH JOBS SUCCESS.
+- Linux PostgreSQL 16: 267 passed / 5 Windows-only exclusions, 90.04% coverage;
+  37 Angular, Python/npm audits green; 12 E2E passed in 19.3s / 1 native exclusion.
+- Windows PostgreSQL 17: real AppContainer prepared, 272 passed in 93.35s;
+  12 E2E passed in 28.6s / 1 Linux-only exclusion; isolated cluster stopped.
+- Local post-fix E2E: 12 passed in 37.8s / 1 Linux exclusion, typechecks passed.
+Final report commit is docs-only [skip ci]; no code/tests/workflow changed after
+that successful remote run. No Dependabot PR merged or dependencies changed.
 No real collection, paid call or hosting; publication does not validate phase delivery.
 
 No migration applied to the personal DB. After reviewing the versioned migrations,

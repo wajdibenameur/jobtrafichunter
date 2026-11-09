@@ -124,7 +124,8 @@ Les champs PERMITTED des fixtures sont synthétiques dans les tests jetables,
 jamais des preuves d'autorisation pour un site. Aucun appel fournisseur/payant,
 aucune activation LinkedIn, Indeed, Keejob ou Tanitjobs. Imports manuels conservés.
 Pas de scheduler, matching, notifications ou génération de candidature dans ce lot.
-Pas de nouvelle dépendance, Docker, hébergement ou CI distante exécutée.
+Pas de nouvelle dépendance, Docker ou hébergement. CI distante vérifiée ensuite
+sur Linux et Windows dans D-035 : [rapport](ci-validation.md).
 
 Les offres déjà commitées restent dans le catalogue lors d'une annulation COLLECT ;
 des résultats filtrés peuvent alors ne pas exister encore. Les observations ne
