@@ -524,3 +524,19 @@ dépendance, initialisation Git ou activation de connecteur n'a été réalisée
 - Lot 5 versionné dans 56ba4f9, push main réussi ; hash distant identique au hash
   local vérifié. GitHub Actions déclenché, résultats en cours lors de la consultation.
   Rapport reports/github-publication.md ; publication de code, aucun hébergement.
+
+## D-035 — 2026-11-09 — Correction de la CI GitHub publiée
+
+- Après publication et annonce des résultats CI encore attendus, le propriétaire
+  demande « contenue » : vérifier les runs et corriger les erreurs du workflow
+  existant, sans débuter un nouveau lot fonctionnel.
+- Run main a68de8a : lint/format/mypy réussis, installation PostgreSQL 16 échouée
+  avant tests, assertion systemd postgresql@16-jobhunter-ci.service.
+- La documentation Debian pg_createcluster confirme l'incompatibilité des tirets
+  dans les noms de cluster avec systemd :
+  https://manpages.debian.org/testing/postgresql-common/pg_createcluster.1.en.html.
+  Renommer uniquement le cluster CI jobhunter_ci et vérifier pg_isready sur 55432.
+  Aucun changement de moteur, service applicatif, migration ou base personnelle.
+- Publier la correction afin de vérifier le vrai runner Ubuntu ; ne pas présenter
+  les tests Windows locaux comme une réussite CI. Pas de merge des PR Dependabot
+  pendant ce correctif, dépendances et phases fonctionnelles inchangées.

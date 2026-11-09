@@ -1,8 +1,8 @@
 # Progress
 
-Last updated: 2026-11-09 by Codex / GitHub publication (D-034)
-Current task: project published to owner public GitHub; await functional lot validation
-Status: PUBLISHED_TO_GITHUB / FUNCTIONAL_VALIDATIONS_PENDING
+Last updated: 2026-11-09 by Codex / GitHub CI correction (D-035)
+Current task: fix published GitHub CI PostgreSQL startup and verify actual runner
+Status: CI_FIX_IN_VERIFICATION / FUNCTIONAL_VALIDATIONS_PENDING
 
 ## Historical phases
 
@@ -104,7 +104,9 @@ committed separately in 2b34645; lot 5 committed in 56ba4f9, complete Alembic ch
 Prepublish scan: 267 worktree files / 535 historical blobs, no secrets detected;
 local secrets/CVs/TLS keys/cache/tools/template excluded. Lint/typing rechecked.
 Push main succeeded; remote SHA equals local SHA 56ba4f9da79ed8cb855c15b4e7d8096ec26f2ee2.
-Report: reports/github-publication.md. CI started, not yet claimed successful.
+Report: reports/github-publication.md. CI main a68de8a failed at PostgreSQL startup
+before tests; lint/format/mypy passed. D-035 renames the CI cluster jobhunter_ci
+(systemd-incompatible dash removed), adds pg_isready, awaits real runner verification.
 No real collection, paid call or hosting; publication does not validate phase delivery.
 
 No migration applied to the personal DB. After reviewing the versioned migrations,
