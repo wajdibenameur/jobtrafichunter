@@ -13,7 +13,7 @@ test('private CV original, reviewed candidate versions, activation and deletion'
   page,
 }) => {
   test.skip(process.platform !== 'win32', 'Native AppContainer parsing is verified on Windows CI.');
-  test.setTimeout(60000);
+  test.setTimeout(120000);
   await page.goto('/auth/signin');
   await page.getByLabel('Adresse e-mail', { exact: true }).fill(config.email);
   await page.getByLabel('Mot de passe', { exact: true }).fill(config.password);
@@ -68,6 +68,74 @@ test('private CV original, reviewed candidate versions, activation and deletion'
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
   ).toBeTruthy();
+  // The native reviewed profile is reused for a real, local matching worker cycle.
+  const matchingProfile = await page.evaluate(async () => {
+    const source = '10000000-0000-4000-8000-000000000001';
+    const imported = await fetch('/api/jobs/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source_id: source,
+        confirm: true,
+        jobs: [
+          {
+            original_url: 'https://example.test/matching/synthetic',
+            title: 'Matching synthetic developer',
+            min_years: 0,
+            mandatory_skills: ['Python', 'Rust'],
+            description: 'Requirements\nPython required\nRust required',
+          },
+        ],
+      }),
+    });
+    if (!imported.ok) throw new Error('Synthetic matching import failed');
+    const profile = await fetch('/api/search/profiles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Matching synthetic preview',
+        criteria: {
+          source_ids: [source],
+          include_keywords: ['Matching synthetic'],
+          unknown_policy: 'exclude',
+          experience_levels: [],
+          publication_days: 0,
+        },
+      }),
+    });
+    if (!profile.ok) throw new Error('Synthetic matching profile failed');
+    return (await profile.json()).id as string;
+  });
+  await page.goto('/search');
+  await page.locator('#local-search-profile-choice').selectOption(matchingProfile);
+  await page.getByRole('button', { name: 'Rechercher avec un aperçu CV', exact: true }).click();
+  await expect(page.locator('.execution-panel .badge')).toHaveText('Terminée', { timeout: 20000 });
+  const firstMatchingExecution = new URL(page.url()).searchParams.get('execution');
+  expect(firstMatchingExecution).toBeTruthy();
+  await page
+    .getByRole('button', { name: 'Recalculer ces résultats sans collecte', exact: true })
+    .click();
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('execution'))
+    .not.toBe(firstMatchingExecution);
+  await expect(page.locator('.execution-panel .badge')).toHaveText('Terminée', { timeout: 20000 });
+  const execution = new URL(page.url()).searchParams.get('execution')!;
+  const metadata = await (await page.request.get(`/api/search/executions/${execution}`)).json();
+  expect(metadata.matching.cache_hits).toBe(1);
+  expect(metadata.counts.scanned).toBe(0);
+  await page.goto(`/results?execution=${execution}`);
+  await expect(page.locator('.result-row')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Voir le détail', exact: true }).click();
+  await expect(page.locator('jh-match-detail')).toContainText('Rust');
+  await expect(page.locator('jh-match-detail')).toContainText('non calibré');
+  await expect(page.locator('jh-match-detail')).toContainText('Non attesté');
+  await page.screenshot({ path: path.join(screenshots, 'matching-mobile.png'), fullPage: true });
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+  ).toBeTruthy();
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.screenshot({ path: path.join(screenshots, 'matching-desktop.png'), fullPage: true });
+  await page.goto('/cvs');
   await page.getByRole('button', { name: 'Supprimer ce document', exact: true }).click();
   await page.getByTestId('cv-confirm-delete').click();
   await expect(page.getByText('Aucun CV enregistré.', { exact: false })).toBeVisible();

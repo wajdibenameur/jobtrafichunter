@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db import Runtime
 from app.core.errors import AppError
 from app.modules.listings import ListingCatalog, ListingGroupView, ListingScan
+from app.modules.matching import MatchingService, MatchJobInput
 from app.modules.search.collection import CollectionStopped, Collector
 from app.modules.search.execution_schemas import ResultView
 from app.modules.search.filters import filter_fact
@@ -89,6 +90,9 @@ class SearchQueue:
                     else "ATTEMPTS_EXHAUSTED"
                 )
                 execution.finished_at = now
+                await MatchingService(session, self.runtime.settings).finish(
+                    execution.user_id, execution.id, execution.status
+                )
                 task.status = execution.status
                 task.lease_token = None
                 return None
@@ -141,7 +145,7 @@ class SearchQueue:
         async with self.runtime.sessions() as session, session.begin():
             task, execution = await self._fence(session, lease)
             task.snapshot = scan.model_dump(mode="json")
-            task.stage = "FILTER"
+            task.stage = "FILTER_MATCH" if task.stage == "SCAN_MATCH" else "FILTER"
             execution.counts = {
                 **execution.counts,
                 "scanned": scan.scanned,
@@ -180,6 +184,9 @@ class SearchQueue:
             task, execution = await self._fence(session, lease)
             if execution.cancel_requested:
                 self._finish(task, execution, "CANCELLED", "CANCELLED")
+                await MatchingService(session, self.runtime.settings).finish(
+                    lease.user_id, execution.id, "CANCELLED"
+                )
                 return False
             retained = 0
             for position, group in enumerate(groups, start=start):
@@ -219,6 +226,11 @@ class SearchQueue:
                 collection_reason = (
                     execution.reason if execution.scope == "COLLECTED_OFFERS" else None
                 )
+                if task.stage == "FILTER_MATCH":
+                    task.stage = "MATCH"
+                    task.snapshot = None
+                    execution.reason = "LOCAL_SCAN_LIMIT" if truncated else collection_reason
+                    return True
                 self._finish(
                     task,
                     execution,
@@ -253,6 +265,65 @@ class SearchQueue:
                     task, execution, "TIMED_OUT" if code == "TASK_DEADLINE" else "FAILED", code
                 )
 
+            if execution.status not in {"RUNNING", "PENDING"}:
+                await MatchingService(session, self.runtime.settings).finish(
+                    lease.user_id, execution.id, execution.status
+                )
+
+    async def _matching_stage(self, lease: TaskLease) -> bool:
+        async with self.runtime.sessions() as session:
+            task = await session.get(SearchTask, lease.task_id)
+            return task is not None and task.stage == "MATCH"
+
+    async def _process_matching(self, lease: TaskLease) -> None:
+        async with self.runtime.sessions() as session:
+            run, snapshot = await MatchingService(session, self.runtime.settings).snapshot(
+                lease.user_id, lease.execution_id
+            )
+            rows = (
+                await session.scalars(
+                    select(SearchResult)
+                    .where(SearchResult.execution_id == lease.execution_id)
+                    .order_by(SearchResult.position, SearchResult.group_id)
+                )
+            ).all()
+            jobs = [
+                MatchJobInput.model_validate(
+                    {
+                        **ResultView.model_validate(row.payload).listing.model_dump(),
+                        "group_id": row.group_id,
+                    }
+                )
+                for row in rows
+            ]
+        cursor = run.cursor
+        while True:
+            batch = jobs[cursor : cursor + 20]
+            computed = await asyncio.to_thread(MatchingService.compute, snapshot, batch)
+            async with self.runtime.sessions() as session, session.begin():
+                task, execution = await self._fence(session, lease)
+                service = MatchingService(session, self.runtime.settings)
+                if execution.cancel_requested:
+                    self._finish(task, execution, "CANCELLED", "CANCELLED")
+                    await service.finish(lease.user_id, execution.id, "CANCELLED")
+                    return
+                progress = await service.score_batch(
+                    lease.user_id, execution.id, snapshot, computed, cursor, len(jobs)
+                )
+                cursor = progress.cursor
+                task.heartbeat_at = utcnow()
+                execution.counts = {
+                    **execution.counts,
+                    "matched": cursor,
+                    "matching_total": len(jobs),
+                    "matching_cache_hits": progress.cache_hits,
+                }
+                if cursor >= len(jobs):
+                    status = "PARTIAL" if execution.reason else "SUCCEEDED"
+                    self._finish(task, execution, status, execution.reason)
+                    await service.finish(lease.user_id, execution.id, status)
+                    return
+
     async def _process(
         self,
         lease: TaskLease,
@@ -260,6 +331,9 @@ class SearchQueue:
         snapshot: dict[str, object] | None,
         cursor: int,
     ) -> None:
+        if await self._matching_stage(lease):
+            await self._process_matching(lease)
+            return
         await Collector(self.runtime, self.collection, self._fence).run(lease, criteria)
         if not await self._batch(lease, [], cursor, criteria, False, False):
             return
@@ -281,7 +355,9 @@ class SearchQueue:
                 scan.truncated,
                 start + 20 >= len(groups),
             ):
-                break
+                return
+        if await self._matching_stage(lease):
+            await self._process_matching(lease)
 
     async def run_once(self) -> bool:
         # Explicit DB check remains part of --once, even if there is no work.

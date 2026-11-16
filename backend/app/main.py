@@ -29,6 +29,7 @@ from app.modules.auth import OwnerView, require_owner
 from app.modules.auth import router as auth_router
 from app.modules.cv import router as cv_router
 from app.modules.listings import router as listings_router
+from app.modules.matching import router as matching_router
 from app.modules.profile import router as profile_router
 from app.modules.search import router as search_router
 from app.modules.sources import SourceService
@@ -182,6 +183,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def account(owner: Annotated[OwnerView, Depends(require_owner)]) -> OwnerView:
         return owner
 
+    app.include_router(matching_router, prefix="/api", dependencies=[Depends(require_owner)])
     app.include_router(auth_router, prefix="/api")
     app.include_router(source_router, prefix="/api", dependencies=[Depends(require_owner)])
     app.include_router(cv_router, prefix="/api", dependencies=[Depends(require_owner)])

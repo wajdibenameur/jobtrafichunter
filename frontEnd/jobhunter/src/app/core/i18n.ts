@@ -4,7 +4,10 @@ import { sourcesFr, sourcesEn } from './sources-translations';
 import { searchFr, searchEn } from './search-translations';
 import { scrapingFr, scrapingEn } from './scraping-translations';
 
+import { matchingFr, matchingEn } from './matching-translations';
+
 const fr = {
+  ...matchingFr,
   ...searchFr,
   ...scrapingFr,
   ...sourcesFr,
@@ -90,6 +93,7 @@ const fr = {
 } as const;
 export type TranslationKey = keyof typeof fr;
 const en: Record<TranslationKey, string> = {
+  ...matchingEn,
   ...searchEn,
   ...scrapingEn,
   ...sourcesEn,

@@ -16,6 +16,7 @@ from app.modules.listings import (
     ImportJob,
     ingest_collection_page,
 )
+from app.modules.matching import MatchingService
 from app.modules.search.models import (
     CollectionCheckpoint,
     CollectionPlan,
@@ -50,7 +51,7 @@ class Collector:
     async def run(self, lease: "TaskLease", criteria: SearchCriteria) -> None:
         async with self.runtime.sessions() as session:
             task = await session.get(SearchTask, lease.task_id)
-            if task is None or task.stage != "COLLECT":
+            if task is None or task.stage not in {"COLLECT", "COLLECT_MATCH"}:
                 return
             identifiers = list(
                 (
@@ -236,9 +237,12 @@ class Collector:
                 task.lease_token = None
                 task.locked_by = None
                 execution.finished_at = utcnow()
+                await MatchingService(session, self.runtime.settings).finish(
+                    execution.user_id, execution.id, execution.status
+                )
                 raise_after = True
             else:
-                task.stage = "SCAN"
+                task.stage = "SCAN_MATCH" if task.stage == "COLLECT_MATCH" else "SCAN"
                 raise_after = False
         if raise_after:
             raise CollectionStopped

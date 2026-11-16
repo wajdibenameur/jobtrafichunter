@@ -11,7 +11,12 @@ from app.modules.ai import TaxonomyService
 from app.modules.cv import CvService, PrivateCvData
 from app.modules.profile.extraction import propose_profile
 from app.modules.profile.models import ActiveCandidateProfile, CandidateProfileVersion
-from app.modules.profile.schemas import CandidateInput, CandidateView, ProfilePayload
+from app.modules.profile.schemas import (
+    CandidateInput,
+    CandidateView,
+    MatchingCandidate,
+    ProfilePayload,
+)
 from app.shared.clock import utcnow
 
 
@@ -95,6 +100,29 @@ class ProfileService:
         if row.status != "VALIDATED":
             raise AppError("CANDIDATE_NOT_VALIDATED", "Candidate profile requires review", 409)
         return await self._view(row)
+
+    async def for_matching(
+        self, user: UUID, expected_revision: UUID | None = None
+    ) -> MatchingCandidate:
+        # Caller owns the transaction. Serialize with activation and CV deletion.
+        await self.cv.lock_owner(user)
+        candidate = await self.validated_active(user)
+        if expected_revision is not None and candidate.id != expected_revision:
+            raise AppError("PROFILE_CHANGED", "Active candidate profile changed", 409)
+        await self.cv.get_version(user, candidate.cv_version_id)
+        return MatchingCandidate(
+            id=candidate.id,
+            cv_version_id=candidate.cv_version_id,
+            revision=candidate.revision,
+            fields=candidate.data.fields.model_copy(
+                update={
+                    "summary": None,
+                    "experiences": [],
+                    "certifications": [],
+                }
+            ),
+            preferences=candidate.data.preferences,
+        )
 
     async def _new(
         self, user: UUID, cv_version: UUID, data: ProfilePayload, parent: UUID | None

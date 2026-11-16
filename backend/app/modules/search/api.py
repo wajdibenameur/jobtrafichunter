@@ -81,7 +81,9 @@ async def duplicate(
 async def start_execution(
     body: ExecutionInput, request: Request, owner: Owner, session: Session
 ) -> ExecutionView:
-    return await ExecutionService(session, CollectionService(get_runtime(request))).request(
+    return await ExecutionService(
+        session, CollectionService(get_runtime(request)), settings=get_runtime(request).settings
+    ).request(
         owner.user_id, body.profile_id, cast(SourceLookup, request.app.state.source_lookup), body
     )
 

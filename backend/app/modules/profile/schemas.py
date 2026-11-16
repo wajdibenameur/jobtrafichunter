@@ -97,6 +97,15 @@ class GenerateInput(BaseModel):
     regenerate: bool = False
 
 
+class MatchingCandidate(BaseModel):
+    model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
+    id: UUID
+    cv_version_id: UUID
+    revision: int
+    fields: CandidateFields = Field(repr=False)
+    preferences: CandidatePreferences = Field(repr=False)
+
+
 class ValidateInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     reviewed: Literal[True]

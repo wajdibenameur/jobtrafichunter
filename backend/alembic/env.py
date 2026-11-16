@@ -8,10 +8,12 @@ from app.core.settings import Settings
 from app.modules.auth import AuthService  # public import registers the auth-owned tables
 from app.modules.cv import CvService
 from app.modules.listings import ListingService
+from app.modules.matching import MatchingService
 from app.modules.profile import ProfileService
 from app.modules.search import SearchService
 from app.modules.sources import SourceService
 
+assert MatchingService is not None
 assert AuthService is not None
 assert CvService is not None
 assert ProfileService is not None

@@ -13,9 +13,10 @@ import {
   activeExecution,
   executionStatusKey,
 } from '../../core/search-api';
+import { MatchingControls } from '../../shared/matching-controls';
 @Component({
   selector: 'jh-search',
-  imports: [DatePipe, ReactiveFormsModule, RouterLink],
+  imports: [DatePipe, ReactiveFormsModule, RouterLink, MatchingControls],
   templateUrl: './search.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -134,6 +135,10 @@ export class Search {
         },
         error: () => this.error.set('searchError'),
       });
+  }
+  protected previewStarted(execution: Execution): void {
+    this.current.set(execution);
+    void this.router.navigate(['/search'], { queryParams: { execution: execution.id } });
   }
   protected start(): void {
     if (!this.selection.value || this.busy()) return;

@@ -7,6 +7,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import AppError
+from app.core.settings import Settings
+from app.modules.matching import MatchingService, matching_metadata
 from app.modules.search.execution_schemas import (
     ExecutionInput,
     ExecutionView,
@@ -32,9 +34,16 @@ ACTIVE = {"PENDING", "RUNNING"}
 
 
 class ExecutionService:
-    def __init__(self, session: AsyncSession, collection: CollectionService | None = None) -> None:
+    def __init__(
+        self,
+        session: AsyncSession,
+        collection: CollectionService | None = None,
+        *,
+        settings: Settings | None = None,
+    ) -> None:
         self.session = session
         self.collection = collection
+        self.settings = settings
 
     async def _row(
         self, user_id: UUID, execution_id: UUID, *, lock: bool = False
@@ -105,6 +114,7 @@ class ExecutionService:
             attempt=task.attempt,
             heartbeat_at=task.heartbeat_at,
             sources=source_views,
+            matching=await matching_metadata(self.session, row.user_id, row.id),
         )
 
     async def request(
@@ -119,6 +129,17 @@ class ExecutionService:
             async with self.session.begin():
                 profile = await SearchService(self.session).get(user_id, profile_id)
                 criteria = profile.criteria
+                original = None
+                if options.scope == "MATCHING_ONLY":
+                    assert options.source_execution_id is not None
+                    original = await self._row(user_id, options.source_execution_id)
+                    if original.profile_id != profile_id or original.status in ACTIVE:
+                        raise AppError(
+                            "MATCHING_SOURCE_INVALID",
+                            "Choose a finished execution of this profile",
+                            409,
+                        )
+                    criteria = SearchCriteria.model_validate(original.criteria)
                 if (
                     criteria.mode != "MANUAL"
                     or criteria.linked_cv_id
@@ -134,7 +155,11 @@ class ExecutionService:
                     raise AppError(
                         "SOURCES_REQUIRED", "Choose at least one imported-offer source", 422
                     )
-                sources = [await lookup(user_id, identifier) for identifier in criteria.source_ids]
+                sources = (
+                    []
+                    if original
+                    else [await lookup(user_id, identifier) for identifier in criteria.source_ids]
+                )
                 collection_sources: dict[str, object] = {}
                 if options.scope == "COLLECTED_OFFERS":
                     if self.collection is None:
@@ -166,11 +191,42 @@ class ExecutionService:
                 )
                 self.session.add(row)
                 await self.session.flush()
-                self.session.add(
-                    SearchTask(
-                        execution_id=row.id, stage="COLLECT" if collection_sources else "SCAN"
+                if options.matching_preview:
+                    if self.settings is None:
+                        raise AppError("MATCHING_UNAVAILABLE", "Matching is not configured", 409)
+                    await MatchingService(self.session, self.settings).prepare(
+                        user_id,
+                        row.id,
+                        policy_id=options.policy_id,
+                        source_execution_id=options.source_execution_id,
+                        expected_candidate_id=options.expected_candidate_id,
                     )
-                )
+                stage = "COLLECT" if collection_sources else "SCAN"
+                if original:
+                    previous = (
+                        await self.session.scalars(
+                            select(SearchResult).where(SearchResult.execution_id == original.id)
+                        )
+                    ).all()
+                    for result in previous:
+                        self.session.add(
+                            SearchResult(
+                                execution_id=row.id,
+                                group_id=result.group_id,
+                                position=result.position,
+                                payload=result.payload,
+                            )
+                        )
+                    row.counts = {
+                        "results": len(previous),
+                        "processed": 0,
+                        "scanned": 0,
+                        "duplicates": 0,
+                    }
+                    stage = "MATCH"
+                elif options.matching_preview:
+                    stage += "_MATCH"
+                self.session.add(SearchTask(execution_id=row.id, stage=stage))
                 if collection_sources:
                     self.session.add(
                         CollectionPlan(

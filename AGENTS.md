@@ -49,12 +49,12 @@ From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.te
 ## Current kickoff deliverables
 See `docs/reports/phase-1.md` for delivered local scope, checks and known limits.
 Phases 1 and 2 manual scope validated (D-013/D-017); see docs/reports/phase-2.md.
-Phase 3 validated (D-024); phase 4 delivered (D-026), wait for validation before phase 5.
+Phase 3 validated D-024; CV/collection prerequisites accepted for matching 5A D-038.
 Apify deferred until CV/matching (D-023); no paid run without separate C approval.
 Docker is not required; consult GitHub for CI results. Keep unverified connectors inactive.
 AI Job Agent audit: docs/reports/ai-job-agent-audit.md; plan: docs/PLAN-AI-JOB-AGENT.md.
 AI Job Agent shared filters validated D-032; its other lots remain PROPOSED.
-Do not exceed approved lot scope or infer phase 4 delivery approval.
+Matching 5A preview is experimental/LOW/UNVALIDATED; no thresholds, alerts or CV/HYBRID.
 Scraping: docs/PLAN-SCRAPING-ENGINE.md and docs/reports/scraping-engine-audit.md.
-D-036: docs/PLAN-MATCHING-PHASE-5.md proposed; validate CV/lot 5 and plan before code.
+D-038 approves plan 5A; report delivery then stop before owner validation/calibration 5B.
 CI verified on Linux and native Windows D-035; see docs/reports/ci-validation.md.

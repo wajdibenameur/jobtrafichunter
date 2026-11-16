@@ -46,6 +46,16 @@
       </button>
     </form>
   </section>
+  @if (currentExecution()?.matching) {
+    <p class="warning-note">{{ i18n.t('matchingNotice') }}</p>
+    <p>
+      {{ i18n.t('matchingRevision') }} : {{ currentExecution()?.matching?.candidate_revision }} ·
+      {{ i18n.t('matchingPolicy') }} : {{ currentExecution()?.matching?.policy_version }}
+    </p>
+  }
+  @if (matchingError()) {
+    <p role="alert">{{ i18n.t('matchingError') }}</p>
+  }
   @if (error()) {
     <p class="alert alert-danger" role="alert">
       {{ i18n.t('searchLoadError')
@@ -73,6 +83,9 @@
           <h2>{{ item.listing.title || i18n.t('unknownValue') }}</h2>
           <button class="btn" (click)="show(item)">{{ i18n.t('detailsJob') }}</button>
         </div>
+        @if (matches()[item.group.id]; as match) {
+          <p class="badge">{{ i18n.t('matchingPreview') }} : {{ match.score }}/100</p>
+        }
         <p>
           {{ item.listing.company || i18n.t('unknownValue') }} ·
           {{ item.listing.city || i18n.t('unknownValue') }} ·
@@ -134,6 +147,9 @@
         </button>
       </div>
       <p class="muted">{{ i18n.t('snapshotNotice') }}</p>
+      @if (matches()[item.group.id]; as match) {
+        <jh-match-detail [preview]="match" />
+      }
       <p>
         {{ item.listing.company || i18n.t('unknownValue') }} ·
         {{ item.listing.city || i18n.t('unknownValue') }} ·

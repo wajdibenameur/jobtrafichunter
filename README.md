@@ -5,9 +5,9 @@ Backend FastAPI modulaire, PostgreSQL et frontend Angular standalone.
 
 Dépôt public : [wajdibenameur/jobtrafichunter](https://github.com/wajdibenameur/jobtrafichunter).
 
-État : recherche locale opérationnelle ; gestion des CV/profils et infrastructure
-de collecte livrées, validations fonctionnelles en attente. Matching, alertes,
-CV adaptés et lettres restent à développer.
+État : recherche locale, gestion des CV/profils et infrastructure de collecte livrées.
+Le matching local propose un aperçu expérimental expliqué, à valider avant calibration.
+Les alertes, CV adaptés et lettres restent à développer.
 
 Python **3.11**, PostgreSQL local et Angular standalone ; sans Docker ni hébergement.
 Connexion, compte, Sources, Profils, Recherche, Résultats, Mes CV et préparation
@@ -19,13 +19,13 @@ reprise, annulation et conservation des snapshots.
 La page Scraping enregistre les profils et critères, avec filtres temporels
 2 h/6 h/24 h/7 j/30 j et historique. Les actions de collecte dépendent des capacités
 serveur : aucun adaptateur fournisseur automatique n’est enregistré ou activé.
-La collecte est vérifiée sur connecteurs simulés ; fréquence et matching indisponibles.
+La collecte est vérifiée sur connecteurs simulés ; fréquence et alertes indisponibles.
 
 Les spécifications, plans, décisions et rapports sont conservés **uniquement en local**
 dans `docs/`, exclu de Git. Le dossier n’est pas fourni lors d’un clone GitHub.
 Les fichiers C# du parseur sécurisé restent dans le dépôt et servent à son installation.
 
-Les migrations 0007–0011 sont versionnées. Après revue des migrations, appliquer
+Les migrations 0007–0013 sont versionnées. Après revue des migrations, appliquer
 `alembic upgrade head` avant de redémarrer API et worker. La publication GitHub
 n’applique aucune migration à la base personnelle.
 
@@ -181,8 +181,35 @@ Le worker reprend les intentions de stockage interrompues après cinq minutes.
 Un original non publié est signalé comme échec si le fichier manque, jamais
 comme succès. La suppression confirmée retire toutes les versions du document,
 leurs profils et fichiers ; l’audit ne garde que les identifiants/actions.
-Matching, scores et recherche CV restent pour la phase 5. Apify reste reporté.
+Un aperçu local du matching est disponible, selon le parcours ci-dessous. Apify reste reporté.
 Les rapports de suivi sont privés et conservés uniquement dans le dossier local `docs/`.
+
+## Aperçu de correspondance CV
+
+Après validation et activation du profil candidat dans **Mes CV**, ouvrir
+**Recherche**, sélectionner le profil de recherche et choisir **Rechercher avec
+un aperçu CV**. Le worker existant filtre les offres enregistrées puis calcule les
+scores par lots. Dans **Résultats**, ouvrir le détail pour consulter les sous-scores,
+les exigences non attestées et les éléments textuels de l'offre.
+
+Les scores sont **expérimentaux, non calibrés, de confiance faible**. Les critères
+inconnus rapportent zéro point, sans redistribution des poids. Une exigence
+obligatoire non attestée ou un écart de séniorité de plus d'un an plafonne le score
+à 60 au maximum. La couverture des informations est affichée séparément ; une
+préférence géographique n'atteste aucun droit au travail. L'analyse locale peut
+laisser les descriptions ambiguës et le sponsoring inconnus.
+
+Les huit poids et le plafond peuvent être enregistrés dans un nouveau barème
+immuable. Chaque exécution conserve son candidat, sa taxonomie et son barème.
+Le bouton **Recalculer ces résultats sans collecte** crée une nouvelle exécution
+depuis les snapshots précédents ; il ne contacte aucune source. Le cache est privé
+et les explications sont chiffrées, séparées des événements de progression.
+Supprimer un CV supprime ses scores dérivés ; changer le candidat actif arrête les
+nouveaux lots avec `PROFILE_CHANGED` et conserve les lots déjà enregistrés.
+
+Aucun appel LLM externe n'est effectué. Les modes CV/HYBRID complets, seuils de
+score, classement recommandé et notifications attendent une calibration sur les
+annotations réelles du propriétaire. Aucune qualité calibrée n'est revendiquée.
 
 ## Vérifications
 
@@ -227,7 +254,7 @@ dans `__init__.py`. Les tests AST contrôlent frontières et dépendances autori
 Les migrations sont transactionnelles et protégées contre les courses par un
 verrou PostgreSQL ; une migration appliquée ne doit plus être modifiée.
 
-Aucun connecteur automatisé fournisseur, matching ou Telegram livré.
+Aucun connecteur automatisé fournisseur ni Telegram livré. Le matching reste un aperçu local.
 Parsing CV local Windows et profil candidat validé : voir la section CV ci-dessus.
 Le dashboard affiche les vrais imports et la dernière exécution locale. La queue
 traite les imports avec heartbeat, reprise, annulation et snapshots de résultats.

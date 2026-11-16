@@ -20,9 +20,11 @@ import {
   executionStatusKey,
   visaStatusKey,
 } from '../../core/search-api';
+import { MatchingApi, MatchPreview } from '../../core/matching-api';
+import { MatchDetail } from '../../shared/match-detail';
 @Component({
   selector: 'jh-results',
-  imports: [DatePipe, ReactiveFormsModule, RouterLink],
+  imports: [DatePipe, ReactiveFormsModule, RouterLink, MatchDetail],
   templateUrl: './results.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,6 +35,10 @@ export class Results {
   }
   protected readonly i18n = inject(I18n);
   private readonly api = inject(SearchApi);
+  private readonly matchingApi = inject(MatchingApi);
+  protected readonly matches = signal<Record<string, MatchPreview>>({});
+  protected readonly matchingError = signal(false);
+  private matchingRequest: Subscription | null = null;
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
@@ -57,6 +63,7 @@ export class Results {
       .subscribe({
         next: (rows) => {
           this.executions.set(rows);
+          this.loadMatches(this.currentId(), this.items());
           if (!this.currentId() && rows.length)
             void this.router.navigate(['/results'], {
               queryParams: { execution: rows[0].id },
@@ -73,7 +80,10 @@ export class Results {
       this.total.set(0);
       if (id) this.load(0);
     });
-    this.destroyRef.onDestroy(() => this.request?.unsubscribe());
+    this.destroyRef.onDestroy(() => {
+      this.request?.unsubscribe();
+      this.matchingRequest?.unsubscribe();
+    });
   }
   protected choose(): void {
     void this.router.navigate(['/results'], { queryParams: { execution: this.selection.value } });
@@ -81,6 +91,9 @@ export class Results {
   protected load(offset = 0): void {
     if (!this.currentId()) return;
     this.request?.unsubscribe();
+    this.matchingRequest?.unsubscribe();
+    this.matches.set({});
+    this.matchingError.set(false);
     this.loading.set(true);
     this.error.set(false);
     this.request = this.api
@@ -94,8 +107,27 @@ export class Results {
           this.offset.set(offset);
           this.items.set(page.items);
           this.total.set(page.total);
+          this.loadMatches(this.currentId(), page.items);
         },
         error: () => this.error.set(true),
+      });
+  }
+  private loadMatches(id: string, items: SearchResult[]): void {
+    this.matchingRequest?.unsubscribe();
+    this.matches.set({});
+    if (!items.length || !this.currentExecution()?.matching) return;
+    this.matchingRequest = this.matchingApi
+      .page(
+        id,
+        items.map((item) => item.group.id),
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (page) =>
+          this.matches.set(
+            Object.fromEntries(page.items.map((item) => [item.group_id, item.preview])),
+          ),
+        error: () => this.matchingError.set(true),
       });
   }
   protected show(item: SearchResult): void {

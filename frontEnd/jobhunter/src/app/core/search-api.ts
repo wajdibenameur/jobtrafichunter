@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { MatchingRun } from './matching-api';
 import { ManualJob } from './source-api';
 import { TranslationKey } from './i18n';
 
@@ -65,7 +66,8 @@ export interface Execution {
   id: string;
   profile_id: string;
   profile_name: string;
-  scope: 'IMPORTED_OFFERS' | 'COLLECTED_OFFERS';
+  scope: 'IMPORTED_OFFERS' | 'COLLECTED_OFFERS' | 'MATCHING_ONLY';
+  matching?: MatchingRun | null;
   status: string;
   criteria: SearchCriteria;
   cancel_requested: boolean;
