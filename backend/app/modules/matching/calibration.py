@@ -119,13 +119,20 @@ class CalibrationCorpus(BaseModel):
         ids: set[str] = set()
         pairs: set[tuple[str, str]] = set()
         groups: dict[str, str] = {}
+        candidates: dict[str, str] = {}
+        for frozen in self.snapshots.values():
+            candidate_id = str(frozen.candidate.id)
+            facts = content_hash(frozen.candidate)
+            if candidate_id in candidates and candidates[candidate_id] != facts:
+                raise ValueError("Conflicting candidate snapshots")
+            candidates[candidate_id] = facts
         for case in self.cases:
             snapshot = self.snapshots.get(case.candidate_key)
             if snapshot is None or case.case_id in ids:
                 raise ValueError("Missing reference or duplicate case")
-            cohort = content_hash(snapshot)
             group = str(case.job.group_id)
-            pair = cohort, group
+            # A label judges the candidate/job pair, independently of scoring policy.
+            pair = str(snapshot.candidate.id), group
             if pair in pairs:
                 raise ValueError("Duplicate labelled pair")
             job_data = case.job.model_dump(mode="json", exclude={"id", "group_id"})

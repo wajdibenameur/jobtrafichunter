@@ -167,6 +167,7 @@ def test_cohorts_are_separate_and_report_order_is_reproducible() -> None:
     corpus = synthetic_corpus()
     other = corpus.snapshots["synthetic_profile"].model_copy(deep=True)
     other.candidate.revision = 2
+    other.candidate.id = UUID(int=3)
     corpus.snapshots["another_profile"] = other
     corpus.cases[0].candidate_key = "another_profile"
     first = evaluate(corpus)
@@ -200,6 +201,7 @@ def test_corpus_consistency_and_privacy_bounds(violation: str) -> None:
     elif violation == "conflicting_job":
         other = json.loads(json.dumps(data["snapshots"]["synthetic_profile"]))
         other["candidate"]["revision"] = 2
+        other["candidate"]["id"] = str(UUID(int=3))
         data["snapshots"]["other"] = other
         data["cases"][1]["candidate_key"] = "other"
         data["cases"][1]["job"]["group_id"] = data["cases"][0]["job"]["group_id"]
@@ -349,3 +351,19 @@ def test_json_loader_rejects_coercions_but_accepts_uuid_strings(tmp_path: Path) 
     path.write_text(json.dumps(raw), encoding="utf-8")
     with pytest.raises(CalibrationError):
         load_model(path, CalibrationCorpus)
+
+
+@pytest.mark.parametrize("violation", ["duplicate_across_policies", "conflicting_candidate"])
+def test_candidate_identity_and_labels_do_not_depend_on_policy(violation: str) -> None:
+    raw = synthetic_corpus().model_dump(mode="json")
+    other = json.loads(json.dumps(raw["snapshots"]["synthetic_profile"]))
+    other["policy"]["mandatory_cap"] = 50
+    raw["snapshots"]["other"] = other
+    if violation == "duplicate_across_policies":
+        raw["cases"][1]["candidate_key"] = "other"
+        raw["cases"][1]["job"] = raw["cases"][0]["job"]
+        raw["cases"][1]["label"] = "STRONG"
+    else:
+        other["candidate"]["fields"]["professional_title"] = "Changed immutable candidate"
+    with pytest.raises(ValidationError):
+        CalibrationCorpus.model_validate(raw)
