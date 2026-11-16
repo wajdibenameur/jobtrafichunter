@@ -211,6 +211,23 @@ Aucun appel LLM externe n'est effectué. Les modes CV/HYBRID complets, seuils de
 score, classement recommandé et notifications attendent une calibration sur les
 annotations réelles du propriétaire. Aucune qualité calibrée n'est revendiquée.
 
+## Outils de calibration hors ligne
+
+Le [format et les commandes de calibration](calibration/README.md) permettent de
+vérifier un corpus annoté fourni explicitement, calculer les métriques et comparer
+deux barèmes avec le moteur existant, sans connexion réseau/base ni modification
+des scores de l'application. Depuis `backend` :
+
+```cmd
+.venv\Scripts\python.exe -m app.modules.matching.calibration_cli --input ..\calibration\private\corpus.json --validate-only
+.venv\Scripts\python.exe -m app.modules.matching.calibration_cli --input ..\calibration\private\corpus.json --check-targets
+```
+
+Le modèle public est vide ; aucun corpus réel ni label propriétaire n'est livré.
+Conserver les données anonymisées et rapports locaux dans `calibration/private/`,
+ignoré par Git. Une CI verte vérifie les outils sur des fixtures synthétiques ;
+elle ne valide aucune qualité de matching réelle. Le statut reste `UNVALIDATED`.
+
 ## Vérifications
 
 Depuis `backend` :

@@ -23,6 +23,8 @@
 local-data/
 # Owner's private specifications, plans and progress: keep on this computer only.
 /docs/
+# Private calibration corpus and reports: never publish owner annotations.
+/calibration/private/
 # Preserve reference template as a local, independent repository.
 frontEnd/velson_template/
 

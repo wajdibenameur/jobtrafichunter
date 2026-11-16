@@ -56,5 +56,5 @@ AI Job Agent audit: docs/reports/ai-job-agent-audit.md; plan: docs/PLAN-AI-JOB-A
 AI Job Agent shared filters validated D-032; its other lots remain PROPOSED.
 Matching 5A preview is experimental/LOW/UNVALIDATED; no thresholds, alerts or CV/HYBRID.
 Scraping: docs/PLAN-SCRAPING-ENGINE.md and docs/reports/scraping-engine-audit.md.
-D-039 accepts 5A delivery; docs/PLAN-MATCHING-PHASE-5B.md proposes 5B1, wait before code.
+D-040 approves offline calibration 5B1; report then stop before 5B2/real calibration.
 CI verified on Linux and native Windows D-035; see docs/reports/ci-validation.md.

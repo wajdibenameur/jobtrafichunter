@@ -1,0 +1,612 @@
+{
+  "$defs": {
+    "CalibrationCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "cv_version_id": {
+          "format": "uuid",
+          "title": "Cv Version Id",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "integer"
+        },
+        "fields": {
+          "$ref": "#/$defs/CandidateFields"
+        },
+        "preferences": {
+          "$ref": "#/$defs/CandidatePreferences"
+        }
+      },
+      "required": [
+        "id",
+        "cv_version_id",
+        "revision",
+        "fields",
+        "preferences"
+      ],
+      "title": "CalibrationCandidate",
+      "type": "object"
+    },
+    "CalibrationCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "candidate_key": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "title": "Candidate Key",
+          "type": "string"
+        },
+        "job": {
+          "$ref": "#/$defs/CalibrationJob"
+        },
+        "label": {
+          "enum": [
+            "NO",
+            "WEAK",
+            "GOOD",
+            "STRONG"
+          ],
+          "title": "Label",
+          "type": "string"
+        },
+        "domain": {
+          "enum": [
+            "JAVA_SPRING_ANGULAR",
+            "DEVOPS",
+            "DATA_ENGINEERING",
+            "AI",
+            "BUSINESS_ANALYSIS",
+            "OTHER"
+          ],
+          "title": "Domain",
+          "type": "string"
+        },
+        "mandatory_gap_notes": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Mandatory Gap Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "candidate_key",
+        "job",
+        "label",
+        "domain"
+      ],
+      "title": "CalibrationCase",
+      "type": "object"
+    },
+    "CalibrationJob": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "maxLength": 300,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "company": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Company"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "maxLength": 50000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "mandatory_skills": {
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Mandatory Skills",
+          "type": "array"
+        },
+        "optional_skills": {
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Optional Skills",
+          "type": "array"
+        },
+        "min_years": {
+          "anyOf": [
+            {
+              "maximum": 60,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Years"
+        },
+        "max_years": {
+          "anyOf": [
+            {
+              "maximum": 60,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Years"
+        },
+        "experience_level": {
+          "anyOf": [
+            {
+              "maxLength": 50,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experience Level"
+        },
+        "domain": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Domain"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Country"
+        },
+        "city": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "City"
+        },
+        "work_mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "remote",
+                "hybrid",
+                "onsite"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Work Mode"
+        },
+        "visa_status": {
+          "default": "NOT_SPECIFIED",
+          "enum": [
+            "CONFIRMED",
+            "POSSIBLE",
+            "RELOCATION",
+            "NOT_SPECIFIED",
+            "NONE"
+          ],
+          "title": "Visa Status",
+          "type": "string"
+        },
+        "visa_evidence": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Visa Evidence"
+        },
+        "original_url": {
+          "default": "",
+          "maxLength": 4096,
+          "title": "Original Url",
+          "type": "string"
+        },
+        "application_url": {
+          "default": "",
+          "maxLength": 4096,
+          "title": "Application Url",
+          "type": "string"
+        },
+        "group_id": {
+          "format": "uuid",
+          "title": "Group Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "group_id"
+      ],
+      "title": "CalibrationJob",
+      "type": "object"
+    },
+    "CalibrationSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate": {
+          "$ref": "#/$defs/CalibrationCandidate"
+        },
+        "taxonomy": {
+          "items": {
+            "$ref": "#/$defs/SkillDefinition"
+          },
+          "maxItems": 1200,
+          "title": "Taxonomy",
+          "type": "array"
+        },
+        "policy": {
+          "$ref": "#/$defs/ScoringPolicy"
+        },
+        "candidate_reviewed": {
+          "const": true,
+          "title": "Candidate Reviewed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "candidate",
+        "taxonomy",
+        "policy",
+        "candidate_reviewed"
+      ],
+      "title": "CalibrationSnapshot",
+      "type": "object"
+    },
+    "CandidateFields": {
+      "additionalProperties": false,
+      "properties": {
+        "professional_title": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Professional Title"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "maxLength": 3000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        },
+        "education": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Education",
+          "type": "array"
+        },
+        "experiences": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Experiences",
+          "type": "array"
+        },
+        "languages": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Languages",
+          "type": "array"
+        },
+        "certifications": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Certifications",
+          "type": "array"
+        },
+        "skills": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Skills",
+          "type": "object"
+        },
+        "years_experience": {
+          "anyOf": [
+            {
+              "maximum": 60,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Years Experience"
+        }
+      },
+      "title": "CandidateFields",
+      "type": "object"
+    },
+    "CandidatePreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "locations": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Locations",
+          "type": "array"
+        },
+        "domains": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Domains",
+          "type": "array"
+        },
+        "target_levels": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Target Levels",
+          "type": "array"
+        },
+        "visa_needed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Visa Needed"
+        }
+      },
+      "title": "CandidatePreferences",
+      "type": "object"
+    },
+    "ScoringPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "weights": {
+          "additionalProperties": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Weights",
+          "type": "object"
+        },
+        "mandatory_cap": {
+          "default": 60,
+          "maximum": 60,
+          "minimum": 0,
+          "title": "Mandatory Cap",
+          "type": "integer"
+        }
+      },
+      "title": "ScoringPolicy",
+      "type": "object"
+    },
+    "SkillDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Canonical",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "languages",
+            "frameworks",
+            "backend",
+            "frontend",
+            "databases",
+            "devops",
+            "cloud",
+            "ai_ml",
+            "data_engineering",
+            "business_analysis",
+            "other"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "aliases": {
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Aliases",
+          "type": "array"
+        },
+        "revision": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "canonical",
+        "category"
+      ],
+      "title": "SkillDefinition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "purpose": {
+      "enum": [
+        "SYNTHETIC",
+        "TUNING",
+        "VALIDATION"
+      ],
+      "title": "Purpose",
+      "type": "string"
+    },
+    "owner_reviewed": {
+      "default": false,
+      "title": "Owner Reviewed",
+      "type": "boolean"
+    },
+    "snapshots": {
+      "maxProperties": 20,
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "$ref": "#/$defs/CalibrationSnapshot"
+        }
+      },
+      "propertyNames": {
+        "maxLength": 64,
+        "minLength": 1
+      },
+      "title": "Snapshots",
+      "type": "object"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/CalibrationCase"
+      },
+      "maxItems": 1000,
+      "title": "Cases",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "purpose"
+  ],
+  "title": "CalibrationCorpus",
+  "type": "object"
+}
