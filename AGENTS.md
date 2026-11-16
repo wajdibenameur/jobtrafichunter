@@ -39,7 +39,7 @@ From backend after frontend build: `python scripts/frontend_e2e.py` uses .env.te
 - Record decisions, alternatives, evidence and approval in `docs/DECISIONS.md`.
 - Never activate an automated connector unless legal_status is PERMITTED and
   current official documentation and terms have been reviewed and recorded.
-- Never scrape LinkedIn. Email alerts require separate verification and consent.
+- LinkedIn offline only D-041; live needs written scope/owner approval; email needs review/consent.
 - Never log CV content, tokens or secrets; never commit personal data or secrets.
 - Preserve original CVs; never invent extracted facts or visa sponsorship.
 - Never claim a feature works without running its checks; report failures honestly.
@@ -57,4 +57,4 @@ AI Job Agent shared filters validated D-032; its other lots remain PROPOSED.
 Matching 5A preview is experimental/LOW/UNVALIDATED; no thresholds, alerts or CV/HYBRID.
 Scraping: docs/PLAN-SCRAPING-ENGINE.md and docs/reports/scraping-engine-audit.md.
 D-040 approves offline calibration 5B1; report then stop before 5B2/real calibration.
-CI verified on Linux and native Windows D-035; see docs/reports/ci-validation.md.
+LinkedIn audit/prototype D-041: docs/reports/linkedin-public-audit.md; live disabled.

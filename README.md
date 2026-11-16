@@ -228,6 +228,30 @@ Conserver les données anonymisées et rapports locaux dans `calibration/private
 ignoré par Git. Une CI verte vérifie les outils sur des fixtures synthétiques ;
 elle ne valide aucune qualité de matching réelle. Le statut reste `UNVALIDATED`.
 
+## Prototype LinkedIn hors ligne
+
+Le module `sources/connectors/linkedin_offline.py` étudie l'extraction sur des
+réponses HTML/JSON-LD **entièrement synthétiques**. Il impose `httpx.MockTransport`,
+utilise uniquement un domaine de fixtures et réutilise BeautifulSoup via l'extracteur
+générique existant. Il ne se connecte pas à LinkedIn et n'est pas enregistré comme
+adaptateur automatique. Aucun compte, cookie, mot de passe ou source réelle activée.
+
+Depuis `backend`, vérifier le prototype :
+
+```cmd
+.venv\Scripts\python.exe -m pytest -q app/modules/sources/tests/test_linkedin_offline.py
+```
+
+Les critères et fenêtres temporelles sont transmis dans les requêtes simulées ;
+cela ne garantit pas leur disponibilité chez LinkedIn. Les dates inconnues ou sans
+heure/fuseau restent imprécises. La persistance, la déduplication et le matching
+restent à la charge du pipeline existant, sans moteur parallèle dans ce prototype.
+
+Le réexamen de la règle historique autorise ce travail hors ligne seulement.
+Une activation réelle exige une permission écrite couvrant les chemins et usages
+de JobHunter, une revue des conditions et un accord distinct du propriétaire.
+Les imports manuels LinkedIn, Indeed, Keejob et Tanitjobs restent disponibles.
+
 ## Vérifications
 
 Depuis `backend` :
